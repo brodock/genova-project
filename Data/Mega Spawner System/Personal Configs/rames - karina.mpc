@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<YourPersonalConfig>
+	<StyleType>0</StyleType>
+	<BackgroundType>0</BackgroundType>
+	<ActiveTextEntryBackgroundType>8</ActiveTextEntryBackgroundType>
+	<InactiveTextEntryBackgroundType>9</InactiveTextEntryBackgroundType>
+	<DefaultTextColor>3</DefaultTextColor>
+	<TitleTextColor>12</TitleTextColor>
+	<MessagesTextColor>15</MessagesTextColor>
+	<CommandButtonsTextColor>3</CommandButtonsTextColor>
+	<PageNumberTextColor>60</PageNumberTextColor>
+	<ActiveTextEntryTextColor>1153</ActiveTextEntryTextColor>
+	<InactiveTextEntryTextColor>1071</InactiveTextEntryTextColor>
+	<DirectoryTextColor>1286</DirectoryTextColor>
+	<FileTextColor>1280</FileTextColor>
+	<KnownFileTextColor>1284</KnownFileTextColor>
+	<FlagTextColor>6</FlagTextColor>
+	<SortSearchOptions>
+		<SortSearchFor />
+		<SortSearchType>0</SortSearchType>
+		<SortOrder>0</SortOrder>
+		<SortType>0</SortType>
+		<SortSearchCaseSensitive>false</SortSearchCaseSensitive>
+		<SortSearchFlagged>false</SortSearchFlagged>
+		<SortSearchBadLocation>false</SortSearchBadLocation>
+		<SortSearchDupeSpawners>false</SortSearchDupeSpawners>
+	</SortSearchOptions>
+</YourPersonalConfig>
