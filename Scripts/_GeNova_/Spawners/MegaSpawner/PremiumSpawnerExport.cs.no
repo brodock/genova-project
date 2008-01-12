@@ -1,0 +1,132 @@
+
+using System;
+using System.IO;
+using System.Text;
+using System.Collections;
+using Server;
+using Server.Mobiles;
+using Server.Items;
+
+namespace Server.Scripts.Commands
+{
+	public class PremiumSpawnerExport
+	{
+		public const bool Enabled = true; //set this to false if you are useing a RunUO distro Spawner. Leave this as true if your spawner has HomeRange such as Neruns or the modified Distro spawner.
+
+		public static void Initialize()
+		{
+			Server.Commands.Register( "PremiumSpawnerExport" , AccessLevel.Administrator, new CommandEventHandler( PremiumSpawnerExport_OnCommand ) );
+			Server.Commands.Register( "PSE" , AccessLevel.Administrator, new CommandEventHandler( PremiumSpawnerExport_OnCommand ) );
+		}
+
+ 		public static int ConvertToInt( TimeSpan ts )
+ 		{
+ 			return ( ( ts.Hours * 3600 ) + ( ts.Minutes * 60 ) + ts.Seconds );
+ 		}
+
+		[Usage( "SpawnExport" )]
+		[Aliases( "SE" )]
+		[Description( "Export PremiumSpawner's with WalkRange on current map." )]
+		public static void PremiumSpawnerExport_OnCommand( CommandEventArgs e )
+		{
+			Map map = e.Mobile.Map;
+			ArrayList list = new ArrayList();
+			ArrayList entries = new ArrayList();
+
+			if ( !Directory.Exists( @".\Spawnexport\" ) )
+				Directory.CreateDirectory( @".\Spawnexport\" );
+
+			using ( StreamWriter op = new StreamWriter( String.Format( @".\Spawnexport\{0}.msf", map ) ) )
+			{
+
+				if ( map == null || map == Map.Internal )
+				{
+					e.Mobile.SendMessage( "You may not run that command here." );
+					return;
+				}
+
+				e.Mobile.SendMessage( "Exporting Spawners..." );
+
+				op.WriteLine( "<?xml version=\"1.0\" encoding=\"Windows-1252\"?>" );
+
+				foreach ( Item item in World.Items.Values )
+				{
+					if ( item.Map == map && item.Parent == null && item is PremiumSpawner)
+						list.Add( item );
+				}
+
+				op.WriteLine( "<MegaSpawners count=\"{0}\">", list.Count.ToString() );
+				op.WriteLine( "	<Version>3.52</Version>" );
+
+				foreach ( Item item in World.Items.Values )
+				{
+					if ( item.Map == map && item.Parent == null && item is PremiumSpawner)
+					{
+						PremiumSpawner pspawner = ((PremiumSpawner)item);
+						op.WriteLine( "	<MegaSpawner>" );
+						op.WriteLine( "		<Name>A Mega Spawner</Name>" );
+						op.WriteLine( "		<Active>{0}</Active>", pspawner.Running );
+						op.WriteLine( "		<Map>{0}</Map>", item.Map );
+						op.WriteLine( "		<Location>{0}</Location>", pspawner.Location );
+
+						int count = 0;
+						for ( int i = 0; i < pspawner.CreaturesName.Count; ++i )
+							count++;
+
+						op.WriteLine( "		<EntryLists count=\"{0}\">", count );
+
+
+						for ( int i = 0; i < 13 && i < pspawner.CreaturesName.Count; ++i )
+						{
+							entries.Add( i );
+
+							op.WriteLine( "			<EntryList>" );
+							op.WriteLine("				<EntryType>{0}</EntryType>", pspawner.CreaturesName[i] );
+							op.WriteLine("				<SpawnRange>{0}</SpawnRange>", pspawner.SpawnRange );
+
+							if ( Enabled )
+								op.WriteLine("				<WalkRange>{0}</WalkRange>", pspawner.HomeRange );
+
+							if ( !Enabled )
+								op.WriteLine("				<WalkRange>{0}</WalkRange>", pspawner.SpawnRange );
+
+							if ( count >= pspawner.Count )
+								op.WriteLine("				<Amount>1</Amount>" );
+
+							if ( count < pspawner.Count )
+								op.WriteLine("				<Amount>{0}</Amount>", pspawner.Count / count );
+
+							op.WriteLine("				<MinDelay>{0}</MinDelay>", ConvertToInt(pspawner.MinDelay) );
+							op.WriteLine("				<MaxDelay>{0}</MaxDelay>", ConvertToInt(pspawner.MaxDelay) );
+							op.WriteLine("				<SpawnType>0</SpawnType>" );
+							op.WriteLine("				<Activated>{0}</Activated>", pspawner.Running );
+							op.WriteLine("				<EventRange>1</EventRange>" );
+							op.WriteLine("				<EventKeyword />" );
+							op.WriteLine("				<KeywordCaseSensitive>False</KeywordCaseSensitive>" );
+							op.WriteLine("				<EventAmbush>False</EventAmbush>" );
+							op.WriteLine("				<BeginTimeBased>0</BeginTimeBased>" );
+							op.WriteLine("				<EndTimeBased>0</EndTimeBased>" );
+							op.WriteLine("				<GroupSpawn>{0}</GroupSpawn>", pspawner.Group );
+							op.WriteLine("				<MinStackAmount>1</MinStackAmount>" );
+							op.WriteLine("				<MaxStackAmount>10</MaxStackAmount>" );
+							op.WriteLine("				<Movable>True</Movable>" );
+							op.WriteLine("				<MinDespawn>0</MinDespawn>" );
+							op.WriteLine("				<MaxDespawn>0</MaxDespawn>" );
+							op.WriteLine("				<Despawn>False</Despawn>" );
+							op.WriteLine("				<DespawnGroup>False</DespawnGroup>" );
+							op.WriteLine("				<DespawnTimeExpire>False</DespawnTimeExpire>" );
+							op.WriteLine("			</EntryList>" );
+						}
+
+						op.WriteLine("		</EntryLists>" );
+						op.WriteLine("	</MegaSpawner>" );
+					}
+				}
+
+				op.WriteLine( "</MegaSpawners>" );
+
+				e.Mobile.SendMessage( String.Format( "You exported {0} spawner{1} from this facet.", list.Count, list.Count == 1 ? "" : "s" ) );
+			}
+		}
+	}
+}

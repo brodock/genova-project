@@ -1,0 +1,45 @@
+Here is a complete spawn package for Felucca!
+
+I would like to thank these people:
+Morxeton - For making the Megaspawner
+Nerun - For his great spawn package
+kilobit - For his reagent harvest files
+
+Files in this spawn package:
+[list]
+[*][B]Felucca - Dungeons.msf - [/B]This file is the gem of the package! This file will "smart spawn" all the dungeons based off the Nerun Spawn Package. "Smart Spawning" uses the proximity spawn feature & the despawn feature built in the Megaspawner system. The spawner's will trigger when any player withing 23 tiles walks near [If you want the spawner's to trigger when staff enter, just change the megaspawner settings]. 
+So a player enters a dungeon and all the surrounding spawns 23 tiles away spawn automatically, which is roughly about 1.5 screens away.
+The monsters have a respawn time of around 5-10min
+
+Then after an hour of inactivity the spawners despawn. Having the dungeons use smart spawning lowers ingame mobile count, which in turn lowers world save time. The server no longer needs to remember thousands of monster stats & other information related to monsters.
+
+Nerun if you want me to remove the dungeon spawner file from this package just say so!
+
+[*][B]Felucca - NPCs - Farmloands - Dungeon Items.msf - [/B] This file uses smart spawning for all the town NPC's, and Farmland critters. It also places a ankh and a trash barrel outside the dungeons.
+
+[*][B]Felucca - Outdoor - Monsters.msf - [/B] Unfortunately smart spawning only works around 23 tiles from a player, so smart spawning in large out door areas is not possible. So this is a hand made outdoor spawn map of monsters.
+
+[*][B]Felucca - Outdoor - Wildlife.msf - [/B] Same as above, but has wildlife spawns.
+
+[*][B]Felucca - Regs - Custom.msf - [/B] This file uses kilobit reagent harvest files, and places the regents around Felucca.
+
+[*][B]Felucca - Regs.msf - [/B] If you don't want to use the custom spawn files, then use this file.
+
+[*][B]@Required Files[/B] This folder has the well... uhhh.. the other required files to make this system happen
+[/list] 
+
+Installation:
+0. Copy & Extract the files to your custom folder 
+1. Setup and install megaspawner
+2. Type [megaspawner
+3. Go to page 5 and pick file manager
+4. Load the files and wait for it to finish loading
+5. HAVE FUN!!!
+
+X-SirSly-X
+www.LandOfObsidian.com
+
+
+
+
+
