@@ -151,9 +151,13 @@ namespace Server.Network
 				int length = buffer.Length;
 
 				if ( !ns.Seeded )
-				{                         
+				{   
+                    /*  
+                     * Genova: Packet Logger
                     Console.WriteLine("packet vindo de buffer: {0}", buffer.GetPacketID());
                     Console.WriteLine("Tamanho do buffer: {0}", length);
+                    */
+
                     // Genova: suporte ao UO:KR.                    
                     if (buffer.GetPacketID() == 0xFF)
                     {
@@ -171,7 +175,12 @@ namespace Server.Network
                         // Genova: suporte ao UO:KR.
                         // Se for KR, isso vai continuar como -1 temporariamente
                         int seed = -1;
+
+                        /*
+                         * Genova: Logger
                         Console.WriteLine("KR Client in messagePump: {0}", ns.IsKRClient);
+                        */
+                        
                         if (!ns.IsKRClient)
                         {
                             buffer.Dequeue(m_Peek, 0, 4);

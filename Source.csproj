@@ -3301,6 +3301,10 @@
     <Compile Include="Scripts\_GeNova_\Spawners\ODBCSpawner\SpawnerExporter.cs" />
     <Compile Include="Scripts\_GeNova_\Items\Stones\KarmaStone.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\ItemsDecay.cs" />
+    <Compile Include="Scripts\_GeNova_\Variados\Flags\FArtefatos.cs" />
+    <Compile Include="Scripts\_GeNova_\Variados\Flags\FMinorArtefatos.cs" />
+    <Compile Include="Scripts\_GeNova_\Variados\Flags\FPowerScroll.cs" />
+    <Compile Include="Scripts\_GeNova_\Variados\Flags\FTreasureOfTokuno.cs" />
     <Compile Include="Scripts\_GeNova_\Variados\PosicionamentosNoMapa.cs" />
   </ItemGroup>
   <ItemGroup>

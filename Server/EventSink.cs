@@ -834,7 +834,35 @@ namespace Server
 		public static event QuestGumpRequestHandler QuestGumpRequest;
 		public static event ClientVersionReceivedHandler ClientVersionReceived;
 
-		public static void InvokeClientVersionReceived( ClientVersionReceivedArgs e )
+        // GeNova: suporte ao UO:KR
+        #region Suporte ao UO:KR
+
+        /* UOKR Quick Bar */
+        public static event EventHandler<TargetedSpellEventArgs> TargetedSpellCast;
+        public static event EventHandler<TargetedSkillEventArgs> TargetedSkillUse;
+        public static event EventHandler<TargetedItemUseEventArgs> TargetedItemUse;
+
+        public static void InvokeTargetedSpellCast(NetState ns, IEntity target, short spellID)
+        {
+            if (TargetedSpellCast != null)
+                TargetedSpellCast(ns, new TargetedSpellEventArgs(ns, target, spellID));
+        }
+
+        public static void InvokeTargetedSkillUse(NetState ns, IEntity target, short skillId)
+        {
+            if (TargetedSkillUse != null)
+                TargetedSkillUse(ns, new TargetedSkillEventArgs(ns, target, skillId));
+        }
+
+        public static void InvokeTargetedItemUse(NetState ns, IEntity src, IEntity target)
+        {
+            if (TargetedItemUse != null)
+                TargetedItemUse(ns, new TargetedItemUseEventArgs(ns, src, target));
+        } 
+
+        #endregion
+
+        public static void InvokeClientVersionReceived( ClientVersionReceivedArgs e )
 		{
 			if( ClientVersionReceived != null )
 				ClientVersionReceived( e );
@@ -1129,5 +1157,94 @@ namespace Server
 			GuildGumpRequest = null;
 			QuestGumpRequest = null;
 		}
-	}
+    }
+
+    // Genova: Suporte ao UO:KR
+    #region Suporte ao UO:KR
+
+    #region UOKR Quick Bar Event Args
+
+    public class TargetedSpellEventArgs : EventArgs
+    {
+        private NetState state;
+        private IEntity target;
+        private short spellID;
+
+        public NetState NetState
+        {
+            get { return state; }
+        }
+        public IEntity Target
+        {
+            get { return target; }
+        }
+        public short SpellID
+        {
+            get { return spellID; }
+        }
+
+        public TargetedSpellEventArgs(NetState state, IEntity target, short spellID)
+        {
+            this.state = state;
+            this.target = target;
+            this.spellID = spellID;
+        }
+    }
+    public class TargetedSkillEventArgs : EventArgs
+    {
+        private NetState state;
+        private IEntity target;
+        private short spellID;
+
+        public NetState NetState
+        {
+            get { return state; }
+        }
+        public IEntity Target
+        {
+            get { return target; }
+        }
+        public short SpellID
+        {
+            get { return spellID; }
+        }
+
+        public TargetedSkillEventArgs(NetState state, IEntity target, short spellID)
+        {
+            this.state = state;
+            this.target = target;
+            this.spellID = spellID;
+        }
+    }
+
+    public class TargetedItemUseEventArgs : EventArgs
+    {
+        private NetState state;
+        private IEntity src;
+        private IEntity target;
+
+        public NetState NetState
+        {
+            get { return state; }
+        }
+        public IEntity Source
+        {
+            get { return src; }
+        }
+        public IEntity Target
+        {
+            get { return target; }
+        }
+
+        public TargetedItemUseEventArgs(NetState state, IEntity src, IEntity target)
+        {
+            this.state = state;
+            this.src = src;
+            this.target = target;
+        }
+    }
+
+     #endregion 
+
+    #endregion
 }

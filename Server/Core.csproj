@@ -53,6 +53,7 @@
     <Compile Include="ContextMenus\ContextMenuEntry.cs" />
     <Compile Include="ContextMenus\OpenBackpackEntry.cs" />
     <Compile Include="ContextMenus\PaperdollEntry.cs" />
+    <Compile Include="_GeNova_\ClassesInternas\MainGeNova.cs" />
     <Compile Include="_GeNova_\Controladores\ControladorConexaoMysql.cs" />
     <Compile Include="_GeNova_\Controladores\ControladorMYSQL.cs" />
     <Compile Include="_GeNova_\Controladores\ControladorODBC.cs" />

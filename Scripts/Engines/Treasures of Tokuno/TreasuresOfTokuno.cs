@@ -6,12 +6,14 @@ using Server.Items;
 using Server.Gumps;
 using Server.Misc;
 using Server.Mobiles;
+using GeNova.Server.Variados;
 
 namespace Server.Misc
 {
 	public class TreasuresOfTokuno
 	{
-		private static bool m_Enabled = (Core.Expansion == Expansion.SE);
+        // genova: flag para TreasureOfTokuno
+        private static bool m_Enabled = (FTreasureOfTokuno.Ativo && (Core.Expansion == Expansion.SE));
 		public static bool Enabled { get { return m_Enabled; } }
 
 		public const int ItemsPerReward = 10;

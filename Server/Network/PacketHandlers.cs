@@ -173,6 +173,11 @@ namespace Server.Network
 			RegisterExtended( 0x1C,  true, new OnPacketReceive( CastSpell ) );
 			RegisterExtended( 0x24, false, new OnPacketReceive( UnhandledBF ) );
 
+            // GeNova: suporte ao UO:KR.
+            RegisterExtended(0x2C, true, new OnPacketReceive(TargetedItemUse));
+            RegisterExtended(0x2D, true, new OnPacketReceive(TargetedSpell));
+            RegisterExtended(0x2E, true, new OnPacketReceive(TargetedSkillUse));
+
 			RegisterEncoded( 0x19, true, new OnEncodedPacketReceive( SetAbility ) );
 			RegisterEncoded( 0x28, true, new OnEncodedPacketReceive( GuildGumpRequest ) );
 
@@ -1875,9 +1880,13 @@ namespace Server.Network
 
             protected override void OnTick()
             {
+                /*
+                 * Genova: Logger
                 Console.WriteLine("verificando m_state ontick handlers (null?): {0}", (m_State == null));
                 Console.WriteLine("verificando m_state.Version ontick handlers (!null?): {0}", (m_State.Version != null));
                 Console.WriteLine("OnTick , client kr? {0}", m_State.IsKRClient);
+                */
+
                 if (m_State == null)
                     Stop();
                 // Genova: Suporte ao UO:KR.                
@@ -2487,6 +2496,26 @@ namespace Server.Network
 				}
 			}
 		}
+
+        public static void TargetedSpell(NetState ns, PacketReader pvSrc)
+        {
+            short spellId = (short)(pvSrc.ReadInt16() - 1);    // zero based;
+            Serial target = pvSrc.ReadInt32();
+            EventSink.InvokeTargetedSpellCast(ns, World.FindEntity(target), spellId);
+        }
+        public static void TargetedItemUse(NetState ns, PacketReader pvSrc)
+        {
+            Serial srcItem = pvSrc.ReadInt32();
+            Serial target = pvSrc.ReadInt32();
+            if (srcItem.IsItem)
+                EventSink.InvokeTargetedItemUse(ns, World.FindItem(srcItem), World.FindEntity(target));
+        }
+        public static void TargetedSkillUse(NetState ns, PacketReader pvSrc)
+        {
+            short skillId = pvSrc.ReadInt16();
+            Serial target = pvSrc.ReadInt32();
+            EventSink.InvokeTargetedSkillUse(ns, World.FindEntity(target), skillId);
+        } 
 		#endregion
 	}
 }

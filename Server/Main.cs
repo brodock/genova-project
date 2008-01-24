@@ -32,6 +32,7 @@ using Server;
 using Server.Accounting;
 using Server.Gumps;
 using Server.Network;
+using GeNova.Core.ClassesInternas;
 
 namespace Server
 {
@@ -406,9 +407,12 @@ namespace Server
 
 			Timer.TimerThread ttObj = new Timer.TimerThread();
 			timerThread = new Thread( new ThreadStart( ttObj.TimerMain ) );
-			timerThread.Name = "Timer Thread";
+			timerThread.Name = "Timer Thread";			
 
-			Version ver = m_Assembly.GetName().Version;
+            // GeNova: mensagem
+            MainGeNova.ExibirMensagemGeNovaProject();
+
+            Version ver = m_Assembly.GetName().Version;
 
 			// Added to help future code support on forums, as a 'check' people can ask for to it see if they recompiled core or not
 			Console.WriteLine( "RunUO - [www.runuo.com] Version {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision );

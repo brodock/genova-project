@@ -3,6 +3,7 @@ using System.Collections;
 using Server;
 using Server.Items;
 using System.Collections.Generic;
+using GeNova.Server.Variados;
 
 namespace Server.Mobiles
 {
@@ -158,8 +159,12 @@ namespace Server.Mobiles
 		{
 			base.OnDeath( c );
 
-			if ( !Summoned && !NoKillAwards && DemonKnight.CheckArtifactChance( this ) )
-				DemonKnight.DistributeArtifact( this );
+            // Genova: flag artefatos.
+            if (FArtefatos.Ativo)
+            {
+                if (!Summoned && !NoKillAwards && DemonKnight.CheckArtifactChance(this))
+                    DemonKnight.DistributeArtifact(this);
+            }
 		}
 
 		[Constructable]

@@ -4,6 +4,7 @@ using Server;
 using Server.Items;
 using Server.Engines.CannedEvil;
 using System.Collections.Generic;
+using GeNova.Server.Variados;
 
 namespace Server.Mobiles
 {
@@ -343,7 +344,9 @@ namespace Server.Mobiles
 
 				if ( !NoKillAwards )
 				{
-					GivePowerScrolls();
+                    // genova: flag powerscrolls.
+                    if (FPowerScroll.Ativo)
+                        GivePowerScrolls();
 
 					Map map = this.Map;
 

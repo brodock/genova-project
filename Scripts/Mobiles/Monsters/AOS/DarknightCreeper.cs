@@ -1,6 +1,7 @@
 using System;
 using Server;
 using Server.Items;
+using GeNova.Server.Variados;
 
 namespace Server.Mobiles
 {
@@ -57,8 +58,12 @@ namespace Server.Mobiles
 		{
 			base.OnDeath( c );
 
-			if ( !Summoned && !NoKillAwards && DemonKnight.CheckArtifactChance( this ) )
-				DemonKnight.DistributeArtifact( this );
+            // Genova: flag artefatos.
+            if (FArtefatos.Ativo)
+            {
+                if (!Summoned && !NoKillAwards && DemonKnight.CheckArtifactChance(this))
+                    DemonKnight.DistributeArtifact(this);
+            }			
 		}
 
 		public override bool BardImmune{ get{ return !Core.SE; } }

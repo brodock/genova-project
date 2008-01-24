@@ -16,6 +16,7 @@ using Server.Spells.Bushido;
 using Server.Spells.Spellweaving;
 using GeNova.Server.Engines.LoteGenerico;
 using GeNova.Server.Engines.XP;
+using GeNova.Server.Variados;
 
 namespace Server.Mobiles
 {
@@ -4199,8 +4200,12 @@ namespace Server.Mobiles
 
 		public virtual void OnKilledBy( Mobile mob )
 		{
-			if ( m_Paragon && Paragon.CheckArtifactChance( mob, this ) )
-				Paragon.GiveArtifactTo( mob );
+            // genova: flag para minor artefatos.
+            if (FMinorArtefatos.Ativo)
+            {
+                if (m_Paragon && Paragon.CheckArtifactChance(mob, this))
+                    Paragon.GiveArtifactTo(mob);
+            }
 			
 			// Genova: suporte ao UO:ML.	
 			#region Mondain's Legacy	
