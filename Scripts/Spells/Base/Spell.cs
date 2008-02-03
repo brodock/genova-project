@@ -686,6 +686,12 @@ namespace Server.Spells
 			if ( delay < CastDelayMinimum )
 				delay = CastDelayMinimum;
 
+			// genova: other project : Full support UO:ML rev 107				
+			#region Mondain's Legacy
+			if ( DreadHorn.IsUnderInfluence( m_Caster ) )
+				delay.Add( delay );
+			#endregion
+
 			//return TimeSpan.FromSeconds( (double)delay / CastDelayPerSecond );
 			return delay;
 		}
@@ -728,6 +734,13 @@ namespace Server.Spells
 				m_Caster.SendLocalizedMessage( 502646 ); // You cannot cast a spell while frozen.
 				DoFizzle();
 			}
+			// genova: other project : Full support UO:ML rev 107
+			#region Mondain'e Legacy
+			else if ( m_Caster is PlayerMobile && ( (PlayerMobile) m_Caster ).PeacedUntil > DateTime.Now )
+			{
+				DoFizzle();
+			}
+			#endregion
 			else if ( CheckFizzle() )
 			{
 				m_Caster.Mana -= mana;

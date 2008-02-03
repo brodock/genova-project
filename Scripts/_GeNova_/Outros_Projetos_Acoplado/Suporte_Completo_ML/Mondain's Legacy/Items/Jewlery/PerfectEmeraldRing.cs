@@ -6,6 +6,7 @@ namespace Server.Items
 	{
 		public override int LabelNumber{ get{ return 1073459; } } // perfect emerald ring
 
+		[Constructable]
 		public PerfectEmeraldRing() : base()
 		{
 			Weight = 1.0;

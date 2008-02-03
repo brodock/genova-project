@@ -55,6 +55,13 @@ namespace Server.Mobiles
 		public WhippingVine( Serial serial ) : base( serial )
 		{
 		}
+		
+		// genova: other project : Full support UO:ML rev 107
+        public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
+		}
+
 
 		public override void Serialize( GenericWriter writer )
 		{

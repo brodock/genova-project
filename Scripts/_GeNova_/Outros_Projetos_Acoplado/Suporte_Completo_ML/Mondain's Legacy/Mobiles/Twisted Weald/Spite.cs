@@ -9,7 +9,7 @@ namespace Server.Mobiles
 		[Constructable]
 		public Spite() : base()
 		{
-			Name = "a Spite";
+			Name = "Spite";
 			Hue = 0x21;
 
 			SetStr( 53, 214 );
@@ -48,6 +48,11 @@ namespace Server.Mobiles
 		}
 				
 		public override bool GivesMinorArtifact{ get{ return true; } }
+            
+            public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
+		}
 
 		public override void Serialize( GenericWriter writer )
 		{

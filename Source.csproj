@@ -2440,8 +2440,16 @@
     <Compile Include="Scripts\_GeNova_\Commands\RegistroDePersonagem.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\BaseCreatureGeNova.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\CriacaoDeContas.cs" />
+    <Compile Include="Scripts\_GeNova_\Engines\CustomRaceFactory.cs" />
+    <Compile Include="Scripts\_GeNova_\Engines\CustomRace\ElfCustomRace.cs" />
+    <Compile Include="Scripts\_GeNova_\Engines\CustomRace\HumanCustomRace.cs" />
+    <Compile Include="Scripts\_GeNova_\Engines\CustomRace\Model\ModelCustomRace.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\FoodDecay.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\Loot\ItemLoot.cs" />
+    <Compile Include="Scripts\_GeNova_\Engines\Loot\RandomLoots\Model\ModelRandomItems.cs" />
+    <Compile Include="Scripts\_GeNova_\Engines\Loot\RandomLoots\RandomCraftItem.cs" />
+    <Compile Include="Scripts\_GeNova_\Engines\Loot\RandomLoots\RandomFarmableItem.cs" />
+    <Compile Include="Scripts\_GeNova_\Engines\Loot\RandomLoots\RandomMagicalItem.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\MensagensGlobal.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\PersonagemDesconhecido.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\PersonagemEmMundoRestrito.cs" />
@@ -2481,6 +2489,7 @@
     <Compile Include="Scripts\_GeNova_\Mobiles\Monsters\Custom_GeNova\Dragoes\PoisonDrake.cs" />
     <Compile Include="Scripts\_GeNova_\Mobiles\Monsters\Custom_GeNova\Drows\DrowArcher.cs" />
     <Compile Include="Scripts\_GeNova_\Mobiles\Monsters\Custom_GeNova\Drows\DrowAssassin.cs" />
+    <Compile Include="Scripts\_GeNova_\Mobiles\Monsters\Custom_GeNova\Drows\DrowMage.cs" />
     <Compile Include="Scripts\_GeNova_\Mobiles\Monsters\Custom_GeNova\Drows\DrowWarrior.cs" />
     <Compile Include="Scripts\_GeNova_\Mobiles\Monsters\Custom_GeNova\Elemental\minaxelemental.cs" />
     <Compile Include="Scripts\_GeNova_\Mobiles\Monsters\Custom_GeNova\Humanoid\Dreadlord.cs" />
@@ -2774,6 +2783,8 @@
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Items\Jewlery\TurqouiseRing.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Items\Jewlery\WhitePearlBracelet.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Items\Minor Artifacts\BloodwoodSpirit.cs" />
+    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Items\Minor Artifacts\Boomstick.cs" />
+    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Items\Minor Artifacts\BrightsightLenses.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Items\Minor Artifacts\QuiverOfElements.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Items\Minor Artifacts\QuiverOfRage.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Items\Minor Artifacts\TotemOfVoid.cs" />
@@ -2983,7 +2994,6 @@
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Blighted Grove\Saliva.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Blighted Grove\Tangle.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Blighted Grove\Thrasher.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Changeling.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\ElfBrigand.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Ferret.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\HumanBrigand.cs" />
@@ -3000,7 +3010,7 @@
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Palace of Paroxysmus\BulbousPutrification.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Palace of Paroxysmus\ChiefParoxysmus.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Palace of Paroxysmus\CorrosiveSlime.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Palace of Paroxysmus\Putrifier.cs" />
+    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Palace of Paroxysmus\Putrefier.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Prism of Light\CorporealBrume.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Prism of Light\CrystalDaemon.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Prism of Light\CrystalHydra.cs" />
@@ -3045,6 +3055,7 @@
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Townfolk\Tyeelor.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Townfolk\Vicaie.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Townfolk\Yellienir.cs" />
+    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Twisted Weald\Changeling.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Twisted Weald\CuSidhe.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Twisted Weald\DreadHorn.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Mobiles\Twisted Weald\DryadA.cs" />
@@ -3301,10 +3312,13 @@
     <Compile Include="Scripts\_GeNova_\Spawners\ODBCSpawner\SpawnerExporter.cs" />
     <Compile Include="Scripts\_GeNova_\Items\Stones\KarmaStone.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\ItemsDecay.cs" />
+    <Compile Include="Scripts\_GeNova_\Variados\Enums\EnumChance.cs" />
+    <Compile Include="Scripts\_GeNova_\Variados\Flags\FAntiMacro.cs" />
     <Compile Include="Scripts\_GeNova_\Variados\Flags\FArtefatos.cs" />
     <Compile Include="Scripts\_GeNova_\Variados\Flags\FMinorArtefatos.cs" />
     <Compile Include="Scripts\_GeNova_\Variados\Flags\FPowerScroll.cs" />
     <Compile Include="Scripts\_GeNova_\Variados\Flags\FTreasureOfTokuno.cs" />
+    <Compile Include="Scripts\_GeNova_\Variados\Flags\FVendedoresPC.cs" />
     <Compile Include="Scripts\_GeNova_\Variados\PosicionamentosNoMapa.cs" />
   </ItemGroup>
   <ItemGroup>

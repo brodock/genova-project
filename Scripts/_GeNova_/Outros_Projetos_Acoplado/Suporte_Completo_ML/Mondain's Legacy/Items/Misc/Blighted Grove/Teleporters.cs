@@ -78,4 +78,68 @@ namespace Server.Items
 			int version = reader.ReadInt();
 		}
 	}
+	
+	public class BlightedGroveTreeInTele : Teleporter
+	{		
+		[Constructable]
+		public BlightedGroveTreeInTele() : base()
+		{
+		}
+		
+		public BlightedGroveTreeInTele( Serial serial ) : base( serial )
+		{
+		}
+		
+		public override bool OnMoveOver( Mobile m )
+		{
+			m.SendLocalizedMessage( 1074162 ); // You notice a hole in the tree and climb down
+			return base.OnMoveOver( m );
+		}
+		
+		public override void Serialize( GenericWriter writer )
+		{
+			base.Serialize( writer );
+
+			writer.Write( (int) 0 ); // version
+		}
+		
+		public override void Deserialize( GenericReader reader )
+		{
+			base.Deserialize( reader );
+			
+			int version = reader.ReadInt();
+		}
+	}
+	
+	public class BlightedGroveTreeOutTele : Teleporter
+	{		
+		[Constructable]
+		public BlightedGroveTreeOutTele() : base()
+		{
+		}
+		
+		public BlightedGroveTreeOutTele( Serial serial ) : base( serial )
+		{
+		}
+		
+		public override bool OnMoveOver( Mobile m )
+		{
+			m.SendLocalizedMessage( 1074163 ); // You find a way to climb back outside the tree
+			return base.OnMoveOver( m );
+		}
+		
+		public override void Serialize( GenericWriter writer )
+		{
+			base.Serialize( writer );
+
+			writer.Write( (int) 0 ); // version
+		}
+		
+		public override void Deserialize( GenericReader reader )
+		{
+			base.Deserialize( reader );
+			
+			int version = reader.ReadInt();
+		}
+	}
 }

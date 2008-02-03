@@ -23,6 +23,19 @@ namespace GeNova.Server.Engines.LoteGenerico
 {
     public abstract class AddItemLoot
     {
+        public static void AddItem(Container container, Item item)
+        {
+            if (item != null)
+                container.DropItem(item);
+        }
+        public static void AddItem(Container container, Item item, int quantidade)
+        {
+            if (item != null)
+            {
+                for (int i = 0; i < quantidade; i++)
+                    container.DropItem(item);
+            }
+        }
         public static void AddItem(Container container, string valorTipoItem, int quantidade, int ouro)
         {
             Type tipoItem = AddItemLootItemType.GetType(valorTipoItem);

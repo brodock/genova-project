@@ -78,6 +78,10 @@ namespace Server.Mobiles
 		public Virulent( Serial serial ) : base( serial )
 		{
 		}
+            public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
+		}
 
 		public override void Serialize( GenericWriter writer )
 		{

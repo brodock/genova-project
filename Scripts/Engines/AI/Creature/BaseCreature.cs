@@ -1204,7 +1204,7 @@ namespace Server.Mobiles
 					Type type = talisman.Killer.Type;
 					
 					if ( type == GetType() )
-						damage *= 1 + (int) (((double) talisman.Killer.Amount) / 100);
+						damage = (int) ( damage * ( 1 + (double) talisman.Killer.Amount / 100 ) ); // rev 107
 				}
 			}
 			#endregion
@@ -3885,18 +3885,19 @@ namespace Server.Mobiles
 		{
 			base.AddNameProperties( list );
 
-			if ( Controlled && Commandable )
+			// genova: other project : Full support UO:ML rev 107			
+			#region Mondain's Legacy
+			if ( Backpack is StrongBackpack && Alive && Core.ML )
 			{
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
-				if ( Backpack is StrongBackpack && Alive && Core.ML )
-				{
-					if ( TotalWeight == 1 )
-						list.Add( 1072788, "{0}", 1 ); // Weight: ~1_WEIGHT~ stone
-                    else
-                    	list.Add( 1072789, "{0}", TotalWeight ); // Weight: ~1_WEIGHT~ stones
-				}
-				#endregion			
+				if ( TotalWeight == 1 )
+					list.Add( 1072788, "{0}", 1 ); // Weight: ~1_WEIGHT~ stone
+                else
+                	list.Add( 1072789, "{0}", TotalWeight ); // Weight: ~1_WEIGHT~ stones
+			}
+			#endregion		
+
+			if ( Controlled && Commandable )
+			{	
 			
 				if ( Summoned )
 					list.Add( 1049646 ); // (summoned)
@@ -4170,7 +4171,9 @@ namespace Server.Mobiles
 			typeof( RobeOfTheEquinox ), typeof( SoulSeeker ),
 			typeof( TalonBite ), typeof( BloodwoodSpirit ),
 			typeof( TotemOfVoid ), typeof( QuiverOfRage ),
-			typeof( QuiverOfElements ),
+			// genova: other project : Full support UO:ML rev 107
+			typeof( QuiverOfElements ), typeof( BrightsightLenses ),
+			typeof( Boomstick )
 		};
 		
 		public static void GiveMinorArtifact( Mobile m )
@@ -5258,5 +5261,5 @@ namespace Server.Mobiles
 				c.Delete();
 			}
 		}
-    }    
+	}
 }

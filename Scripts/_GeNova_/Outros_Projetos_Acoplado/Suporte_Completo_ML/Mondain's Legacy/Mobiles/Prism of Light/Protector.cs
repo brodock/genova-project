@@ -44,7 +44,10 @@ namespace Server.Mobiles
 			
 			// outfit
 			AddItem( new ThighBoots() );
-			AddItem( new DeathShroud( Utility.Random( 1 ) ) );
+			
+			Item item = new DeathShroud();
+			item.Hue = Utility.Random( 2 );
+			AddItem( item );
 			
 			if ( Utility.RandomBool() )
 				PackItem( new RawLambLeg() );

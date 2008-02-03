@@ -106,8 +106,10 @@ namespace Server
 					typeof( Silvani ),
 					typeof( Unicorn ),
 					typeof( Wisp ),
-					typeof( Treefellow )
-				},
+					typeof( Treefellow ),
+				    typeof( DryadA ) // genova: other project : Full support UO:ML rev 107
+                },
+
 				new Type[]
 				{
 					typeof( AncientLich ),
@@ -128,8 +130,25 @@ namespace Server
 					typeof( LadyOfTheSnow ),
 					typeof( RottingCorpse ),
 					typeof( SkeletalDragon ),
-					typeof( Lich )
-				}
+					typeof( Lich ),
+					// genova: other project : Full support UO:ML rev 107
+				    typeof( GiantBlackWidow ),
+                    typeof( Gnaw ),
+					typeof( LadyLissith ),
+					typeof( Guile ),
+					typeof( LadySabrix ),
+					typeof( Silk ),
+					typeof( Virulent ),
+					typeof( Irk ),
+					typeof( Malefic ),
+					typeof( Spite ),
+				    typeof( DireWolf ),
+                    typeof( Quagmire ),
+                    typeof( SwampTentacle ),
+                    typeof( WhippingVine ),
+                    typeof( Corpser ),
+                    typeof( Changeling )
+                }
 			} );
 
 		public static OppositionGroup FeyAndUndead

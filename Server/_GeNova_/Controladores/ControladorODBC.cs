@@ -327,6 +327,16 @@ namespace GeNova.Core.Controladores
         }
         #endregion
 
+        #region CustomRace
+        public static List<double> ODBCRecuperarSkillsCustomRace(string nomeRaca, int primeiraColunaSkills, int ultimaColunaSkills)
+        {
+            ControladorConexaoMysql controlador = new ControladorConexaoMysql();
+            StringBuilder querySql = new StringBuilder();
+            querySql.AppendFormat("SELECT * FROM GeNova_Raca GR WHERE GR.Nome = '{0}';", nomeRaca);
+            return ControladorRecuperacaoDadosCustom.RecuperarValoresListaSkillsCustomRace(controlador.BuscarDadosNaBase(querySql), primeiraColunaSkills, ultimaColunaSkills);
+        }
+        #endregion
+
         #endregion
 
         #endregion

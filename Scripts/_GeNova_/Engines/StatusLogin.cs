@@ -49,6 +49,7 @@ namespace GeNova.Server.Engines
             PersonagemDesconhecido.VerificarComRestricoes(jogador);
             PersonagemEmMundoRestrito.VerificarComRestricoes(jogador);
             PersonagemIniciante.VerificarComRestricoes(jogador);
+            CustomRaceFactory.VerificarCustomRace(jogador);
         }
     }
 }

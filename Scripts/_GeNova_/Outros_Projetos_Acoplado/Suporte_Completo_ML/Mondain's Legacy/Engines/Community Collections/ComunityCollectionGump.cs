@@ -350,12 +350,7 @@ namespace Server.Gumps
 					for ( int i = 0; i < items.Length; i ++ )
 						if ( items[ i ] is BankCheck && !items[ i ].Deleted )
 							count += ((BankCheck) items[ i ]).Worth;
-						else if ( items[ i ] is TreasureMap && !items[ i ].Deleted )
-						{
-							if ( m_Selected is CollectionTreasureMap && ( (CollectionTreasureMap) m_Selected ).Level == ( (TreasureMap) items[ i ] ).Level )
-								count += 1;
-						}
-						else if ( !items[ i ].Deleted )
+						else if ( m_Selected.Validate( (PlayerMobile) from, items[ i ] ) && !items[ i ].Deleted )
 							count += items[ i ].Amount;
 						
 					// check
@@ -390,20 +385,12 @@ namespace Server.Gumps
 								check.Delete();
 							}
 						}			
-						else if ( items[ i ] is TreasureMap && !items[ i ].Deleted )
-						{
-							if ( m_Selected is CollectionTreasureMap && ( (CollectionTreasureMap) m_Selected ).Level == ( (TreasureMap) items[ i ] ).Level )
-							{
-								deleted += 1;
-								items[ i ].Delete();
-							}
-						}		
-						else if ( items[ i ].Stackable && items[ i ].Amount + deleted > amount && !items[ i ].Deleted )
+						else if ( m_Selected.Validate( (PlayerMobile) from, items[ i ] ) && items[ i ].Stackable && items[ i ].Amount + deleted > amount && !items[ i ].Deleted )
 						{
 							items[ i ].Amount -= amount - deleted;
 							deleted += amount - deleted;
 						}
-						else if ( !items[ i ].Deleted )
+						else if ( m_Selected.Validate( (PlayerMobile) from, items[ i ] ) && !items[ i ].Deleted )
 						{
 							deleted += items[ i ].Amount;
 							items[ i ].Delete();

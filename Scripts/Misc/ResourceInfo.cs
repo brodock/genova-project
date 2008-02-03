@@ -337,7 +337,7 @@ namespace Server.Items
 			oak.WeaponDamage = 5;			
 			oak.RunicMinAttributes = 1;
 			oak.RunicMaxAttributes = 2;
-			oak.RunicMinIntensity = 20;
+			oak.RunicMinIntensity = 1; // rev 107
 			oak.RunicMaxIntensity = 50;
 			
 			CraftAttributeInfo ash = AshWood = new CraftAttributeInfo();
@@ -353,8 +353,8 @@ namespace Server.Items
 			ash.WeaponLowerRequirements = 20;			
 			ash.RunicMinAttributes = 2;
 			ash.RunicMaxAttributes = 3;
-			ash.RunicMinIntensity = 30;
-			ash.RunicMaxIntensity = 70;
+			ash.RunicMinIntensity = 35; // rev 107
+			ash.RunicMaxIntensity = 75; // rev 107
 			
 			CraftAttributeInfo yew = YewWood = new CraftAttributeInfo();
 
@@ -394,9 +394,9 @@ namespace Server.Items
 			heartwood.WeaponLowerRequirements = 20;	
 			heartwood.WeaponSwingSpeed = 10;			
 			
-			heartwood.RunicMinAttributes = 3;
+			heartwood.RunicMinAttributes = 4; // rev 107
 			heartwood.RunicMaxAttributes = 4;
-			heartwood.RunicMinIntensity = 60;
+			heartwood.RunicMinIntensity = 50; // rev 107
 			heartwood.RunicMaxIntensity = 100;
 			
 			CraftAttributeInfo bloodwood = Bloodwood = new CraftAttributeInfo();

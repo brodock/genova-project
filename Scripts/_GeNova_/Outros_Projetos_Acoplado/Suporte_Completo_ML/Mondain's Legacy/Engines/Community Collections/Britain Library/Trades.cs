@@ -67,9 +67,13 @@ namespace Server.Items
 			Donations.Add( new CollectionItem( typeof( VeriteIngot ), 0x1BF2, 1074922, 0x89F, 31 ) );				
 			Donations.Add( new CollectionItem( typeof( ValoriteIngot ), 0x1BF2, 1074923, 0x8AB, 39 ) );							
 			Donations.Add( new CollectionItem( typeof( Leather ), 0x1081, 1074929, 0x0, 2 ) );	
-			Donations.Add( new CollectionItem( typeof( SpinedLeather ), 0x1081, 1074930, 0x8AC, 2 ) );	
-			Donations.Add( new CollectionItem( typeof( HornedLeather ), 0x1081, 1074931, 0x845, 2 ) );	
-			Donations.Add( new CollectionItem( typeof( BarbedLeather ), 0x1081, 1074932, 0x851, 2 ) );	
+			Donations.Add( new CollectionItem( typeof( SpinedLeather ), 0x1081, 1074930, 0x8AC, 5 ) );	
+			Donations.Add( new CollectionItem( typeof( HornedLeather ), 0x1081, 1074931, 0x845, 10 ) );	
+			Donations.Add( new CollectionItem( typeof( BarbedLeather ), 0x1081, 1074932, 0x851, 15 ) );							
+			Donations.Add( new CollectionItem( typeof( Hides ), 0x1079, 1074924, 0x0, 2 ) );	
+			Donations.Add( new CollectionItem( typeof( SpinedLeather ), 0x1079, 1074925, 0x8AC, 5 ) );	
+			Donations.Add( new CollectionItem( typeof( HornedLeather ), 0x1079, 1074926, 0x845, 10 ) );	
+			Donations.Add( new CollectionItem( typeof( BarbedLeather ), 0x1079, 1074927, 0x851, 15 ) );	
 			
 			
 			int[] hues = new int[] { 0x1E0, 0x190, 0x151 };			

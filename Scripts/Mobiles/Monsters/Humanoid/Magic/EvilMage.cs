@@ -2,6 +2,8 @@ using System;
 using Server;
 using Server.Misc;
 using Server.Items;
+using GeNova.Server.Variados;
+using GeNova.Server.Engines.LoteGenerico.RandomLoots;
 
 namespace Server.Mobiles 
 { 
@@ -43,12 +45,19 @@ namespace Server.Mobiles
 			PackReg( 6 );
 			PackItem( new Robe( Utility.RandomNeutralHue() ) ); // TODO: Proper hue
 			PackItem( new Sandals() );
+
+            // genova: lote randomico.
+            if (!FVendedoresPC.Ativo)
+            {
+                ModelRandomItems randomItem = new RandomMagicalItem(this);
+                randomItem.AddItemsInLoot();
+            }
 		}
 
 		public override void GenerateLoot()
 		{
 			AddLoot( LootPack.Average );
-			AddLoot( LootPack.MedScrolls );
+			AddLoot( LootPack.MedScrolls );            
 		}
 
 		public override bool CanRummageCorpses{ get{ return true; } }

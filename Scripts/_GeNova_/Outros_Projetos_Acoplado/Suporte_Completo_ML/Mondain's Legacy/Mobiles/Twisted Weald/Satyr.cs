@@ -7,12 +7,29 @@ namespace Server.Mobiles
 {
 	[CorpseName( "a satyr's corpse" )] 
 	public class Satyr : BaseCreature
-	{
-		public virtual double Modifier{ get{ return -0.28; } }
-		public virtual TimeSpan ModifierDuration{ get{ return TimeSpan.FromMinutes( 1 ); } }
+	{		
+		// peace
+		public virtual bool CanPeace{ get{ return true; } }
+		public virtual int PeaceDuration{ get{ return 20; } }
+		public virtual int PeaceMinDelay{ get{ return 10; } }
+		public virtual int PeaceMaxDelay{ get{ return 10; } }
+		
+		// discord
+		public virtual bool CanDiscord{ get{ return true; } }
+		public virtual int DiscordDuration{ get{ return 20; } }
+		public virtual int DiscordMinDelay{ get{ return 22; } }
+		public virtual int DiscordMaxDelay{ get{ return 5; } }
+		public virtual double DiscordModifier{ get{ return 0.28; } }
+		
+		// provocation
+		public virtual bool CanProvoke{ get{ return true; } }
+		public virtual int ProvokeMinDelay{ get{ return 5; } }
+		public virtual int ProvokeMaxDelay{ get{ return 5; } }
+				
+		public virtual int PerceptionRange{ get{ return 12; } }
 	
 		[Constructable]
-		public Satyr() : base( AIType.AI_Animal, FightMode.Closest, 10, 1, 0.2, 0.4 )
+		public Satyr() : base( AIType.AI_Animal, FightMode.Aggressor, 10, 1, 0.2, 0.4 )
 		{
 			Name = "a satyr";
 			Body =  0x10F;
@@ -51,10 +68,28 @@ namespace Server.Mobiles
 		
 		public override void OnThink()
 		{
-			if ( Combatant != null )
+			if ( CanPeace && m_NextPeaceTime <= DateTime.Now )
 			{
-				if ( Utility.RandomDouble() < 0.05 && !m_Table.Contains( Combatant ) )
-					Suppress();
+				Mobile target = Combatant;
+				
+				if ( target != null && target.InRange( this, PerceptionRange ) && CanBeHarmful( target ) )
+					Peace( target );
+			}
+			
+			if ( CanDiscord && m_NextDiscordTime <= DateTime.Now )
+			{
+				Mobile target = Combatant;
+				
+				if ( target != null && target.InRange( this, PerceptionRange ) && CanBeHarmful( target ) )
+					Discord( target );
+			}
+			
+			if ( CanProvoke && m_NextProvokeTime <= DateTime.Now )
+			{
+				Mobile target = Combatant;
+				
+				if ( target != null && target.InRange( this, PerceptionRange ) && CanBeHarmful( target ) )
+					Provoke( target );
 			}
 		}
 		
@@ -64,52 +99,102 @@ namespace Server.Mobiles
 		public override int GetAngerSound() { return 0x588; }
 		public override int GetHurtSound() { return 0x589; }
 		
-		private static Hashtable m_Table = new Hashtable();
+		private DateTime m_NextPeaceTime;
+		private DateTime m_NextDiscordTime;
+		private DateTime m_NextProvokeTime;
 		
-		public virtual void Suppress()
+		public void Peace( Mobile target )
 		{
-			if ( Utility.RandomDouble() < 0.75 )
-			{				
-				Combatant.SendLocalizedMessage( 1072061 ); // You hear jarring music, suppressing your strength.
-				Combatant.PlaySound( 0x58B );
+			if ( target is PlayerMobile )
+			{
+				PlayerMobile player = (PlayerMobile) target;
+				
+				if ( player.PeacedUntil <= DateTime.Now )
+				{
+					player.PeacedUntil = DateTime.Now + TimeSpan.FromSeconds( PeaceDuration );
+					player.SendLocalizedMessage( 500616 ); // You hear lovely music, and forget to continue battling!					
+				}
+			}
+			else if ( target is BaseCreature )
+			{
+				BaseCreature creature = (BaseCreature) target;
+				
+				if ( !creature.BardPacified )
+					creature.Pacify( this, DateTime.Now + TimeSpan.FromSeconds( PeaceDuration ) );
+			}
 			
-				Combatant.AddSkillMod( new TimedSkillMod( SkillName.Cooking, true, Combatant.Skills.Cooking.Base * Modifier, ModifierDuration ) );
-				Combatant.AddSkillMod( new TimedSkillMod( SkillName.Fishing, true, Combatant.Skills.Fishing.Base * Modifier, ModifierDuration ) );
-				Combatant.AddSkillMod( new TimedSkillMod( SkillName.Tactics, true, Combatant.Skills.Tactics.Base * Modifier, ModifierDuration ) );
-				Combatant.AddSkillMod( new TimedSkillMod( SkillName.Swords, true, Combatant.Skills.Swords.Base * Modifier, ModifierDuration ) );
-				Combatant.AddSkillMod( new TimedSkillMod( SkillName.Mining, true, Combatant.Skills.Mining.Base * Modifier, ModifierDuration ) );
-				Combatant.AddSkillMod( new TimedSkillMod( SkillName.Focus, true, Combatant.Skills.Focus.Base * Modifier, ModifierDuration ) );
-				Combatant.AddSkillMod( new TimedSkillMod( SkillName.Chivalry, true, Combatant.Skills.Chivalry.Base * Modifier, ModifierDuration ) );				
+			PlaySound( 0x58B );
+						
+			m_NextPeaceTime = DateTime.Now + TimeSpan.FromSeconds( PeaceMinDelay + Utility.RandomDouble() * PeaceMaxDelay );
+		}
+		
+		public void Provoke( Mobile target )
+		{		
+			foreach ( Mobile m in GetMobilesInRange( PerceptionRange ) )
+			{					
+				if ( m is BaseCreature )
+				{	
+					BaseCreature c = (BaseCreature) m;
+					
+					if ( !c.CanBeHarmful( target, false ) || target == c || c.BardTarget == target )
+						continue;
+					
+					if ( Utility.RandomDouble() < 0.9 )
+					{
+						c.BardMaster = this;
+						c.BardTarget = target;
+						c.Combatant = target;
+						c.BardEndTime = DateTime.Now + TimeSpan.FromSeconds( 30.0 );
+						
+						target.SendLocalizedMessage( 1072062 ); // You hear angry music, and start to fight.
+						PlaySound( 0x58A );
+					}	
+					else
+					{
+						target.SendLocalizedMessage( 1072063 ); // You hear angry music that fails to incite you to fight.
+						PlaySound( 0x58C );
+					}
+						
+					break;
+				}		
+			}		
+		
+			m_NextProvokeTime = DateTime.Now + TimeSpan.FromSeconds( ProvokeMinDelay + Utility.RandomDouble() * ProvokeMaxDelay );			
+		}
+		
+		public void Discord( Mobile target )
+		{
+			if ( Utility.RandomDouble() < 0.9 )
+			{							
+				target.AddSkillMod( new TimedSkillMod( SkillName.Cooking, true, Combatant.Skills.Cooking.Base * DiscordModifier * -1, TimeSpan.FromSeconds( DiscordDuration ) ) );
+				target.AddSkillMod( new TimedSkillMod( SkillName.Fishing, true, Combatant.Skills.Fishing.Base * DiscordModifier * -1, TimeSpan.FromSeconds( DiscordDuration ) ) );
+				target.AddSkillMod( new TimedSkillMod( SkillName.Tactics, true, Combatant.Skills.Tactics.Base * DiscordModifier * -1, TimeSpan.FromSeconds( DiscordDuration ) ) );
+				target.AddSkillMod( new TimedSkillMod( SkillName.Swords, true, Combatant.Skills.Swords.Base * DiscordModifier * -1, TimeSpan.FromSeconds( DiscordDuration ) ) );
+				target.AddSkillMod( new TimedSkillMod( SkillName.Mining, true, Combatant.Skills.Mining.Base * DiscordModifier * -1, TimeSpan.FromSeconds( DiscordDuration ) ) );
+				target.AddSkillMod( new TimedSkillMod( SkillName.Focus, true, Combatant.Skills.Focus.Base * DiscordModifier * -1, TimeSpan.FromSeconds( DiscordDuration ) ) );
+				target.AddSkillMod( new TimedSkillMod( SkillName.Chivalry, true, Combatant.Skills.Chivalry.Base * DiscordModifier * -1, TimeSpan.FromSeconds( DiscordDuration ) ) );			
+								
+				Timer.DelayCall( TimeSpan.FromSeconds( 1 ), TimeSpan.FromSeconds( 1 ), (int) DiscordDuration, new TimerStateCallback( Animate ), target );
 				
-				m_Table[ Combatant ] = true;
-				
-				Timer.DelayCall( TimeSpan.FromSeconds( 1 ), TimeSpan.FromSeconds( 1 ), (int) ModifierDuration.TotalSeconds, new TimerStateCallback( Animate ), Combatant );
-				Timer.DelayCall( TimeSpan.FromMinutes( 1 ), new TimerStateCallback( Timeout ), Combatant );
+				target.SendLocalizedMessage( 1072061 ); // You hear jarring music, suppressing your strength.
+				target.PlaySound( 0x58B );
 			}	
 			else
 			{
-				Combatant.SendLocalizedMessage( 1072063 ); // You hear angry music that fails to incite you to fight.
-				Combatant.PlaySound( 0x58C );
+				target.SendLocalizedMessage( 1072064 ); // You hear jarring music, but it fails to disrupt you.
+				target.PlaySound( 0x58C );
 			}							
+			
+			m_NextDiscordTime = DateTime.Now + TimeSpan.FromSeconds( DiscordMinDelay + Utility.RandomDouble() * DiscordMaxDelay );	
 		}
 		
-		public virtual void Animate( object state )
+		private void Animate( object state )
 		{
 			if ( state is Mobile )
 			{
 				Mobile mob = (Mobile) state;
 				
 				mob.FixedEffect( 0x376A, 1, 32 );
-			}
-		}
-		
-		public virtual void Timeout( object state )
-		{
-			if ( state is Mobile )
-			{
-				Mobile mob = (Mobile) state;
-				
-				m_Table.Remove( mob );
 			}
 		}
 

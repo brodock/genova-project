@@ -52,6 +52,11 @@ namespace Server
 			m_Height = my - m_Y;
 		}
 		
+		public virtual bool Validate( PlayerMobile from, Item item )
+		{
+			return true;
+		}
+		
 		public virtual void OnGiveReward( PlayerMobile to, IComunityCollection collection, int hue )
 		{
 		}
@@ -105,6 +110,38 @@ namespace Server
 		public CollectionTreasureMap( int level, int tooltip, double points ) : base( typeof( TreasureMap ), 0x14EB, tooltip, 0x0, points )
 		{
 			m_Level = level;
+		}
+		
+		public override bool Validate( PlayerMobile from, Item item )
+		{
+			TreasureMap map = (TreasureMap) item;
+			
+			if ( map.Level == m_Level )
+				return true;
+			
+			return false;
+		}
+	}
+	
+	public class CollectionSpellbook : CollectionItem
+	{
+		private SpellbookType m_Type;
+		
+		public SpellbookType SpellbookType{ get{ return m_Type; } }
+		
+		public CollectionSpellbook( SpellbookType type, int itemID, int tooltip, double points ) : base( typeof( Spellbook ), itemID, tooltip, 0x0, points )
+		{
+			m_Type = type;
+		}
+		
+		public override bool Validate( PlayerMobile from, Item item )
+		{
+			Spellbook spellbook = (Spellbook) item;
+			
+			if ( spellbook.SpellbookType == m_Type && spellbook.Content == 0 )
+				return true;
+			
+			return false;
 		}
 	}
 }

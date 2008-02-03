@@ -6,6 +6,7 @@ namespace Server.Items
 	{
 		public override int LabelNumber{ get{ return 1073458; } } // blue diamond ring
 
+		[Constructable]
 		public BlueDiamondRing() : base()
 		{
 			Weight = 1.0;

@@ -4,13 +4,13 @@ using Server.Items;
 
 namespace Server.Mobiles
 {
-	[CorpseName( "a putrifier corpse" )]
-	public class Putrifier : BaseCreature
+	[CorpseName( "Putrefier corpse" )]
+	public class Putrefier : BaseCreature
 	{
 		[Constructable]
-		public Putrifier() : base( AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4 )
+		public Putrefier() : base( AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{
-			Name = "a putrifier";
+			Name = "Putrefier";
 			Body = 0x28;
 			Hue = 0x55C;
 			BaseSoundID = 0x165;
@@ -44,7 +44,7 @@ namespace Server.Mobiles
 			PackScroll( 4, 7 );
 		}
 		
-		public Putrifier( Serial serial ) : base( serial )
+		public Putrefier( Serial serial ) : base( serial )
 		{
 		}	
 		

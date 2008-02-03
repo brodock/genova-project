@@ -3,6 +3,8 @@ using System.Collections;
 using Server.Misc;
 using Server.Items;
 using Server.Targeting;
+using GeNova.Server.Engines.LoteGenerico.RandomLoots;
+using GeNova.Server.Variados;
 
 namespace Server.Mobiles
 {
@@ -58,13 +60,22 @@ namespace Server.Mobiles
 
 			if ( 0.2 > Utility.RandomDouble() )
 				PackItem( new BolaBall() );
+
+            // genova: lote randomico.
+            if (!FVendedoresPC.Ativo)
+            {
+                ModelRandomItems randomItem = new RandomFarmableItems(this);
+                randomItem.AddItemsInLoot();
+                randomItem = new RandomCraftItem(this);
+                randomItem.AddItemsInLoot();
+            }
 		}
 
 		public override void GenerateLoot()
 		{
 			AddLoot( LootPack.Meager );
 			AddLoot( LootPack.Average );
-			// TODO: evil orc helm
+			// TODO: evil orc helm            
 		}
 
 		public override bool CanRummageCorpses{ get{ return true; } }

@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using Server;
 using Server.Items;
 using Server.Misc;
 using Server.Spells;
+using Server.Spells.Third;
+using Server.Spells.Sixth;
 using Server.Targeting;
 
 namespace Server.Mobiles
@@ -10,7 +13,7 @@ namespace Server.Mobiles
 	[CorpseName( "a dread horns corpse" )]	
 	public class DreadHorn : BasePeerless
 	{		
-		public virtual int StrikingRange{ get{ return 5; } }
+		public virtual int StrikingRange{ get{ return 12; } }
 	
 		[Constructable]
 		public DreadHorn() : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4 )
@@ -50,6 +53,9 @@ namespace Server.Mobiles
 			
 			PackResources( 8 );
 			PackTalismans( 5 );	
+			
+			m_Change = DateTime.Now;
+			m_Stomp = DateTime.Now;
 		}
 		
 		public override void GenerateLoot()
@@ -63,15 +69,30 @@ namespace Server.Mobiles
 			
 			if ( Combatant != null )
 			{
-				if ( InRange( Combatant.Location, StrikingRange ) && !InRange( Combatant.Location, 2 ) && InLOS( Combatant.Location ) && Utility.RandomDouble() < 0.2 )
-				{
-					Location = BasePeerless.GetSpawnPosition( Combatant.Location, Combatant.Map, 1 );
-					FixedParticles( 0x376A, 9, 32, 0x13AF, EffectLayer.Waist );
-					PlaySound( 0x1FE );
-				}
+				if ( m_Change < DateTime.Now && Utility.RandomDouble() < 0.2 )
+					ChangeOpponent();					
 				
-				// TODO weak area spell?
+				if ( m_Stomp < DateTime.Now && Utility.RandomDouble() < 0.1 )
+					HoofStomp();
 			}
+				// exit ilsh 1313, 936, 32
+		}
+		
+		public override void Damage( int amount, Mobile from )
+		{
+			base.Damage( amount, from );
+						
+			if ( Combatant == null || Hits > HitsMax * 0.05 || Utility.RandomDouble() > 0.1 )
+				return;	
+							
+			new InvisibilitySpell( this, null ).Cast();
+			
+			Target target = Target;
+			
+			if ( target != null )
+				target.Invoke( this, this );
+				
+			Timer.DelayCall( TimeSpan.FromSeconds( 2 ), new TimerCallback( Teleport ) );
 		}
 		
 		public override void OnDeath( Container c )
@@ -145,6 +166,186 @@ namespace Server.Mobiles
 			base.Deserialize( reader );
 			
 			int version = reader.ReadInt();
+			
+			m_Change = DateTime.Now;
+			m_Stomp = DateTime.Now;
+		}
+		
+		private DateTime m_Change;
+		private DateTime m_Stomp;
+		
+		public void Teleport()
+		{										
+			// 20 tries to teleport
+			for ( int tries = 0; tries < 20; tries ++ )
+			{
+				int x = Utility.RandomMinMax( 5, 7 ); 
+				int y = Utility.RandomMinMax( 5, 7 );
+				
+				if ( Utility.RandomBool() )
+					x *= -1;
+					
+				if ( Utility.RandomBool() )
+					y *= -1;
+				
+				Point3D p = new Point3D( X + x, Y + y, 0 );
+				IPoint3D po = new LandTarget( p, Map ) as IPoint3D;
+				
+				if ( po == null )
+					continue;
+					
+				SpellHelper.GetSurfaceTop( ref po );
+
+				if ( InRange( p, 12 ) && InLOS( p ) && Map.CanSpawnMobile( po.X, po.Y, po.Z ) )
+				{					
+					
+					Point3D from = Location;
+					Point3D to = new Point3D( po );
+	
+					Location = to;
+					ProcessDelta();
+					
+					FixedParticles( 0x376A, 9, 32, 0x13AF, EffectLayer.Waist );
+					PlaySound( 0x1FE );
+										
+					break;					
+				}
+			}		
+			
+			RevealingAction();
+		}
+		
+		public void ChangeOpponent()
+		{
+			Mobile agro, best = null;
+			double distance, random = Utility.RandomDouble();
+			
+			if ( random < 0.75 )
+			{			
+				// find random target relatively close
+				for ( int i = 0; i < Aggressors.Count && best == null; i ++ )
+				{
+					agro = Validate( Aggressors[ i ].Attacker );
+					
+					if ( agro == null )
+						continue;				
+				
+					distance = StrikingRange - GetDistanceToSqrt( agro );
+					
+					if ( distance > 0 && distance < StrikingRange - 2 && InLOS( agro.Location ) )
+					{
+						distance /= StrikingRange;
+						
+						if ( random < distance )
+							best = agro;
+					}
+				}		
+			}	
+			else
+			{
+				int damage = 0;
+				
+				// find a player who dealt most damage
+				for ( int i = 0; i < DamageEntries.Count; i ++ )
+				{
+					agro = Validate( DamageEntries[ i ].Damager );
+					
+					if ( agro == null )
+						continue;
+					
+					distance = GetDistanceToSqrt( agro );
+						
+					if ( distance < StrikingRange && DamageEntries[ i ].DamageGiven > damage && InLOS( agro.Location ) )
+					{
+						best = agro;
+						damage = DamageEntries[ i ].DamageGiven;
+					}
+				}
+			}
+			
+			if ( best != null )
+			{
+				// teleport
+				best.Location = BasePeerless.GetSpawnPosition( Location, Map, 1 );
+				best.FixedParticles( 0x376A, 9, 32, 0x13AF, EffectLayer.Waist );
+				best.PlaySound( 0x1FE );
+				
+				Timer.DelayCall( TimeSpan.FromSeconds( 1 ), new TimerCallback( delegate()
+				{
+					// poison
+					best.ApplyPoison( this, HitPoison );
+					best.FixedParticles( 0x374A, 10, 15, 5021, EffectLayer.Waist );
+					best.PlaySound( 0x474 );
+				} ) );
+				
+				m_Change = DateTime.Now + TimeSpan.FromSeconds( Utility.RandomMinMax( 5, 10 ) );
+			}
+		}
+		
+		public void HoofStomp()
+		{		
+			foreach ( Mobile m in GetMobilesInRange( StrikingRange ) )
+			{
+				Mobile valid = Validate( m );
+				
+				if ( valid != null && Affect( valid ) )
+					valid.SendLocalizedMessage( 1075081 ); // *Dreadhorn’s eyes light up, his mouth almost a grin, as he slams one hoof to the ground!*
+			}		
+			
+			// earthquake
+			PlaySound( 0x2F3 );
+				
+			Timer.DelayCall( TimeSpan.FromSeconds( 30 ), new TimerCallback( delegate{ StopAffecting(); } ) );
+						
+			m_Stomp = DateTime.Now + TimeSpan.FromSeconds( Utility.RandomMinMax( 40, 50 ) );
+		}
+		
+		public Mobile Validate( Mobile m )
+		{			
+			Mobile agro;
+					
+			if ( m is BaseCreature )
+				agro = ( (BaseCreature) m ).ControlMaster;
+			else
+				agro = m;
+			
+			if ( !CanBeHarmful( agro, false ) || !agro.Player || Combatant == agro )
+				return null;	
+			
+			return agro;
+		}
+		
+		private static Dictionary<Mobile,bool> m_Affected;
+		
+		public static bool IsUnderInfluence( Mobile mobile )
+		{
+			if ( m_Affected != null )
+			{
+				if ( m_Affected.ContainsKey( mobile ) )
+					return true;
+			}
+			
+			return false;
+		}
+		
+		public static bool Affect( Mobile mobile )
+		{
+			if ( m_Affected == null )
+				m_Affected = new Dictionary<Mobile,bool>();
+				
+			if ( !m_Affected.ContainsKey( mobile ) )
+			{
+				m_Affected.Add( mobile, true );
+				return true;
+			}
+			
+			return false;
+		}
+		
+		public static void StopAffecting()
+		{
+			if ( m_Affected != null )
+				m_Affected.Clear();
 		}
 	}
 }

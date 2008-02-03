@@ -6,6 +6,7 @@ namespace Server.Items
 	{
 		public override int LabelNumber{ get{ return 1073454; } } // fire ruby bracelet
 
+		[Constructable]
 		public FireRubyBracelet() : base()
 		{
 			Weight = 1.0;

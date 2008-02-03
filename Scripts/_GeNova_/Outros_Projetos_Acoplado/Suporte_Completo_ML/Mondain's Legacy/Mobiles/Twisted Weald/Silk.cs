@@ -61,6 +61,11 @@ namespace Server.Mobiles
 		public override bool GivesMinorArtifact{ get{ return true; } }
 		public override Poison PoisonImmune{ get{ return Poison.Lethal; } }
 		public override Poison HitPoison{ get{ return Poison.Lethal; } }
+            
+            public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
+		}
 
 		public override void Serialize( GenericWriter writer )
 		{

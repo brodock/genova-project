@@ -9,7 +9,7 @@ namespace Server.Mobiles
 		[Constructable]
 		public Irk() : base()
 		{
-			Name = "a Irk";
+			Name = "Irk";
 			Hue = 0x489;
 
 			SetStr( 23, 183 );
@@ -57,6 +57,10 @@ namespace Server.Mobiles
 				
 			if ( Utility.RandomDouble() < 0.025 )
 				c.DropItem( new PaladinGloves() );
+		}
+            public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
 		}
 
 		public override void Serialize( GenericWriter writer )

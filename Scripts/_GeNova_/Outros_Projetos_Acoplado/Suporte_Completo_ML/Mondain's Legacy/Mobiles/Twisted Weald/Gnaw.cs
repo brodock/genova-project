@@ -10,7 +10,7 @@ namespace Server.Mobiles
 		[Constructable]
 		public Gnaw() : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.075, 0.015 )
 		{
-			Name = "a Gnaw";
+			Name = "Gnaw";
 			Body = 23;
 			Hue = 0x130;
 			BaseSoundID = 0xE5;
@@ -57,6 +57,10 @@ namespace Server.Mobiles
 			
 			if ( Utility.RandomDouble() < 0.3 )
 				c.DropItem( new GnawsFang() );
+		}
+            public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
 		}
 
 		public override void Serialize( GenericWriter writer )

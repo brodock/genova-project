@@ -6,6 +6,7 @@ namespace Server.Items
 	{
 		public override int LabelNumber{ get{ return 1073453; } } // brilliant amber bracelet
 
+		[Constructable]
 		public BrilliantAmberBracelet() : base()
 		{
 			Weight = 1.0;

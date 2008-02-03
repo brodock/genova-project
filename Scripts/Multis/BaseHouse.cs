@@ -563,6 +563,15 @@ namespace Server.Multis
 				mobile.Internalize();
 				InternalizedVendors.Add( mobile );
 			}
+
+			// genova: other project : Full support UO:ML rev 107			
+			#region Mondain's Legacy
+			foreach ( Mobile mobile in GetMobiles() )
+			{
+				if ( mobile is PetParrot )
+					mobile.Internalize();
+			}
+			#endregion
 		}
 
 		public List<IEntity> GetHouseEntities()

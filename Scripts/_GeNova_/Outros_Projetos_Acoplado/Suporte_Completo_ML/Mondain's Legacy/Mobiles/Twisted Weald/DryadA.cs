@@ -12,34 +12,34 @@ namespace Server.Mobiles
 		[Constructable]
 		public DryadA() : base( AIType.AI_Mage, FightMode.Evil, 10, 1, 0.2, 0.4 )
 		{
-			Name = "a Dryad";
+			Name = "a dryad";
 			Body = 266;
 			BaseSoundID = 0x467;
 
-			SetStr( 135, 150 );
-			SetDex( 153, 166 );
-			SetInt( 253, 281 );
+			SetStr( 132, 147 );
+			SetDex( 152, 168 );
+			SetInt( 251, 272 );
 
-			SetHits( 302, 314 );
-			SetStam( 153, 166 );
-			SetMana( 253, 281 );
+			SetHits( 304, 316 );
+			SetStam( 152, 168 );
+			SetMana( 251, 272 );
 
-			SetDamage( 11, 20 );
+			SetDamage( 20, 28 );
 
 			SetDamageType( ResistanceType.Physical, 100 );
 
 			SetResistance( ResistanceType.Physical, 41, 50 );
-			SetResistance( ResistanceType.Fire, 15, 24 );
-			SetResistance( ResistanceType.Cold, 40, 45 );
-			SetResistance( ResistanceType.Poison, 30, 40 );
-			SetResistance( ResistanceType.Energy, 25, 32 );
+			SetResistance( ResistanceType.Fire, 17, 25 );
+			SetResistance( ResistanceType.Cold, 40, 44 );
+			SetResistance( ResistanceType.Poison, 34, 40 );
+			SetResistance( ResistanceType.Energy, 25, 35 );
 
-			SetSkill( SkillName.Wrestling, 71.5, 77.8 );
-			SetSkill( SkillName.Tactics, 70.1, 77.3 );
-			SetSkill( SkillName.MagicResist, 100.7, 118.8 );			
-			SetSkill( SkillName.Magery, 72.1, 77.3 );
-			SetSkill( SkillName.EvalInt, 71.0, 79.5 );
-			SetSkill( SkillName.Meditation, 80.1, 89.7 );
+			SetSkill( SkillName.Wrestling, 72.5, 77.1 );
+			SetSkill( SkillName.Tactics, 71.7, 76.8 );
+			SetSkill( SkillName.MagicResist, 112.7, 117.1 );			
+			SetSkill( SkillName.Magery, 70.7, 75.2 );
+			SetSkill( SkillName.EvalInt, 70.7, 78.7 );
+			SetSkill( SkillName.Meditation, 82.9, 89.9 );
 		}
 		
 		public override void GenerateLoot()
@@ -87,6 +87,10 @@ namespace Server.Mobiles
 		
 		public DryadA( Serial serial ) : base( serial )
 		{
+		}
+            public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
 		}
 
 		public override void Serialize( GenericWriter writer )

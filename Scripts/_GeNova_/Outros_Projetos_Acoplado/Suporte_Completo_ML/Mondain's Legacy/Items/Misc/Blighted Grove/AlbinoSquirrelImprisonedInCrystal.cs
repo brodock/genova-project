@@ -7,7 +7,7 @@ namespace Server.Items
 	public class AlbinoSquirrelImprisonedInCrystal : BaseImprisonedMobile
 	{
 		public override int LabelNumber{ get{ return 1075004; } } // An Albino Squirrel Imprisoned in a Crystal
-		public override BaseCreature Summon{ get{ return new Squirrel(); } }
+		public override BaseCreature Summon{ get{ return new AlbinoSquirrel(); } }
 		
 		[Constructable]
 		public AlbinoSquirrelImprisonedInCrystal() : base( 0x1F1C )
@@ -18,6 +18,42 @@ namespace Server.Items
 
 		public AlbinoSquirrelImprisonedInCrystal( Serial serial ) : base( serial )
 		{
+		}
+
+		public override void Serialize( GenericWriter writer )
+		{
+			base.Serialize( writer );
+			
+			writer.Write( (int) 0 ); // version
+		}
+
+		public override void Deserialize( GenericReader reader )
+		{
+			base.Deserialize( reader );
+			
+			int version = reader.ReadInt();
+		}
+	}
+	
+	public class AlbinoSquirrel : Squirrel
+	{
+		public override bool DeleteOnRelease{ get{ return true; } }
+		
+		[Constructable]
+		public AlbinoSquirrel() : base()
+		{
+			Hue = 0x482;
+		}
+
+		public AlbinoSquirrel( Serial serial ) : base( serial )
+		{
+		}
+		
+		public override void GetProperties( ObjectPropertyList list )
+		{
+			base.GetProperties( list );
+			
+			list.Add( 1049646 ); // (summoned)
 		}
 
 		public override void Serialize( GenericWriter writer )

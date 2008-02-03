@@ -9,6 +9,7 @@ namespace Server.Mobiles
 		[Constructable] 
 		public CrystalWisp() : base() 
 		{ 			
+			Name = "a crystal wisp";
 			Hue = 0x482;
 			
 			PackReg( 1 );

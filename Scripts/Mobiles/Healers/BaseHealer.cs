@@ -4,6 +4,7 @@ using Server;
 using Server.Misc;
 using Server.Items;
 using Server.Gumps;
+using GeNova.Server.Variados;
 
 namespace Server.Mobiles
 {
@@ -12,8 +13,10 @@ namespace Server.Mobiles
 		private ArrayList m_SBInfos = new ArrayList();
 		protected override ArrayList SBInfos{ get { return m_SBInfos; } }
 
-		public override bool IsActiveVendor{ get{ return false; } }
-		public override bool IsInvulnerable{ get{ return false; } }
+        // genova: flag para verificar se os vendedores default estao ativos.
+        public virtual bool IsActiveVendor { get { return FVendedoresPC.Ativo; } }
+        // genova: flag para verificar se os vendedores são invulneraveis.
+        public virtual bool IsInvulnerable { get { return FVendedoresPC.Invulneravel; } }
 
 		public override void InitSBInfo()
 		{

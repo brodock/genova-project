@@ -333,8 +333,8 @@ namespace Server
 				UpdateNode( root, "BlightedGrove", m_BlightedGrove );
 				UpdateNode( root, "Bedlam", m_Bedlam );
 				UpdateNode( root, "PrismOfLight", m_PrismOfLight );
-				UpdateNode( root, "TheCitadel", m_PaintedCaves );
-				UpdateNode( root, "PaintedCaves", m_TheCitadel );
+				UpdateNode( root, "TheCitadel", m_TheCitadel );
+				UpdateNode( root, "PaintedCaves", m_PaintedCaves );
 				UpdateNode( root, "Labyrinth", m_Labyrinth );
 				UpdateNode( root, "Sanctuary", m_Sanctuary );
 				UpdateNode( root, "Spellweaving", m_Spellweaving );

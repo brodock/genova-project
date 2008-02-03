@@ -9,6 +9,7 @@ using Server.Misc;
 using Server.Engines.BulkOrders;
 using Server.Regions;
 using Server.Factions;
+using GeNova.Server.Variados;
 
 namespace Server.Mobiles
 {
@@ -36,13 +37,15 @@ namespace Server.Mobiles
 
 		public override bool PlayerRangeSensitive{ get{ return true; } }
 
-		public virtual bool IsActiveVendor{ get{ return true; } }
+        // genova: flag para verificar se os vendedores default estao ativos.
+		public virtual bool IsActiveVendor{ get{ return FVendedoresPC.Ativo; } }
 		public virtual bool IsActiveBuyer{ get{ return IsActiveVendor; } } // response to vendor SELL
 		public virtual bool IsActiveSeller{ get{ return IsActiveVendor; } } // repsonse to vendor BUY
 
 		public virtual NpcGuild NpcGuild{ get{ return NpcGuild.None; } }
 
-		public virtual bool IsInvulnerable{ get{ return true; } }
+        // genova: flag para verificar se os vendedores são invulneraveis.
+		public virtual bool IsInvulnerable{ get{ return FVendedoresPC.Invulneravel; } }
 
 		public override bool ShowFameTitle{ get{ return false; } }
 
@@ -1375,7 +1378,8 @@ namespace Server.Mobiles
 
 		public override void AddCustomContextEntries( Mobile from, List<ContextMenuEntry> list )
 		{
-			if ( from.Alive && IsActiveVendor )
+            // genova: flag para verificar se os vendedores default estao ativos.
+			if ( from.Alive && (IsActiveVendor || FVendedoresPC.Ativo) )
 			{
 				if ( IsActiveSeller )
 					list.Add( new VendorBuyEntry( from, this ) );

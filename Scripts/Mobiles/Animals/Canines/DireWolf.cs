@@ -54,6 +54,12 @@ namespace Server.Mobiles
 		public DireWolf(Serial serial) : base(serial)
 		{
 		}
+		
+		// genova: other project : Full support UO:ML rev 107
+        public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
+		}
 
 		public override void Serialize(GenericWriter writer)
 		{

@@ -11,7 +11,7 @@ namespace Server.Mobiles
 		public BulbousPutrification() : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{
 			Name = "a bulbous putrification";
-			Body = 0x28;
+			Body = 0x307;
 			Hue = 0x55C;
 			BaseSoundID = 0x165;
 

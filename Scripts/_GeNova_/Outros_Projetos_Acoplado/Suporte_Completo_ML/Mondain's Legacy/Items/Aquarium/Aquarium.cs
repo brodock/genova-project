@@ -459,9 +459,11 @@ namespace Server.Items
 				UpdateWaterState();
 								
 				// reward
-				if ( m_LiveCreatures > 0 && Utility.RandomBool() )
+				if ( m_LiveCreatures > 0 )
 					m_RewardAvailable = true;	
-				
+			}
+			else
+			{
 				// new fish
 				if ( OptimalState && m_LiveCreatures < MaxLiveCreatures )
 				{
@@ -505,7 +507,7 @@ namespace Server.Items
 						
 						m_Events.Add( message );
 					}
-				}
+				}	
 				
 				// kill fish *grins*
 				if ( m_LiveCreatures < MaxLiveCreatures )
@@ -514,7 +516,7 @@ namespace Server.Items
 						KillFish( 1 );					
 				}
 				else
-					KillFish( m_LiveCreatures - MaxLiveCreatures );
+					KillFish( m_LiveCreatures - MaxLiveCreatures );			
 			}
 			
 			m_EvaluateDay = !m_EvaluateDay;
@@ -525,11 +527,17 @@ namespace Server.Items
 			if ( !m_RewardAvailable )
 				return;
 				
-			double max = m_LiveCreatures * ( m_Decorations.Length / (double) MaxLiveCreatures );
+			double max = ( m_LiveCreatures / (double) 30 ) * m_Decorations.Length + 1;
 						
-			int random = (int) Math.Log( 1, Math.Pow( Math.E, max ) );		
+			int random = (int) Math.Log( Utility.RandomMinMax( 1, (int) Math.Pow( Math.E, max ) ) );
+			
+			if ( random < 0 )
+				random = 0;		
+				
+			if ( random > m_Decorations.Length - 1 )
+				random = m_Decorations.Length - 1;
 										
-			Type reward = m_Decorations[ random > m_Decorations.Length - 1 ? m_Decorations.Length - 1 : random ];
+			Type reward = m_Decorations[ random ];
 			
 			Item item;
 			

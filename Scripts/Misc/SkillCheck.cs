@@ -1,12 +1,16 @@
 using System;
 using Server;
 using Server.Mobiles;
+using GeNova.Server.Variados;
 
 namespace Server.Misc
 {
 	public class SkillCheck
 	{
-		private static readonly bool AntiMacroCode = !Core.ML;		//Change this to false to disable anti-macro code
+		/*private static readonly bool AntiMacroCode = !Core.ML;*/		//Change this to false to disable anti-macro code
+        
+        // genova: flag para ativar anti-macro.
+        private static readonly bool AntiMacroCode = FAntiMacro.Ativo;  //Change this to false to disable anti-macro code
 
 		public static TimeSpan AntiMacroExpire = TimeSpan.FromMinutes( 5.0 ); //How long do we remember targets/locations?
 		public const int Allowance = 3;	//How many times may we use the same location/target for gain

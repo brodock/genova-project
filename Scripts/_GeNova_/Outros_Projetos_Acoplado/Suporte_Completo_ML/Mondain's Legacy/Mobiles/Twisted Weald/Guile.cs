@@ -9,7 +9,7 @@ namespace Server.Mobiles
 		[Constructable]
 		public Guile() : base()
 		{
-			Name = "a Guile";
+			Name = "Guile";
 			Hue = 0x3F;
 
 			SetStr( 53, 214 );
@@ -47,6 +47,10 @@ namespace Server.Mobiles
 		public override void GenerateLoot()
 		{
 			AddLoot( LootPack.AosUltraRich, 3 );
+		}
+            public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
 		}
 
 		public override void Serialize( GenericWriter writer )

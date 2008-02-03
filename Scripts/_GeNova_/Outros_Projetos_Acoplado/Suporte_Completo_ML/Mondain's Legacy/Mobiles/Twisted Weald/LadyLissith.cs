@@ -11,7 +11,7 @@ namespace Server.Mobiles
 		[Constructable]
 		public LadyLissith() : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{
-			Name = "a Lady Lissith";
+			Name = "Lady Lissith";
 			Body =  0x9D;
 			Hue = 0x497;
 			BaseSoundID = 0x388; 
@@ -76,6 +76,11 @@ namespace Server.Mobiles
 		public override bool GivesMinorArtifact{ get{ return true; } }
 		public override Poison PoisonImmune{ get{ return Poison.Deadly; } }
 		public override Poison HitPoison{ get{ return Poison.Deadly; } }
+            
+            public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
+		}
 
 		public override void Serialize( GenericWriter writer )
 		{

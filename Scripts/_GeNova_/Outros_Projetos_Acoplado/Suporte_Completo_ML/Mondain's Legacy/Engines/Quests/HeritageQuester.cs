@@ -114,6 +114,8 @@ namespace Server.Engines.Quests
 		
 		public override void OnDoubleClick( Mobile m )
 		{
+			Console.WriteLine( m.Items.Count );
+		
 			if ( m.Alive )
 				OnTalk( m );		
 		}
@@ -277,13 +279,7 @@ namespace Server.Engines.Quests
 		
 		public static bool IsUnburdened( Mobile m )
 		{
-			int count = m.Items.Count;
-			
-			if ( m.HairItemID != 0 )
-				count -= 1;
-				
-			if ( m.FacialHairItemID != 0 )
-				count -= 1;
+			int count = m.Items.Count - 1;
 				
 			if ( m.Backpack != null )
 				count -= 1;

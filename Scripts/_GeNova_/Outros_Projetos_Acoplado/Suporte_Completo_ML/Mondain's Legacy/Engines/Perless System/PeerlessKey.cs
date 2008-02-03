@@ -22,7 +22,10 @@ namespace Server.Items
 			LootType = LootType.Blessed;
 		
 			if ( Lifespan > 0 )
+			{
+				m_Lifespan = Lifespan;
 				StartTimer();
+			}
 		}
 	
 		public PeerlessKey( Serial serial ) : base( serial )
@@ -44,7 +47,6 @@ namespace Server.Items
 			if ( m_Timer != null )
 				return;
 				
-			m_Lifespan = Lifespan;
 			m_Timer = Timer.DelayCall( TimeSpan.FromSeconds( 10 ), TimeSpan.FromSeconds( 10 ), new TimerCallback( Slice ) );
 			m_Timer.Priority = TimerPriority.OneSecond;
 		}

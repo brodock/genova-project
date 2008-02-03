@@ -19,31 +19,32 @@ namespace Server.Mobiles
 		{
 			Name = "a changeling";
 			Body = 264;
+                  BaseSoundID = 0x470;
 
-			SetStr( 28, 119 );
-			SetDex( 209, 250 );
-			SetInt( 308, 396 );
+			SetStr( 36, 105 );
+			SetDex( 212, 262 );
+			SetInt( 317, 399 );
 
-			SetHits( 201, 205 );
-			SetStam( 209, 250 );
-			SetMana( 308, 396 );
+			SetHits( 201, 211 );
+			SetStam( 212, 262 );
+			SetMana( 317, 399 );
 
-			SetDamage( 23, 28 );
+			SetDamage( 11, 22 );
 
 			SetDamageType( ResistanceType.Physical, 100 );
 			
-			SetResistance( ResistanceType.Physical, 80, 90 );
-			SetResistance( ResistanceType.Fire, 40, 46 );
-			SetResistance( ResistanceType.Cold, 40, 48 );
+			SetResistance( ResistanceType.Physical, 81, 90 );
+			SetResistance( ResistanceType.Fire, 40, 50 );
+			SetResistance( ResistanceType.Cold, 40, 49 );
 			SetResistance( ResistanceType.Poison, 41, 50 );
-			SetResistance( ResistanceType.Energy, 40, 50 );
+			SetResistance( ResistanceType.Energy, 43, 50 );
 
-			SetSkill( SkillName.Wrestling, 10.4, 12.3 );
-			SetSkill( SkillName.Tactics, 14.0, 18.5 );
-			SetSkill( SkillName.MagicResist, 114.1, 132.0 );
-			SetSkill( SkillName.Magery, 90.9, 99.8 );
-			SetSkill( SkillName.EvalInt, 90.7, 98.7 );
-			SetSkill( SkillName.Meditation, 90.4, 98.8 );
+			SetSkill( SkillName.Wrestling, 10.4, 12.5 );
+			SetSkill( SkillName.Tactics, 12.0, 19.4 );
+			SetSkill( SkillName.MagicResist, 121.6, 132.2 );
+			SetSkill( SkillName.Magery, 91.6, 99.5 );
+			SetSkill( SkillName.EvalInt, 91.5, 98.8 );
+			SetSkill( SkillName.Meditation, 91.7, 98.5 );
 			
 			PackScroll( 1, 7 );
 			PackItem( new Arrow( 35 ) );
@@ -59,7 +60,7 @@ namespace Server.Mobiles
 		
 		public override void GenerateLoot()
 		{
-			AddLoot( LootPack.AosAverage );
+			AddLoot( LootPack.AosRich, 3 );
 		}
 		
 		private Timer m_Timer;
@@ -270,6 +271,10 @@ namespace Server.Mobiles
 			
 			RevealingAction();
 		}
+            public override OppositionGroup OppositionGroup
+		{
+			get{ return OppositionGroup.FeyAndUndead; }
+		}
 
 		public override void Serialize( GenericWriter writer )
 		{
@@ -309,7 +314,7 @@ namespace Server.Mobiles
 			public ClonedItem( Serial serial ) : base( serial )
 			{
 			}
-	
+	            
 			public override void Serialize( GenericWriter writer )
 			{
 				base.Serialize( writer );

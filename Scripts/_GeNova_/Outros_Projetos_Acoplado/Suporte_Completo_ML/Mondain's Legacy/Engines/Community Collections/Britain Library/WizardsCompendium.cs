@@ -64,7 +64,7 @@ namespace Server.Items
 			Donations.Add( new CollectionItem( typeof( SpidersSilk ), 0xF8D, 1015007, 0x0, 1 ) );
 			Donations.Add( new CollectionItem( typeof( BrownBook ), 0xFEF, 1074906, 0x0, 3 ) );
 			Donations.Add( new CollectionItem( typeof( TanBook ), 0xFF0, 1074906, 0x0, 3 ) );		
-			Donations.Add( new CollectionItem( typeof( Spellbook ), 0xEFA, 1011419, 0x0, 10 ) );				
+			Donations.Add( new CollectionSpellbook( SpellbookType.Regular, 0xEFA, 1011419, 10 ) );				
 			
 			int[] hues = new int[] { 0x1E0, 0x190, 0x151 };			
 			Rewards.Add( new CollectionHuedItem( typeof( LibraryFriendBodySash ), 0x1541, 1073346, 0x190, 100000.0, hues ) );

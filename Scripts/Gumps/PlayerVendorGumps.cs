@@ -723,6 +723,33 @@ namespace Server.Gumps
 				m_Name = name;
 			}
 		}
+		
+		// genova: other project : Full support UO:ML rev 107
+		#region Mondain's Legacy		
+		private static HairOrBeard[] m_FemaleElfHairStyles = new HairOrBeard[]
+			{
+				new HairOrBeard( 0x2FBF,	1074385 ),	// Mid Long
+				new HairOrBeard( 0x2FC0,	1074386 ),	// Long Feather
+				new HairOrBeard( 0x2FC1,	1074387 ),	// Short
+				new HairOrBeard( 0x2FC2,	1074388 ),	// Mullet				
+				new HairOrBeard( 0x2FCE,	1074391 ),	// Topknot
+				new HairOrBeard( 0x2FCF,	1074392 ),	// Long Braid
+				new HairOrBeard( 0x2FCD,	1074390 ),	// Long
+				new HairOrBeard( 0x2FD1,	1074394 )	// Spiked
+			};
+			
+		private static HairOrBeard[] m_MaleElfHairStyles = new HairOrBeard[]
+			{
+				new HairOrBeard( 0x2FCC,	1074389 ),	// Flower
+				new HairOrBeard( 0x2FC0,	1074386 ),	// Long Feather
+				new HairOrBeard( 0x2FC1,	1074387 ),	// Short
+				new HairOrBeard( 0x2FC2,	1074388 ),	// Mullet
+				new HairOrBeard( 0x2FCE,	1074391 ),	// Topknot
+				new HairOrBeard( 0x2FCF,	1074392 ),	// Long Braid
+				new HairOrBeard( 0x2FD0,	1074393 ),	// Buns
+				new HairOrBeard( 0x2FD1,	1074394 )	// Spiked
+			};
+		#endregion
 
 		private static HairOrBeard[] m_HairStyles = new HairOrBeard[]
 			{
@@ -764,51 +791,118 @@ namespace Server.Gumps
 			AddHtmlLocalized( 10, 12, 350, 18, 1011356, 0x7FFF, false, false ); // <center>VENDOR CUSTOMIZATION MENU</center>
 
 			AddHtmlLocalized( 10, 42, 150, 18, 1062459, 0x421F, false, false ); // <CENTER>HAIR</CENTER>
+			
+			// genova: other project : Full support UO:ML rev 107
+			#region Mondain's Legacy
+			if ( vendor.Race == Race.Elf )
+			{							
+				// Remove Hair	
+				AddButton( 10, 70 + m_FemaleElfHairStyles.Length * 20, 0xFB1, 0xFB3, 2, GumpButtonType.Reply, 0 );
+				AddHtmlLocalized( 45, 72 + m_FemaleElfHairStyles.Length * 20, 110, 18, 1011403, 0x7FFF, false, false ); // Remove
+	
+				// Color Hair
+				AddButton( 10, 70 + (m_FemaleElfHairStyles.Length + 1) * 20, 0xFA5, 0xFA7, 3, GumpButtonType.Reply, 0 );
+				AddHtmlLocalized( 45, 72 + (m_FemaleElfHairStyles.Length + 1) * 20, 110, 18, 1011402, 0x7FFF, false, false ); // Color
+			
+				if ( vendor.Female )
+				{
+					// Hair
+					for ( int i = 0; i < m_FemaleElfHairStyles.Length; i++ )
+					{
+						HairOrBeard hair = m_FemaleElfHairStyles[i];
+		
+						AddButton( 10, 70 + i * 20, 0xFA5, 0xFA7, 0x100 | i, GumpButtonType.Reply, 0 );
+						AddHtmlLocalized( 45, 72 + i * 20, 110, 18, hair.Name, 0x7FFF, false, false );
+					}
+				
+					// Change gender
+					AddButton( 160, 290, 0xFA5, 0xFA7, 1, GumpButtonType.Reply, 0 );
+					AddHtmlLocalized( 195, 292, 160, 18, 1015327, 0x7FFF, false, false ); // Male
+	
+					AddHtmlLocalized( 195, 312, 160, 18, 1015328, 0x421F, false, false ); // Female
+				}
+				else
+				{
+					// Hair
+					for ( int i = 0; i < m_MaleElfHairStyles.Length; i++ )
+					{
+						HairOrBeard hair = m_MaleElfHairStyles[i];
+		
+						AddButton( 10, 70 + i * 20, 0xFA5, 0xFA7, 0x100 | i, GumpButtonType.Reply, 0 );
+						AddHtmlLocalized( 45, 72 + i * 20, 110, 18, hair.Name, 0x7FFF, false, false );
+					}
+					
+					// Change gender
+					AddHtmlLocalized( 195, 292, 160, 18, 1015327, 0x421F, false, false ); // Male
+	
+					AddButton( 160, 310, 0xFA5, 0xFA7, 1, GumpButtonType.Reply, 0 );
+					AddHtmlLocalized( 195, 312, 160, 18, 1015328, 0x7FFF, false, false ); // Female
+				}				
+				
+				// Change race
+				AddButton( 245, 290, 0xFA5, 0xFA7, 6, GumpButtonType.Reply, 0 );
+				AddHtmlLocalized( 275, 292, 160, 18, 1072255, 0x7FFF, false, false ); // Human
 
-			for ( int i = 0; i < m_HairStyles.Length; i++ )
-			{
-				HairOrBeard hair = m_HairStyles[i];
-
-				AddButton( 10, 70 + i * 20, 0xFA5, 0xFA7, 0x100 | i, GumpButtonType.Reply, 0 );
-				AddHtmlLocalized( 45, 72 + i * 20, 110, 18, hair.Name, 0x7FFF, false, false );
-			}
-
-			AddButton( 10, 70 + m_HairStyles.Length * 20, 0xFB1, 0xFB3, 2, GumpButtonType.Reply, 0 );
-			AddHtmlLocalized( 45, 72 + m_HairStyles.Length * 20, 110, 18, 1011403, 0x7FFF, false, false ); // Remove
-
-			AddButton( 10, 70 + (m_HairStyles.Length + 1) * 20, 0xFA5, 0xFA7, 3, GumpButtonType.Reply, 0 );
-			AddHtmlLocalized( 45, 72 + (m_HairStyles.Length + 1) * 20, 110, 18, 1011402, 0x7FFF, false, false ); // Color
-
-			if ( vendor.Female )
-			{
-				AddButton( 160, 290, 0xFA5, 0xFA7, 1, GumpButtonType.Reply, 0 );
-				AddHtmlLocalized( 195, 292, 160, 18, 1015327, 0x7FFF, false, false ); // Male
-
-				AddHtmlLocalized( 195, 312, 160, 18, 1015328, 0x421F, false, false ); // Female
+				AddHtmlLocalized( 275, 312, 160, 18, 1072256, 0x421F, false, false ); // Elf
 			}
 			else
 			{
-				AddHtmlLocalized( 160, 42, 210, 18, 1062460, 0x421F, false, false ); // <CENTER>BEARD</CENTER>
-
-				for ( int i = 0; i < m_BeardStyles.Length; i++ )
+				// Change hair
+				for ( int i = 0; i < m_HairStyles.Length; i++ )
 				{
-					HairOrBeard beard = m_BeardStyles[i];
-
-					AddButton( 160, 70 + i * 20, 0xFA5, 0xFA7, 0x200 | i, GumpButtonType.Reply, 0 );
-					AddHtmlLocalized( 195, 72 + i * 20, 160, 18, beard.Name, 0x7FFF, false, false );
+					HairOrBeard hair = m_HairStyles[i];
+	
+					AddButton( 10, 70 + i * 20, 0xFA5, 0xFA7, 0x100 | i, GumpButtonType.Reply, 0 );
+					AddHtmlLocalized( 45, 72 + i * 20, 110, 18, hair.Name, 0x7FFF, false, false );
 				}
+	
+				// Remove Hair	
+				AddButton( 10, 70 + m_HairStyles.Length * 20, 0xFB1, 0xFB3, 2, GumpButtonType.Reply, 0 );
+				AddHtmlLocalized( 45, 72 + m_HairStyles.Length * 20, 110, 18, 1011403, 0x7FFF, false, false ); // Remove
+	
+				// Color Hair
+				AddButton( 10, 70 + (m_HairStyles.Length + 1) * 20, 0xFA5, 0xFA7, 3, GumpButtonType.Reply, 0 );
+				AddHtmlLocalized( 45, 72 + (m_HairStyles.Length + 1) * 20, 110, 18, 1011402, 0x7FFF, false, false ); // Color
+				
+				// Change gender and beard				
+				if ( vendor.Female )
+				{
+					AddButton( 160, 290, 0xFA5, 0xFA7, 1, GumpButtonType.Reply, 0 );
+					AddHtmlLocalized( 195, 292, 160, 18, 1015327, 0x7FFF, false, false ); // Male
+	
+					AddHtmlLocalized( 195, 312, 160, 18, 1015328, 0x421F, false, false ); // Female
+				}
+				else
+				{
+					AddHtmlLocalized( 160, 42, 210, 18, 1062460, 0x421F, false, false ); // <CENTER>BEARD</CENTER>
+	
+					for ( int i = 0; i < m_BeardStyles.Length; i++ )
+					{
+						HairOrBeard beard = m_BeardStyles[i];
+	
+						AddButton( 160, 70 + i * 20, 0xFA5, 0xFA7, 0x200 | i, GumpButtonType.Reply, 0 );
+						AddHtmlLocalized( 195, 72 + i * 20, 160, 18, beard.Name, 0x7FFF, false, false );
+					}
+	
+					AddButton( 160, 70 + m_BeardStyles.Length * 20, 0xFB1, 0xFB3, 4, GumpButtonType.Reply, 0 );
+					AddHtmlLocalized( 195, 72 + m_BeardStyles.Length * 20, 160, 18, 1011403, 0x7FFF, false, false ); // Remove
+	
+					AddButton( 160, 70 + (m_BeardStyles.Length + 1) * 20, 0xFA5, 0xFA7, 5, GumpButtonType.Reply, 0 );
+					AddHtmlLocalized( 195, 72 + (m_BeardStyles.Length + 1) * 20, 160, 18, 1011402, 0x7FFF, false, false ); // Color
 
-				AddButton( 160, 70 + m_BeardStyles.Length * 20, 0xFB1, 0xFB3, 4, GumpButtonType.Reply, 0 );
-				AddHtmlLocalized( 195, 72 + m_BeardStyles.Length * 20, 160, 18, 1011403, 0x7FFF, false, false ); // Remove
+					AddHtmlLocalized( 195, 292, 160, 18, 1015327, 0x421F, false, false ); // Male
+	
+					AddButton( 160, 310, 0xFA5, 0xFA7, 1, GumpButtonType.Reply, 0 );
+					AddHtmlLocalized( 195, 312, 160, 18, 1015328, 0x7FFF, false, false ); // Female
+				}
+				
+				// Change race
+				AddHtmlLocalized( 275, 292, 160, 18, 1072255, 0x421F, false, false ); // Human
 
-				AddButton( 160, 70 + (m_BeardStyles.Length + 1) * 20, 0xFA5, 0xFA7, 5, GumpButtonType.Reply, 0 );
-				AddHtmlLocalized( 195, 72 + (m_BeardStyles.Length + 1) * 20, 160, 18, 1011402, 0x7FFF, false, false ); // Color
-
-				AddHtmlLocalized( 195, 292, 160, 18, 1015327, 0x421F, false, false ); // Male
-
-				AddButton( 160, 310, 0xFA5, 0xFA7, 1, GumpButtonType.Reply, 0 );
-				AddHtmlLocalized( 195, 312, 160, 18, 1015328, 0x7FFF, false, false ); // Female
+				AddButton( 245, 310, 0xFA5, 0xFA7, 6, GumpButtonType.Reply, 0 );
+				AddHtmlLocalized( 275, 312, 160, 18, 1072256, 0x7FFF, false, false ); // Elf
 			}
+			#endregion
 
 			AddButton( 10, 340, 0xFA5, 0xFA7, 0, GumpButtonType.Reply, 0 );
 			AddHtmlLocalized( 45, 342, 305, 18, 1060675, 0x7FFF, false, false ); // CLOSE
@@ -833,19 +927,12 @@ namespace Server.Gumps
 				}
 				case 1: // Female/Male
 				{
-					if ( m_Vendor.Female )
-					{
-						m_Vendor.BodyValue = 400;
-						m_Vendor.Female = false;
-					}
-					else
-					{
-						m_Vendor.BodyValue = 401;
-						m_Vendor.Female = true;
-
-						m_Vendor.FacialHairItemID = 0;
-					}
-
+					// genova: other project : Full support UO:ML rev 107
+					#region Mondain's Legacy					
+					m_Vendor.Female = !m_Vendor.Female;
+					m_Vendor.BodyValue = m_Vendor.Race.AliveBody( m_Vendor.Female );
+					#endregion
+					
 					from.SendGump( new NewPlayerVendorCustomizeGump( m_Vendor ) );
 
 					break;
@@ -892,18 +979,50 @@ namespace Server.Gumps
 
 					break;
 				}
+				// genova: other project : Full support UO:ML rev 107
+				#region Mondain's Legacy
+				case 6: // Change race
+				{
+					if ( m_Vendor.Race == Race.Elf )
+						m_Vendor.Race = Race.Human;
+					else
+						m_Vendor.Race = Race.Elf;
+					
+					m_Vendor.Hue = m_Vendor.Race.RandomSkinHue();
+					m_Vendor.HairItemID = m_Vendor.Race.RandomHair( m_Vendor.Female );
+					m_Vendor.HairHue = 0;
+					m_Vendor.FacialHairItemID = 0;
+					m_Vendor.FacialHairHue = 0;
+					
+					from.SendGump( new NewPlayerVendorCustomizeGump( m_Vendor ) );
+					
+					break;
+				}
+				#endregion
 				default:
 				{
 					if ( (info.ButtonID & 0x100) != 0 ) // Hair style selected
 					{
 						int index = info.ButtonID & 0xFF;
 
-						if ( index >= m_HairStyles.Length )
+						// genova: other project : Full support UO:ML rev 107
+						#region Mondain's Legacy
+						if ( index >= m_HairStyles.Length && m_Vendor.Race == Race.Human )
 							return;
-
-						HairOrBeard hairStyle = m_HairStyles[index];
-
-						m_Vendor.HairItemID = hairStyle.ItemID;
+						else if ( index >= m_FemaleElfHairStyles.Length && m_Vendor.Race == Race.Elf )
+							return;
+							
+						HairOrBeard hairStyle;	
+						
+						if ( m_Vendor.Race == Race.Elf && m_Vendor.Female )
+							hairStyle = m_FemaleElfHairStyles[index];
+						else if ( m_Vendor.Race == Race.Elf )
+							hairStyle = m_MaleElfHairStyles[index];
+						else
+							hairStyle = m_HairStyles[index];
+							
+						m_Vendor.HairItemID = hairStyle.ItemID;	
+						#endregion
 
 						from.SendGump( new NewPlayerVendorCustomizeGump( m_Vendor ) );
 					}
@@ -919,11 +1038,12 @@ namespace Server.Gumps
 
 						HairOrBeard beardStyle = m_BeardStyles[index];
 
-						m_Vendor.FacialHairItemID = beardStyle.ItemID;
+						// genova: other project : Full support UO:ML rev 107						
+						m_Vendor.FacialHairItemID = beardStyle.ItemID;	
 
 						from.SendGump( new NewPlayerVendorCustomizeGump( m_Vendor ) );
 					}
-
+					
 					break;
 				}
 			}
