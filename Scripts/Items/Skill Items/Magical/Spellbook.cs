@@ -532,11 +532,21 @@ namespace Server.Items
 				return;
 
 			if ( Core.AOS ) {
-				if ( to.NetState.Version != null && to.NetState.Version >= Version_400a ) {
+				if ( to.NetState.Version != null && to.NetState.Version >= Version_400a ) 
+                {
 					to.Send( new NewSpellbookContent( this, ItemID, BookOffset + 1, m_Content ) );
-				} else {
-					to.Send( new SpellbookContent( m_Count, BookOffset + 1, m_Content, this ) );
-				}
+                }
+                // genova suporte ao UO:KR.
+                #region Support UO:KR
+                else if (to.NetState != null && to.NetState.IsKRClient)
+                {
+                    to.Send(new NewSpellbookContent(this, ItemID, BookOffset + 1, m_Content));
+                }
+                #endregion
+                else
+                {
+                    to.Send(new SpellbookContent(m_Count, BookOffset + 1, m_Content, this));
+                }
 			}
 			else {
 				if ( to.NetState.IsPost6017 ) {
