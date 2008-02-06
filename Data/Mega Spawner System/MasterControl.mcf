@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<MegaSpawnerSystemConfig>
-	<TimerSetting>1</TimerSetting>
-	<TimerDelay>28</TimerDelay>
-	<StaffTriggerEvent>false</StaffTriggerEvent>
-</MegaSpawnerSystemConfig>
