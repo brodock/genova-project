@@ -893,6 +893,7 @@ namespace Server.Multis
 			int newPrice = oldPrice + CustomizationCost + ((DesignState.Components.List.Length - CurrentState.Components.List.Length) * 500);
 			int cost = newPrice - oldPrice;
 
+			if ( !this.Deleted ) { // Temporary Fix. We should be booting a client out of customization mode in the delete handler.
             if ( from.AccessLevel >= AccessLevel.GameMaster && cost != 0 )
             {
                 from.SendMessage( "{0} gold would have been {1} your bank if you were not a GM.", cost.ToString(), ((cost > 0 )? "withdrawn from" : "deposited into" ) );
@@ -919,6 +920,7 @@ namespace Server.Multis
                         return;
                 }
             }
+			}
 
 			/* Client chose to commit current design state
 				 *  - Commit design state
