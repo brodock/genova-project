@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mysql>
+	<!--Configuration Attributes : MySQL -->
+	<server value="127.0.0.1" />
+	<database value="uo" />
+	<userid value="root" />
+	<password value="" />
+</mysql>

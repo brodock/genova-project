@@ -8,16 +8,16 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Core</RootNamespace>
-    <AssemblyName>RunUO</AssemblyName>
+    <AssemblyName>RunUO_Windows</AssemblyName>
     <StartupObject>Server.Core</StartupObject>
-    <ApplicationIcon>runuo.ico</ApplicationIcon>
+    <ApplicationIcon>genova.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>.\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -25,21 +25,21 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=5.0.8.1, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=5.0.8.1, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
-    <Reference Include="Ultima, Version=2.0.2925.43092, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Ultima.dll</HintPath>
-    </Reference>
+    <Reference Include="Ultima, Version=2.0.2925.43092, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggressorInfo.cs" />
@@ -166,6 +166,8 @@
     <Compile Include="World.cs" />
     <Compile Include="_GeNova_\ClassesInternas\WorldGeNova.cs" />
     <Compile Include="_GeNova_\Controladores\ControladorRecuperacaoDadosCustom.cs" />
+    <Compile Include="_GeNova_\Utilitarios\XML\CaminhosXML.cs" />
+    <Compile Include="_GeNova_\Utilitarios\XML\UtilitariosXML.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="runuo.ico" />

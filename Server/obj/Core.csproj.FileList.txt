@@ -1,0 +1,5 @@
+obj\Debug\ResolveAssemblyReference.cache
+bin\RunUO_Windows.exe
+bin\RunUO_Windows.pdb
+obj\Debug\RunUO_Windows.exe
+obj\Debug\RunUO_Windows.pdb

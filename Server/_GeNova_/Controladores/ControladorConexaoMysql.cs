@@ -15,9 +15,11 @@
 
 using System;
 using System.Text;
-using MySql.Data.MySqlClient;
 using System.Data;
+using System.Xml;
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
+using GeNova.Core.Utilitarios.XML;
 
 namespace GeNova.Core.Controladores
 {
@@ -26,14 +28,41 @@ namespace GeNova.Core.Controladores
         public ControladorConexaoMysql() { }
 
         #region Atributos de Configuração
-        private string _servidor = "127.0.0.1";
-        private string _bancoDeDados = "uo";
-        private string _usuario = "root";
-        private string _senha = "";
+        private string _servidor;
+        private string _bancoDeDados;
+        private string _usuario;
+        private string _senha;
+        #endregion
+
+        #region Setar Atributos de Configuração
+        private void SetAtributosConfiguracao()
+        {
+            XmlNode node;
+            UtilitariosXML xmlUtil = new UtilitariosXML(CaminhosXML.FilePath_Configs_Mysql);
+            
+            // Set string: _servidor
+            node = xmlUtil.GetSingleNode("server");
+            this._servidor = xmlUtil.GetAttributeValue(node);
+
+            // Set string: _bancoDeDados
+            node = xmlUtil.GetSingleNode("dataBase");
+            this._bancoDeDados = xmlUtil.GetAttributeValue(node);
+
+            // Set string: _usuario
+            node = xmlUtil.GetSingleNode("userid");
+            this._usuario = xmlUtil.GetAttributeValue(node);
+
+            // Set string: _senha
+            node = xmlUtil.GetSingleNode("password");
+            this._senha = xmlUtil.GetAttributeValue(node);
+        }
         #endregion
 
         public string RecuperarStringDeConexao()
         {
+            // set attributes.
+            this.SetAtributosConfiguracao();
+
             StringBuilder retorno = new StringBuilder();
             retorno.AppendFormat("Server={0};", this._servidor);
             retorno.AppendFormat("Database={0};", this._bancoDeDados);
