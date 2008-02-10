@@ -388,7 +388,12 @@ namespace Server.Gumps
 
 			if ( ns != null && ns.Version != null && ns.Version >= UnpackVersion )
 				disp = new DisplayGumpPacked( this );
-			else
+            // genova: suporte ao KR
+            #region Suporte ao KR
+            else if ( ns != null && ns.IsKRClient )
+                disp = new DisplayGumpPacked(this);
+            #endregion
+            else
 				disp = new DisplayGumpFast( this );
 
 			if ( !m_Dragable )

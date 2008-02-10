@@ -2350,7 +2350,6 @@ namespace Server.Network
 		public static void KRSeed( NetState state, PacketReader pvSrc )
 		{
 			// KR Client detected (Maybe Legacy client after 6.0.1.4 too? Still need to check)
-			Console.WriteLine( "KR Client detected!" );
 			state.IsKRClient = true;
 			state.Send( new KRVerifier() );
 		}
