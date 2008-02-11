@@ -14,22 +14,25 @@
  ***************************************************************************/
 
 using System;
-using System.Reflection;
+using System.Text;
+using GeNova.Core.Utilitarios.XML;
+using System.Xml;
 
-namespace GeNova.Core.Utilitarios.XML
+namespace GeNova.Core.ClassesInternas
 {
-    /// <summary>
-    /// Register path and name for xml file.
-    /// </summary>
-    public abstract class CaminhosXML
+    public abstract class GumpGeNova
     {
-        /*Principal Value*/
-        internal static readonly string Path_GeNova_XML = String.Concat(Server.Core.BaseDirectory, @"\GeNova_XML");
+        public static int GetIdKRGump(Type type)
+        {
+            string gumpName = type.Name;
 
-        /*Internal Values*/
-        internal static readonly string FilePath_Configs_Mysql = @"\Configs\mysql.xml";
+            UtilitariosXML xmlUtil = new UtilitariosXML(CaminhosXML.FilePath_Misc_Gumps);
 
-        /*Public Values*/
-        public static readonly string FilePath_Misc_Gumps = @"\Misc\gumps.xml";
+            XmlNode rootNode = xmlUtil.GetRootNode("gumps");
+            XmlNode objectGumpNode = xmlUtil.FindNodeByAttribute(rootNode, "name", gumpName);
+
+            int idKRGump = Convert.ToInt32(xmlUtil.GetAttributeValue(objectGumpNode));
+            return idKRGump;
+        }
     }
 }

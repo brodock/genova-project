@@ -21,6 +21,12 @@ namespace Server.Menus.Questions
 
 	public class StuckMenu : Gump
 	{
+		// Genova: suporte ao UO:KR.
+		public static void Initialize()
+		{
+			RegisterType(typeof(StuckMenu));
+        }
+        	
 		private static StuckMenuEntry[] m_Entries = new StuckMenuEntry[]
 			{
 				// Britain

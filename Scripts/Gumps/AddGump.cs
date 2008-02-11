@@ -18,6 +18,8 @@ namespace Server.Gumps
 		public static void Initialize()
 		{
 			CommandSystem.Register( "AddMenu", AccessLevel.GameMaster, new CommandEventHandler( AddMenu_OnCommand ) );
+            // Genova: suporte ao UO:KR.
+            RegisterType(typeof(AddGump));
 		}
 
 		[Usage( "AddMenu [searchString]" )]

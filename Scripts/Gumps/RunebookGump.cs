@@ -14,6 +14,12 @@ namespace Server.Gumps
 {
 	public class RunebookGump : Gump
 	{
+		// Genova: suporte ao UO:KR.
+		public static void Initialize()
+		{
+			RegisterType(typeof(RunebookGump));
+        }
+        
 		private Runebook m_Book;
 
 		public Runebook Book{ get{ return m_Book; } }

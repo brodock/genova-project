@@ -35,6 +35,12 @@ namespace Server.Gumps
 
 	public class HouseGumpAOS : Gump
 	{
+		// Genova: suporte ao UO:KR.
+		public static void Initialize()
+		{
+			RegisterType(typeof(HouseGumpAOS));
+        }
+        	
 		private BaseHouse m_House;
 		private HouseGumpPageAOS m_Page;
 

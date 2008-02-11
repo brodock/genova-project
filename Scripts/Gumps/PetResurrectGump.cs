@@ -14,7 +14,7 @@ namespace Server.Gumps
         // Genova: suporte ao UO:KR.
         public static void Initialize()
         {
-            RegisterType(typeof(PetResurrectGump), 447);
+            RegisterType(typeof(PetResurrectGump));
         }
 
 		public PetResurrectGump( Mobile from, BaseCreature pet )

@@ -180,6 +180,12 @@ namespace Server.Gumps
 	{
 		private BaseHouse m_House;
 
+		// Genova: suporte ao UO:KR.
+		public static void Initialize()
+		{
+			RegisterType(typeof(HouseGump));
+        }
+
 		private ArrayList Wrap( string value )
 		{
 			if ( value == null || (value = value.Trim()).Length <= 0 )

@@ -53,6 +53,8 @@ namespace Server.Engines.Help
 		public static void Initialize()
 		{
 			EventSink.HelpRequest += new HelpRequestEventHandler( EventSink_HelpRequest );
+			// GeNova: suporte ao UO:KR.
+			RegisterType(typeof(HelpGump));
 		}
 
 		private static void EventSink_HelpRequest( HelpRequestEventArgs e )

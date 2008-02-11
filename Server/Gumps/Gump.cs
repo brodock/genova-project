@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Text;
 using Server;
 using Server.Network;
+using GeNova.Core.ClassesInternas;
 
 namespace Server.Gumps
 {
@@ -441,12 +442,14 @@ namespace Server.Gumps
         #region Suporte ao UO:KR
         private static Dictionary<Type, int> _typeIdTable = new Dictionary<Type, int>();
 
-        public static void RegisterType(Type t, int id)
+        public static void RegisterType(Type type)
         {
-            if (!_typeIdTable.ContainsKey(t))
-                _typeIdTable.Add(t, id);
+            int idGump = GumpGeNova.GetIdKRGump(type);
+
+            if (!_typeIdTable.ContainsKey(type))
+                _typeIdTable.Add(type, idGump);
             else
-                _typeIdTable[t] = id;
+                _typeIdTable[type] = idGump;
         } 
         #endregion
     }

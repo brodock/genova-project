@@ -1438,7 +1438,7 @@ namespace Server.Mobiles
 
             public static void Initialize()
             {
-                RegisterType(typeof(CancelRenewInventoryInsuranceGump), 9015);
+                RegisterType(typeof(CancelRenewInventoryInsuranceGump));
             }
 
 			public CancelRenewInventoryInsuranceGump( PlayerMobile player ) : base( 250, 200 )

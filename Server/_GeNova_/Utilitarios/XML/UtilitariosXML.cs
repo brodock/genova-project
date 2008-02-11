@@ -38,7 +38,7 @@ namespace GeNova.Core.Utilitarios.XML
         /// Load XML File. Necessery.
         /// </summary>
         private void CarregarArquivoXML()
-        {            
+        {
             string path = String.Concat(CaminhosXML.Path_GeNova_XML, this._caminhoXML);
             this._documento = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         }
@@ -62,6 +62,15 @@ namespace GeNova.Core.Utilitarios.XML
 
         #region Methods
         /// <summary>
+        /// XML: Get Root Node.
+        /// </summary>
+        public XmlNode GetRootNode(string name)
+        {
+            XmlDocument document = this.IniciarXML();
+            return document.SelectSingleNode(name.ToLower());
+        }
+
+        /// <summary>
         /// XML: Get Single Node.
         /// </summary>
         public XmlNode GetSingleNode(string name)
@@ -80,12 +89,41 @@ namespace GeNova.Core.Utilitarios.XML
         /// <summary>
         /// XML: Get property "value" in Attributes from Single Node.
         /// </summary>
-        /// <param name="singleNode"></param>
         public string GetAttributeValue(XmlNode node)
         {
+            return GetAttributeValue(node, string.Empty);
+        }
+
+        /// <summary>
+        /// XML: Get property "attributeName" in Attributes from Single Node.
+        /// </summary>
+        public string GetAttributeValue(XmlNode node, string attributeName)
+        {
             // Default property: one param = value.
-            string valueProperty = "value";
+            string valueProperty;
+            if (attributeName.Equals(string.Empty))
+                valueProperty = "value";
+            else
+                valueProperty = attributeName;
+
             return node.Attributes.GetNamedItem(valueProperty).Value;
+        }
+
+        /// <summary>
+        /// XML: Find Node by: attribute name and value.
+        /// </summary>
+        public XmlNode FindNodeByAttribute(XmlNode node, string attributeName, string attributeValue)
+        {
+            foreach (XmlNode localNode in node)
+            {
+                if (localNode.NodeType == XmlNodeType.Element)
+                {
+                    string valor = this.GetAttributeValue(localNode, attributeName);
+                    if (valor.Equals(attributeValue))
+                        return localNode;
+                }
+            }
+            return null;
         }
         #endregion
     }

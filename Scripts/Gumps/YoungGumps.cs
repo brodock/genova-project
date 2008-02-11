@@ -21,6 +21,12 @@ namespace Server.Gumps
 
 	public class YoungDeathNotice : Gump
 	{
+		// Genova: suporte ao UO:KR.
+		public static void Initialize()
+		{
+			RegisterType(typeof(YoungDeathNotice));
+        }
+        
 		public YoungDeathNotice() : base( 100, 15 )
 		{
 			Closable = false;
@@ -51,6 +57,12 @@ namespace Server.Gumps
 
 	public class RenounceYoungGump : Gump
 	{
+		// Genova: suporte ao UO:KR.
+		public static void Initialize()
+		{
+			RegisterType(typeof(RenounceYoungGump));
+        }
+        
 		public RenounceYoungGump() : base( 150, 50 )
 		{
 			AddBackground( 0, 0, 450, 400, 0xA28 );

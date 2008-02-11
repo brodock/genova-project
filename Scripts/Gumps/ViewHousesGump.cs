@@ -15,6 +15,8 @@ namespace Server.Gumps
 		public static void Initialize()
 		{
 			CommandSystem.Register( "ViewHouses", AccessLevel.GameMaster, new CommandEventHandler( ViewHouses_OnCommand ) );
+			// GeNova: suporte ao UO:KR.
+			RegisterType(typeof(ViewHousesGump));
 		}
 
 		[Usage( "ViewHouses" )]

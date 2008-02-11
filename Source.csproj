@@ -3364,6 +3364,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GeNova_XML\Configs\mysql.xml" />
+    <Content Include="GeNova_XML\Misc\gumps.xml" />
     <Content Include="Scripts\_GeNova_\Spawners\MegaSpawner\Spawn Files %28maps%29\%40About All Spawns.txt" />
     <Content Include="Scripts\_GeNova_\Spawners\MegaSpawner\Spawn Files %28maps%29\%40About.txt" />
   </ItemGroup>

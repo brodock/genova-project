@@ -26,7 +26,7 @@ namespace Server.Gumps
         // Genova: suporte ao UO:KR.
         public static void Initialize()
         {
-            RegisterType(typeof(ResurrectGump), 2223);
+            RegisterType(typeof(ResurrectGump));
         } 
 
 		public ResurrectGump( Mobile owner )

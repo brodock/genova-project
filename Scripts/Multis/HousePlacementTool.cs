@@ -55,7 +55,13 @@ namespace Server.Items
 
 		private const int LabelColor = 0x7FFF;
 		private const int LabelColorDisabled = 0x4210;
-
+	
+		// Genova: suporte ao UO:KR.
+		public static void Initialize()
+		{
+			RegisterType(typeof(HousePlacementCategoryGump));
+        }
+        
 		public HousePlacementCategoryGump( Mobile from ) : base( 50, 50 )
 		{
 			m_From = from;

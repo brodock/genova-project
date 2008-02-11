@@ -13,7 +13,7 @@ namespace Server.Gumps
         // genova: suporte ao uo:kr.
         public static void Initialize()
         {
-            RegisterType(typeof(TithingGump), 659);
+            RegisterType(typeof(TithingGump));
         }
 
 		public TithingGump( Mobile from, int offer ) : base( 160, 40 )

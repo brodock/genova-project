@@ -18,7 +18,7 @@ namespace Server.Gumps
 		public static void Initialize()
 		{
             // genova: suporte ao uo:kr.
-            RegisterType(typeof(ReportMurdererGump), 15002);
+            RegisterType(typeof(ReportMurdererGump));
 			EventSink.PlayerDeath += new PlayerDeathEventHandler( EventSink_PlayerDeath );
 		}
  

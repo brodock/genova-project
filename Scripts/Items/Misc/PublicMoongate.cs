@@ -303,6 +303,12 @@ namespace Server.Items
 		private Item m_Moongate;
 		private PMList[] m_Lists;
 
+		// GeNova: suporte ao UO:KR.
+		public static void Initialize()
+		{
+			RegisterType(typeof(MoongateGump));
+        }
+
 		public MoongateGump( Mobile mobile, Item moongate ) : base( 100, 100 )
 		{
 			m_Mobile = mobile;

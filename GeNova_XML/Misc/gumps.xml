@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<gumps>
+  <!--Object gump and ID - based in GGManager.lua-->
+  <object name="TithingGump" value="659" />
+  <object name="PetResurrectGump" value="447" />
+  <object name="ReportMurdererGump" value="15002" />
+  <object name="ResurrectGump" value="2223" />
+  <object name="CancelRenewInventoryInsuranceGump" value="9015" />
+  <object name="AddGump" value="123456" />
+  <object name="HouseGump" value="2533" />
+  <object name="HouseGumpAOS" value="2533" />
+  <object name="RunebookGump" value="89" />
+  <object name="ViewHousesGump" value="123456" />
+  <object name="YoungDeathNotice" value="653" />
+  <object name="RenounceYoungGump" value="23452" />
+  <object name="ConfirmTransferPetGump" value="603" />
+  <object name="HelpGump" value="666" />
+  <object name="HousePlacementCategoryGump" value="507" />
+  <object name="StuckMenu" value="296" />
+  <object name="MoongateGump" value="600" />
+</gumps>
