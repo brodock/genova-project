@@ -1,5 +1,6 @@
 using System;
 using Server;
+using Server.Mobiles;
 using Server.Engines.Quests;
 
 namespace Server.Items
@@ -63,7 +64,12 @@ namespace Server.Items
 			}
 		
 			if ( from.InRange( Location, 2 ) )
-				from.MoveToWorld( new Point3D( 330, 1973, 0 ), Map );
+			{
+				Point3D p = new Point3D( 330, 1973, 0 );
+				
+				BaseCreature.TeleportPets( from, p, Map );
+				from.MoveToWorld( p, Map );
+			}
 		}		
 		
 		public override void Serialize( GenericWriter writer )

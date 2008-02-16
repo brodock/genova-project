@@ -46,10 +46,36 @@ namespace Server.Commands
 			{
 				ArrayList list = DecorationList.ReadAll( files[i] );
 
+				// genova: support uo:ml.
+				#region Mondain's Legacy
+				m_List = list;
+				#endregion
+
 				for ( int j = 0; j < list.Count; ++j )
 					m_Count += ((DecorationList)list[j]).Generate( maps );
 			}
 		}
+
+		// genova: support uo:ml.
+		#region Mondain's Legacy
+		public static Item FindByID( int id )
+		{
+			if ( m_List == null )
+				return null;
+						
+			for ( int j = 0; j < m_List.Count; ++j )
+			{
+				DecorationList list = (DecorationList) m_List[ j ];
+				
+				if ( list.ID == id )
+					return list.Constructed;
+			}
+			
+			return null;
+		}
+		
+		private static ArrayList m_List;
+		#endregion
 
 		private static Mobile m_Mobile;
 		private static int m_Count;
@@ -61,6 +87,32 @@ namespace Server.Commands
 		private int m_ItemID;
 		private string[] m_Params;
 		private ArrayList m_Entries;
+
+		// genova: support uo:ml.
+		#region Mondain's Legacy
+		private Item m_Constructed;
+		
+		public Item Constructed{ get{ return m_Constructed; } }
+		
+		public int ID
+		{
+			get
+			{					
+				for ( int i = 0; i < m_Params.Length; ++i )
+				{
+					if ( m_Params[i].StartsWith( "ID" ) )
+					{
+						int indexOf = m_Params[i].IndexOf( '=' );
+
+						if ( indexOf >= 0 )
+							return Utility.ToInt32( m_Params[i].Substring( ++indexOf ) );
+					}
+				}
+				
+				return 0;
+			}
+		}
+		#endregion
 
 		public DecorationList()
 		{
@@ -89,6 +141,55 @@ namespace Server.Commands
 				{
 					item = new Static( m_ItemID );
 				}
+				// genova: support uo:ml.
+				#region Mondain's Legacy
+				else if ( m_Type == typeof( SecretSwitch ) )
+				{
+					int id = 0;
+					
+					for ( int i = 0; i < m_Params.Length; ++i )
+					{
+						if ( m_Params[i].StartsWith( "SecretWall" ) )
+						{
+							int indexOf = m_Params[i].IndexOf( '=' );
+
+							if ( indexOf >= 0 )
+							{
+								id = Utility.ToInt32( m_Params[i].Substring( ++indexOf ) );
+								break;
+							}
+						}
+					}
+					
+					Item wall = Decorate.FindByID( id );
+					
+					item = new SecretSwitch( m_ItemID, wall as SecretWall );
+				}
+				else if ( m_Type == typeof( SecretWall ) )
+				{
+					SecretWall wall = new SecretWall( m_ItemID );
+				
+					for ( int i = 0; i < m_Params.Length; ++i )
+					{
+						if ( m_Params[i].StartsWith( "MapDest" ) )
+						{
+							int indexOf = m_Params[i].IndexOf( '=' );
+	
+							if ( indexOf >= 0 )
+								wall.MapDest = Map.Parse( m_Params[i].Substring( ++indexOf ) );
+						}
+						else if ( m_Params[i].StartsWith( "PointDest" ) )
+						{
+							int indexOf = m_Params[i].IndexOf( '=' );
+	
+							if ( indexOf >= 0 )
+								wall.PointDest = Point3D.Parse( m_Params[i].Substring( ++indexOf ) );
+						}
+					}
+					
+					item = wall;					
+				}
+				#endregion
 				else if ( m_Type == typeofLocalizedStatic )
 				{
 					int labelNumber = 0;
@@ -981,6 +1082,11 @@ namespace Server.Commands
 				{
 					if ( item == null )
 						item = Construct();
+
+					// genova: support uo:ml.						
+					#region Mondain's Legacy
+					m_Constructed = item;
+					#endregion
 
 					if ( item == null )
 						continue;

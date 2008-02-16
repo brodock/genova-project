@@ -1,13 +1,13 @@
 <Settings>
-  <PalaceOfParoxysmus active="true" />
-  <TwistedWeald active="true" />
-  <BlightedGrove active="true" />
-  <Bedlam active="true" />
-  <PrismOfLight active="true" />
-  <PaintedCaves active="true" />
-  <TheCitadel active="true" />
-  <Labyrinth active="true" />
-  <Sanctuary active="true" />
-  <Spellweaving active="true" />
-  <PublicDonations active="true" />
+  <PalaceOfParoxysmus active="false" />
+  <TwistedWeald active="false" />
+  <BlightedGrove active="false" />
+  <Bedlam active="false" />
+  <PrismOfLight active="false" />
+  <PaintedCaves active="false" />
+  <TheCitadel active="false" />
+  <Labyrinth active="false" />
+  <Sanctuary active="false" />
+  <Spellweaving active="false" />
+  <PublicDonations active="false" />
 </Settings>

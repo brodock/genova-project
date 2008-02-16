@@ -32,6 +32,7 @@ namespace Server
 			Decorate.Generate( "Data/Mondain's Legacy/Felucca", Map.Felucca );
 			Decorate.Generate( "Data/Mondain's Legacy/Ilshenar", Map.Ilshenar );
 			Decorate.Generate( "Data/Mondain's Legacy/Malas", Map.Malas );
+			Decorate.Generate( "Data/Mondain's Legacy/Tokuno", Map.Tokuno );
 			
 			PeerlessAltar altar;
 			PeerlessTeleporter tele;				
@@ -57,7 +58,7 @@ namespace Server
 				altar.MoveToWorld( new Point3D( 6502, 875, 0 ), Map.Trammel );
 				tele = new PeerlessTeleporter( altar );
 				tele.PointDest = altar.ExitDest;
-				tele.MoveToWorld( new Point3D( 6511, 951, -7 ), Map.Trammel );
+				tele.MoveToWorld( new Point3D( 6511, 949, 26 ), Map.Trammel );
 			}
 			
 			// Blighted Grove - Felucca
@@ -68,7 +69,7 @@ namespace Server
 				altar.MoveToWorld( new Point3D( 6502, 875, 0 ), Map.Felucca );
 				tele = new PeerlessTeleporter( altar );
 				tele.PointDest = altar.ExitDest;
-				tele.MoveToWorld( new Point3D( 6511, 951, -7 ), Map.Felucca );
+				tele.MoveToWorld( new Point3D( 6511, 949, 26 ), Map.Felucca );
 			}
 			
 			// Palace of Paroxysmus - Trammel

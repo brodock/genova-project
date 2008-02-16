@@ -110,7 +110,13 @@ namespace Server
 					int absorbed = Scale( totalDamage, percent );
 
 					totalDamage -= absorbed;
-					pet.BardingHP -= absorbed;
+					
+					// genova: support uo:ml.
+					#region Mondain's Legacy
+					// Mondain's Legacy mod
+					if ( !( pet is ParoxysmusSwampDragon ) )
+						pet.BardingHP -= absorbed;
+					#endregion
 
 					if( pet.BardingHP < 0 )
 					{

@@ -34,7 +34,10 @@ namespace Server.Items
 			int version = reader.ReadInt();
 		}
 	}
-	
+}
+
+namespace Server.Mobiles
+{
 	public class AlbinoSquirrel : Squirrel
 	{
 		public override bool DeleteOnRelease{ get{ return true; } }

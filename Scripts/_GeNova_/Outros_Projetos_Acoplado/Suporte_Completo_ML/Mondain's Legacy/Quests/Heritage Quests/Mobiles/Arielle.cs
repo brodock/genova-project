@@ -15,6 +15,8 @@ namespace Server.Engines.Quests
 		[Constructable]
 		public Arielle() : base( "Arielle" )
 		{			
+			BaseSoundID = 0x46F;
+			
 			SetSkill( SkillName.Focus, 60.0, 83.0 );
 		}
 		
@@ -26,9 +28,7 @@ namespace Server.Engines.Quests
 		{
 			InitStats( 100, 100, 25 );
 			
-			Female = true;
-			
-			Hue = 0x80;
+			Female = true;			
 			Body = 128;
 		}
 		

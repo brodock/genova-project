@@ -3013,9 +3013,12 @@ namespace Server
 							{
 								if ( rootParent.CanSee( this ) && rootParent.InRange( worldLoc, GetUpdateRange( rootParent ) ) )
 								{
-									if ( ns.IsPost6017 )
+                                    // Genova: support UO:KR.
+                                    #region Suporte ao UO:KR
+									if ( ns.IsPost6017 | ns.IsKRClient )
 										ns.Send( new ContainerContentUpdate6017( this ) );
-									else
+                                    #endregion
+                                    else
 										ns.Send( new ContainerContentUpdate( this ) );
 
 									if ( ObjectPropertyList.Enabled )
@@ -3050,9 +3053,12 @@ namespace Server
 									{
 										if ( tradeRecip.CanSee( this ) && tradeRecip.InRange( worldLoc, GetUpdateRange( tradeRecip ) ) )
 										{
-											if ( ns.IsPost6017 )
+                                            // Genova: support UO:KR.
+                                            #region Suporte ao UO:KR
+											if ( ns.IsPost6017 | ns.IsKRClient )
 												ns.Send( new ContainerContentUpdate6017( this ) );
-											else
+                                            #endregion
+                                            else
 												ns.Send( new ContainerContentUpdate( this ) );
 
 											if ( ObjectPropertyList.Enabled )
@@ -3088,9 +3094,12 @@ namespace Server
 									{
 										if ( mob.CanSee( this ) )
 										{
-											if ( ns.IsPost6017 )
+                                            // Genova: support UO:KR.
+                                            #region Suporte ao UO:KR
+											if ( ns.IsPost6017 | ns.IsKRClient )
 												ns.Send( new ContainerContentUpdate6017( this ) );
-											else
+                                            #endregion
+                                            else
 												ns.Send( new ContainerContentUpdate( this ) );
 
 											if ( ObjectPropertyList.Enabled )
@@ -3123,9 +3132,12 @@ namespace Server
 							} else {
 								if ( p == null ) {
 									if ( m_Parent is Item ) {
-										if ( state.IsPost6017 )
+                                        // Genova: support UO:KR.
+                                        #region Suporte ao UO:KR
+										if ( state.IsPost6017 | state.IsKRClient )
 											state.Send( new ContainerContentUpdate6017( this ) );
-										else
+                                        #endregion
+                                        else
 											state.Send( new ContainerContentUpdate( this ) );
 									} else if ( m_Parent is Mobile ) {
 										p = new EquipUpdate( this );

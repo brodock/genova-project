@@ -4178,6 +4178,14 @@ namespace Server
 					{
 						reject = LRReason.CannotLift;
 					}
+					// genova: support uo:ml
+					#region Mondain's Legacy
+					else if ( item.QuestItem && amount != item.Amount && from.AccessLevel < AccessLevel.GameMaster )
+					{
+						reject = LRReason.Inspecific;
+						from.SendLocalizedMessage( 1074868 ); // Stacks of quest items cannot be unstacked.
+					}
+					#endregion
 					else if( !item.IsAccessibleTo( from ) )
 					{
 						reject = LRReason.CannotLift;
@@ -4297,9 +4305,12 @@ namespace Server
 				state.Send( new LiftRej( reject ) );
 
 				if( item.Parent is Item ) {
-					if ( state.IsPost6017 )
-						state.Send( new ContainerContentUpdate6017( item ) );
-					else
+                    // Genova: support UO:KR.
+                    #region Suporte ao UO:KR
+					if ( state.IsPost6017 | state.IsKRClient )
+						state.Send( new ContainerContentUpdate6017( item ) );                    
+                    #endregion
+                    else
 						state.Send( new ContainerContentUpdate( item ) );
 				} else if( item.Parent is Mobile )
 					state.Send( new EquipUpdate( item ) );

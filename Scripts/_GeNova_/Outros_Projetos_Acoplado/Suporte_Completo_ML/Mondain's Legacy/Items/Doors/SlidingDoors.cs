@@ -3,25 +3,25 @@ using Server;
 
 namespace Server.Items
 {	
-	public class SlidingDoor : BaseDoor
+	public class PaperSlidingDoor : BaseDoor
 	{
 		[Constructable]
-		public SlidingDoor( DoorFacing facing ) : base( 0x2A05 + (2 * (int)facing), 0x2A06 + (2 * (int)facing), 0, 0, BaseDoor.GetOffset( facing ) )
+		public PaperSlidingDoor( DoorFacing facing ) : base( 0x2A05 + (2 * (int)facing), 0x2A06 + (2 * (int)facing), 0x539, 0x539, new Point3D( 0, 0, 0 ) )
 		{
 		}
 
-		public SlidingDoor( Serial serial ) : base( serial )
+		public PaperSlidingDoor( Serial serial ) : base( serial )
 		{
 		}
 
-		public override void Serialize( GenericWriter writer ) // Default Serialize method
+		public override void Serialize( GenericWriter writer )
 		{
 			base.Serialize( writer );
 
 			writer.Write( (int) 0 ); // version
 		}
 
-		public override void Deserialize( GenericReader reader ) // Default Deserialize method
+		public override void Deserialize( GenericReader reader )
 		{
 			base.Deserialize( reader );
 
@@ -29,25 +29,25 @@ namespace Server.Items
 		}
 	}
 	
-	public class SlidingDoorLight : BaseDoor
+	public class ClothSlidingDoor : BaseDoor
 	{
 		[Constructable]
-		public SlidingDoorLight( DoorFacing facing ) : base( 0x2A0D + (2 * (int)facing), 0x2A0E + (2 * (int)facing), 0, 0, BaseDoor.GetOffset( facing ) )
+		public ClothSlidingDoor( DoorFacing facing ) : base( 0x2A0D + (2 * (int)facing), 0x2A0E + (2 * (int)facing), 0x539, 0x539, new Point3D( 0, 0, 0 ) )
 		{
 		}
 
-		public SlidingDoorLight( Serial serial ) : base( serial )
+		public ClothSlidingDoor( Serial serial ) : base( serial )
 		{
 		}
 
-		public override void Serialize( GenericWriter writer ) // Default Serialize method
+		public override void Serialize( GenericWriter writer )
 		{
 			base.Serialize( writer );
 
 			writer.Write( (int) 0 ); // version
 		}
 
-		public override void Deserialize( GenericReader reader ) // Default Deserialize method
+		public override void Deserialize( GenericReader reader )
 		{
 			base.Deserialize( reader );
 
@@ -55,25 +55,25 @@ namespace Server.Items
 		}
 	}
 	
-	public class SlidingDoorDark : BaseDoor
+	public class WoodenSlidingDoor : BaseDoor
 	{
 		[Constructable]
-		public SlidingDoorDark( DoorFacing facing ) : base( 0x2A15 + (2 * (int)facing), 0x2A16 + (2 * (int)facing), 0, 0, BaseDoor.GetOffset( facing ) )
+		public WoodenSlidingDoor( DoorFacing facing ) : base( 0x2A15 + (2 * (int)facing), 0x2A16 + (2 * (int)facing), 0x539, 0x539, new Point3D( 0, 0, 0 ) )
 		{
 		}
 
-		public SlidingDoorDark( Serial serial ) : base( serial )
+		public WoodenSlidingDoor( Serial serial ) : base( serial )
 		{
 		}
 
-		public override void Serialize( GenericWriter writer ) // Default Serialize method
+		public override void Serialize( GenericWriter writer )
 		{
 			base.Serialize( writer );
 
 			writer.Write( (int) 0 ); // version
 		}
 
-		public override void Deserialize( GenericReader reader ) // Default Deserialize method
+		public override void Deserialize( GenericReader reader )
 		{
 			base.Deserialize( reader );
 

@@ -41,10 +41,10 @@ namespace Server.Items
 		}
 		
 		[Constructable]
-		public SecretWall( int itemID, Point3D pointDest, Map mapDest ) : base( itemID )
+		public SecretWall( int itemID ) : base( itemID )
 		{
-			m_PointDest = pointDest;
-			m_MapDest = mapDest;
+			m_Active = true;
+			m_Locked = true;
 		}
 		
 		public SecretWall( Serial serial ) : base( serial )
@@ -110,8 +110,14 @@ namespace Server.Items
 		}
 		
 		[Constructable]
-		public SecretSwitch( int itemID ) : base( itemID )
+		public SecretSwitch() : this( 0x108F, null )
 		{			
+		}	
+		
+		[Constructable]
+		public SecretSwitch( int itemID, SecretWall wall ) : base( itemID )
+		{			
+			m_Wall = wall;
 		}			
 		
 		public SecretSwitch( Serial serial ) : base( serial )

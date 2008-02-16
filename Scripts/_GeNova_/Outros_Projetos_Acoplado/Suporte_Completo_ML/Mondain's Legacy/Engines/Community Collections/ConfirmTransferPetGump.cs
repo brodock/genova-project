@@ -11,12 +11,6 @@ namespace Server.Gumps
 		private Point3D m_Location;
 		private BaseCreature m_Pet;
 		
-		// Genova: suporte ao UO:KR.
-		public static void Initialize()
-		{
-			RegisterType(typeof(ConfirmTransferPetGump));
-        }
-
 		private enum Buttons
 		{
 			Cancel,

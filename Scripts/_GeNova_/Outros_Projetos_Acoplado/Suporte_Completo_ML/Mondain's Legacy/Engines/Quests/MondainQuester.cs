@@ -105,6 +105,18 @@ namespace Server.Engines.Quests
 			return false;
 		}
 		
+		public override void InitBody()
+		{
+			if ( Race != null )
+			{
+				HairItemID = Race.RandomHair( Female );
+				HairHue = Race.RandomHairHue();
+				FacialHairItemID = Race.RandomFacialHair( Female );
+				FacialHairHue = Race.RandomHairHue();
+				Hue = Race.RandomSkinHue();
+			}
+		}
+		
 		public override void OnMovement( Mobile m, Point3D oldLocation )
 		{
 			if ( m.Alive && !m.Hidden && m is PlayerMobile )
