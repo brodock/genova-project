@@ -1002,7 +1002,13 @@ namespace Server.Network
 			int x = pvSrc.ReadInt16();
 			int y = pvSrc.ReadInt16();
 			int z = pvSrc.ReadSByte();
-			Serial dest = pvSrc.ReadInt32();
+
+            // genova: suporte uo:kr.
+            byte gridIndex = byte.MinValue;
+            if (state.IsKRClient)
+            	gridIndex = pvSrc.ReadByte(); // Grid Location
+
+            Serial dest = pvSrc.ReadInt32();
 
 			Point3D loc = new Point3D( x, y, z );
 

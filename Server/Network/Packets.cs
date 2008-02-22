@@ -412,8 +412,14 @@ namespace Server.Network
 			this.EnsureCapacity( 12 );
 
 			m_Stream.Write( (short) 0x19 );
-			m_Stream.Write( (byte) 2 );
-			m_Stream.Write( (int) m.Serial );
+			
+            // Genova: suporte ao uo:kr.
+            if ( m.NetState.IsKRClient )
+                m_Stream.Write( (byte) 5 );
+            else
+                m_Stream.Write( (byte) 2 );		
+            
+            m_Stream.Write( (int) m.Serial );
 			m_Stream.Write( (byte) 0 );
 
 			int lockBits = 0;
@@ -423,6 +429,13 @@ namespace Server.Network
 			lockBits |= (int)m.IntLock;
 
 			m_Stream.Write( (byte) lockBits );
+
+            // genova: suporte ao uo:kr.
+            if (m.NetState.IsKRClient)
+            {
+                m_Stream.Write((byte)0);
+                m_Stream.Write((int)0);
+            }
 		}
 	}
 
@@ -1746,8 +1759,14 @@ namespace Server.Network
 					m_Stream.Write( (ushort) child.Amount );
 					m_Stream.Write( (short) loc.m_X );
 					m_Stream.Write( (short) loc.m_Y );
-					m_Stream.Write( (byte) 0 ); // Grid Location?
-					m_Stream.Write( (int) beheld.Serial );
+					
+                    // genova: suporte ao uo:kr
+                    if (beholder.NetState.IsKRClient)
+                        m_Stream.Write((byte)i); // Grid Location
+                    else
+                        m_Stream.Write((byte)0); // Grid Location
+					
+                    m_Stream.Write( (int) beheld.Serial );
 					m_Stream.Write( (ushort) child.Hue );
 
 					++written;
