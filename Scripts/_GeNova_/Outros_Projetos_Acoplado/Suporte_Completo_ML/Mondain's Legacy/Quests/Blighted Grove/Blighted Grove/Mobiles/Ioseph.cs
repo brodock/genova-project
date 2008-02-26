@@ -60,7 +60,7 @@ namespace Server.Engines.Quests
 		}
 		
 		[Constructable]
-		public Ioseph() : base( "Iosep", "the exporter" )
+		public Ioseph() : base( "Ioseph", "the exporter" )
 		{			
 		}
 		

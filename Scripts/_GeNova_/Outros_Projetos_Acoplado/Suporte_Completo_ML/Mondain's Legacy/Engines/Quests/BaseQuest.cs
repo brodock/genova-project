@@ -379,7 +379,7 @@ namespace Server.Engines.Quests
 			if ( removeChain )
 				m_Owner.Chains.Remove( ChainID );
 			
-			if ( Completed && ( RestartDelay > TimeSpan.Zero || ForceRemember ) && NextQuest == null )
+			if ( Completed && ( RestartDelay > TimeSpan.Zero || ForceRemember || DoneOnce ) && NextQuest == null )
 			{
 				Type type = GetType();	
 				

@@ -563,15 +563,6 @@ namespace Server.Multis
 				mobile.Internalize();
 				InternalizedVendors.Add( mobile );
 			}
-
-			// genova: other project : Full support UO:ML rev 107			
-			#region Mondain's Legacy
-			foreach ( Mobile mobile in GetMobiles() )
-			{
-				if ( mobile is PetParrot )
-					mobile.Internalize();
-			}
-			#endregion
 		}
 
 		public List<IEntity> GetHouseEntities()
@@ -608,6 +599,17 @@ namespace Server.Multis
 			{
 				if ( item.Parent == null && item.Map != Map.Internal )
 					list.Add( item );
+
+				// genova: suporte uo:ml.					
+				#region Mondain's Legacy
+				if ( item is ParrotPerchAddon )
+				{
+					ParrotPerchAddon perch = (ParrotPerchAddon) item;
+					
+					if ( perch.Parrot != null )
+						perch.Delete();
+				}
+				#endregion
 			}
 
 			foreach ( PlayerVendor mobile in PlayerVendors )
@@ -623,6 +625,34 @@ namespace Server.Multis
 				if ( mobile.Map != Map.Internal )
 					list.Add( mobile );
 			}
+
+			// genova: suporte uo:ml.
+			#region Mondain's Legacy			
+			foreach ( Mobile mobile in GetMobiles() )
+			{
+				if ( mobile is PetParrot )
+				{
+					PetParrot parrot = (PetParrot) mobile;
+					ParrotPerchAddonDeed deed = new ParrotPerchAddonDeed( parrot.Birth, parrot.Name, parrot.Hue );
+					parrot.Delete();							
+					
+					if ( m_MovingCrate == null )
+						m_MovingCrate = new MovingCrate( this );
+						
+					m_MovingCrate.AddItem( deed );
+				}
+					
+				if ( mobile is CharacterStatue )
+				{
+					CharacterStatue statue = (CharacterStatue) mobile;
+					
+					if ( m_MovingCrate == null )
+						m_MovingCrate = new MovingCrate( this );
+					
+					statue.Demolish( m_MovingCrate );
+				}
+			}
+			#endregion
 
 			return list;
 		}

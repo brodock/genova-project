@@ -20,7 +20,6 @@ namespace Server.Mobiles
 			HairHue = Race.RandomHairHue();
 			Race.RandomFacialHair( this );
 			
-			AddItem( new Sai( 0x51D ) );
 			AddItem( new ThighBoots( 0x51D ) );
 			AddItem( new FancyShirt( 0x51D ) );
 			AddItem( new StuddedMempo() );
@@ -37,6 +36,10 @@ namespace Server.Mobiles
 			AddItem( item );			
 			
 			item = new LightPlateJingasa();
+			item.Hue = 0x51D;
+			AddItem( item );		
+			
+			item = new Sai();
 			item.Hue = 0x51D;
 			AddItem( item );
 		}

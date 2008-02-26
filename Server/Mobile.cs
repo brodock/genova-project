@@ -4306,10 +4306,8 @@ namespace Server
 
 				if( item.Parent is Item ) {
                     // Genova: support UO:KR.
-                    #region Suporte ao UO:KR
 					if ( state.IsPost6017 | state.IsKRClient )
 						state.Send( new ContainerContentUpdate6017( item ) );                    
-                    #endregion
                     else
 						state.Send( new ContainerContentUpdate( item ) );
 				} else if( item.Parent is Mobile )
@@ -6687,6 +6685,11 @@ namespace Server
 						{
 							ns.Send( new MobileIncoming( this, m ) );
 
+							// genova: suporte uo:ml.
+							#region Mondain's Legacy
+							m.OnRequestedAnimation( this );
+							#endregion
+							
 							if( m.IsDeadBondedPet )
 								ns.Send( new BondedStatus( 0, m.m_Serial, 1 ) );
 
@@ -7890,6 +7893,11 @@ namespace Server
 						{
 							Map = m_LogoutMap;
 							Location = m_LogoutLocation;
+
+							// genova: suporte uo:ml.							
+							#region Mondain's Legacy
+							SendIncomingPacket();
+							#endregion
 						}
 					}
 
@@ -8359,6 +8367,24 @@ namespace Server
 				#endregion
 			}
 		}
+
+		// genova: suporte uo:ml
+		#region Mondain's Legacy
+		/// <summary>
+		/// Overridable. This method is invoked when Mobile from requests info packet.
+		/// </summary>
+		public virtual void OnRequestedAnimation( Mobile from )
+		{			
+		}
+		
+		/// <summary>
+		/// Overridable. Can players see name of this incoming Mobile.
+		/// </summary>
+		public virtual bool ShowIncomingName( Mobile from )
+		{			
+			return true;
+		}		
+		#endregion
 
 		/// <summary>
 		/// Overridable. Called from <see cref="ApplyPoison" />, this method checks if the Mobile is immune to some <see cref="Poison" />. If true, <see cref="OnPoisonImmunity" /> will be invoked and <see cref="ApplyPoisonResult.Immune" /> is returned.
@@ -8936,6 +8962,14 @@ namespace Server
 
 								bool inOldRange = Utility.InUpdateRange( oldLocation, m.m_Location );
 
+								// genova: suporte uo:ml.
+								#region Mondain's Legacy
+								bool inRange = Utility.InRange( oldLocation, m.m_Location, 13 );
+								
+								if ( ( isTeleport || !inRange ) )
+									m.OnRequestedAnimation( this );
+								#endregion
+
 								if( (isTeleport || !inOldRange) && m.m_NetState != null && m.CanSee( this ) )
 								{
 									m.m_NetState.Send( new MobileIncoming( m, this ) );
@@ -9308,6 +9342,11 @@ namespace Server
 
 				foreach( NetState state in eable )
 				{
+					// genova: suporte uo:ml.
+					#region Mondain's Legacy
+					state.Mobile.OnRequestedAnimation( this );
+					#endregion
+					
 					if( state.Mobile.CanSee( this ) )
 					{
 						state.Send( new MobileIncoming( state.Mobile, this ) );
@@ -9926,6 +9965,11 @@ namespace Server
 						if( sendIncoming )
 						{
 							state.Send( new MobileIncoming( beholder, m ) );
+
+							// genova: suporte ml.									
+							#region Mondain's Legacy
+							state.Mobile.OnRequestedAnimation( m );
+							#endregion
 
 							if( m.IsDeadBondedPet )
 							{

@@ -60,7 +60,7 @@ namespace Server.Engines.Quests
 		}
 		
 		[Constructable]
-		public Asandos() : base( "Andric", "the chef" )
+		public Asandos() : base( "Asandos", "the chef" )
 		{			
 		}
 		

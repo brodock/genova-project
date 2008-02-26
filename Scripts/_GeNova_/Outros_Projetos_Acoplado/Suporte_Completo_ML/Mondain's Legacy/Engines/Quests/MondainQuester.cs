@@ -86,8 +86,6 @@ namespace Server.Engines.Quests
 				player.CloseGump( typeof( MondainQuestGump ) );
 				player.SendGump( new MondainQuestGump( questt ) );
 			}
-			else
-				OnOfferFailed();
 		}
 		
 		public virtual void OnOfferFailed()

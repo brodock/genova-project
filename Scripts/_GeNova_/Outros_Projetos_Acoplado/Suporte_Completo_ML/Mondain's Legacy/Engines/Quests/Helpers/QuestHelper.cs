@@ -46,6 +46,8 @@ namespace Server.Engines.Quests
 				
 					if ( CanOffer( from, quest, quests.Length == 1 ) )
 						return quest;
+					else if ( quest.StartingMobile != null && !quest.DoneOnce && quests.Length == 1 )
+						quest.StartingMobile.OnOfferFailed();
 				}
 				
 				if ( quests.Length == 1 )
@@ -103,8 +105,8 @@ namespace Server.Engines.Quests
 				{
 					if ( quest.DoneOnce )
 					{
-						if ( message )
-							player.SendLocalizedMessage( 1075454 ); // I can not offer you the quest again.
+						if ( message && quest.StartingMobile != null )
+							quest.StartingMobile.Say( 1075454 ); // I can not offer you the quest again.
 					
 						return false;
 					}

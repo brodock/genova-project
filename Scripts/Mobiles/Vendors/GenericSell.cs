@@ -104,6 +104,12 @@ namespace Server.Mobiles
 
 		public bool IsSellable( Item item )
 		{
+			// genova: suporte uo:ml
+			#region Mondain's Legacy
+			if ( item.QuestItem )
+				return false;
+			#endregion
+			
 			//if ( item.Hue != 0 )
 				//return false;
 
@@ -112,6 +118,12 @@ namespace Server.Mobiles
 	 
 		public bool IsResellable( Item item )
 		{
+			// genova: suporte uo:ml
+			#region Mondain's Legacy
+			if ( item.QuestItem )
+				return false;
+			#endregion
+			
 			//if ( item.Hue != 0 )
 				//return false;
 

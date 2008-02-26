@@ -1417,6 +1417,11 @@ namespace Server.Network
 				{
 					if ( m_SingleClickProps )
 					{
+						// genova: suporte uo:ml.
+						#region Mondain's Legacy
+						if ( m.ShowIncomingName( from ) )
+						#endregion
+						
 						m.OnAosSingleClick( from );
 					}
 					else

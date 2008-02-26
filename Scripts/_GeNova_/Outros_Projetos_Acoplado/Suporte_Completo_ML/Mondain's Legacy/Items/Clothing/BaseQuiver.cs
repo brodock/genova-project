@@ -194,7 +194,7 @@ namespace Server.Items
 				if ( ammo == null || ammo.Deleted )
 					return false;
 				
-				if ( ammo.Amount + item.Amount <= m_Capacity && ammo.StackWith( m, item ) )
+				if ( ammo.Amount + item.Amount <= m_Capacity )
 					return true;
 			}
 			
@@ -309,7 +309,6 @@ namespace Server.Items
 			if ( m.NetState != null && !m.NetState.SupportsExpansion( Expansion.ML ) )
 			{
 				m.SendLocalizedMessage( 1072791 ); // You must upgrade to Mondain's Legacy in order to use that item.
-				
 				return false;
 			}
 			

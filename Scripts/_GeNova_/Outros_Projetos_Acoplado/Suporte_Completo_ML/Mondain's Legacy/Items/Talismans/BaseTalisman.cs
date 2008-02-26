@@ -188,7 +188,7 @@ namespace Server.Items
 		public BaseTalisman( int itemID ) : base( itemID )
 		{
 			Layer = Layer.Talisman;
-			Weight = 1;
+			Weight = 1.0;
 			
 			m_AosAttributes = new AosAttributes( this );
 			m_AosSkillBonuses = new AosSkillBonuses( this );
@@ -330,8 +330,7 @@ namespace Server.Items
 							item.Amount = m_Summoner.Amount;		
 						else
 							item.Amount = 10; // default value
-					}
-								
+					}								
 					
 					if ( !from.AddToBackpack( item ) )
 					{
@@ -429,6 +428,8 @@ namespace Server.Items
 				else
 					list.Add( 1074883 ); // Fully Charged
 			}
+			
+			list.Add( 1075085 ); // Requirement: Mondain's Legacy		
 			
 			if ( m_Killer != null && m_Killer.Amount > 0 )
 				list.Add( 1072388, "{0}\t{1}", m_Killer.Name is int ? "#" + (int) m_Killer.Name : m_Killer.Name is String ? (String) m_Killer.Name : null, m_Killer.Amount ); // ~1_NAME~ Killer: +~2_val~%

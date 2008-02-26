@@ -5,7 +5,7 @@
  *   copyright            : (C) The RunUO Software Team
  *   email                : info@runuo.com
  *
- *   $Id: SaveStrategy.cs 164 2007-04-20 22:35:41Z krrios $
+ *   $Id: SaveStrategy.cs 286 2008-02-20 06:50:39Z mark $
  *
  ***************************************************************************/
 
@@ -34,7 +34,7 @@ namespace Server {
 			if ( Core.MultiProcessor ) {
 				int processorCount = Core.ProcessorCount;
 
-				if ( processorCount > 8 ) {
+				if ( processorCount > 16 ) {
 					return new ParallelSaveStrategy( processorCount );
 				} else {
 					return new DualSaveStrategy();

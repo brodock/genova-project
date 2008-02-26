@@ -3,6 +3,7 @@ using Server;
 using Server.Items;
 using Server.Mobiles;
 using Server.Accounting;
+using GeNova.Server.Variados;
 
 namespace Server.Engines.VeteranRewards
 {
@@ -33,9 +34,9 @@ namespace Server.Engines.VeteranRewards
 			}
 		}
 
-		public static bool Enabled = true; // change to true to enable vet rewards
-		public static bool SkillCapRewards = true; // assuming vet rewards are enabled, should total skill cap bonuses be awarded? (720 skills total at 4th level)
-		public static TimeSpan RewardInterval = TimeSpan.FromDays( 30.0 );
+		public static bool Enabled = FRewardSystem.Active; // change to true to enable vet rewards
+        public static bool SkillCapRewards = FRewardSystem.Active; // assuming vet rewards are enabled, should total skill cap bonuses be awarded? (720 skills total at 4th level)
+		public static TimeSpan RewardInterval = FRewardSystem.RewardInterval;
 
 		public static bool HasAccess( Mobile mob, RewardEntry entry )
 		{
@@ -320,6 +321,21 @@ namespace Server.Engines.VeteranRewards
 						new RewardEntry( etherealSteeds, 1049748, typeof( EtherealBeetle ) )
 						/*new RewardEntry(    houseAddOns, 0, typeof( AnkhDecoration ) )*/
 					} ),
+
+					// genova: suporte uo:ml.					
+					#region Mondain's Legacy
+					new RewardList( RewardInterval, 6, new RewardEntry[]
+					{
+						new RewardEntry( houseAddOns, 1076188, typeof( CharacterStatueMaker ), StatueType.Jade ),
+						new RewardEntry( houseAddOns, 1076189, typeof( CharacterStatueMaker ), StatueType.Marble ),
+						new RewardEntry( houseAddOns, 1076190, typeof( CharacterStatueMaker ), StatueType.Bronze )
+					} ),
+					
+					new RewardList( RewardInterval, 9, new RewardEntry[]
+					{
+						new RewardEntry( etherealSteeds, 1076159, typeof( RideablePolarBear ) )
+					} )
+					#endregion
 					//TODO: 6th year player statue MArkers
 					//TODO: 7th year Decorative CAnnon
 					//TODO: 8th year Weapon Engraving Tool

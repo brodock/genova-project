@@ -90,22 +90,6 @@ namespace Server.Mobiles
 			if ( Utility.RandomDouble() < 0.6 )				
 				c.DropItem( new ParrotItem() );
 		}
-		
-		public override void OnGotMeleeAttack( Mobile attacker )
-		{
-			base.OnGotMeleeAttack( attacker );
-			
-			if ( Utility.RandomDouble() < 0.05 )
-				Summon();
-		}
-		
-		public override void OnDamagedBySpell( Mobile attacker )
-		{
-			base.OnDamagedBySpell( attacker );
-			
-			if ( Utility.RandomDouble() < 0.05 )
-				Summon();
-		}
 			
 		public override bool AutoDispel{ get{ return true; } }
 		public override int TreasureMapLevel{ get{ return 5; } }
@@ -116,6 +100,34 @@ namespace Server.Mobiles
 		public override int GetAttackSound() { return 0x1C0; }
 		public override int GetHurtSound() { return 0x1C1; }
 		public override int GetDeathSound()	{ return 0x1C2; }
+		
+		#region Helpers
+		public override bool CanSpawnHelpers{ get{ return true; } }
+		public override int MaxHelpersWaves{ get{ return 4; } }
+		public override int SpawnHelpersRange{ get{ return 2; } }
+		public override double SpawnHelpersChance{ get{ return 0.1; } }
+		
+		public override void SpawnHelpers()
+		{
+			int amount = 1;
+		
+			if ( Altar != null )
+				amount = Altar.Fighters.Count;
+				
+			if ( amount > 5 )
+				amount = 5;
+			
+			for ( int i = 0; i < amount; i ++ )
+			{				
+				switch ( Utility.Random( 2 ) )
+				{
+					case 0: SpawnHelper( new MantraEffervescence() ); break;
+					case 1: SpawnHelper( new CorporealBrume() ); break;
+					case 2: SpawnHelper( new FetidEssence() ); break;
+				}				
+			}
+		}
+		#endregion
 
 		public ShimmeringEffusion( Serial serial ) : base( serial )
 		{
@@ -133,31 +145,6 @@ namespace Server.Mobiles
 			base.Deserialize( reader );
 			
 			int version = reader.ReadInt();
-		}
-		
-		public virtual void Summon()
-		{
-			int amount = 1;
-		
-			if ( Altar != null )
-				amount = Altar.Fighters.Count;
-				
-			if ( amount > 5 )
-				amount = 5;
-			
-			for ( int i = 0; i < amount; i ++ )
-			{
-				Mobile summon = null;
-				
-				switch ( Utility.Random( 2 ) )
-				{
-					case 0: summon = new MantraEffervescence(); break;
-					case 1: summon = new CorporealBrume(); break;
-					case 2: summon = new FetidEssence(); break;
-				}				
-				
-				summon.MoveToWorld( GetSpawnPosition( 4 ), Map );
-			}
 		}
 	}
 }

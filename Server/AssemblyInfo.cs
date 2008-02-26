@@ -26,12 +26,14 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("RunUO Server Core")]	//Having just RunUO there is reundant, ie, RunUO.exe with the word 'RunUO' under it
+
+// Sets for GeNova Project
+[assembly: AssemblyTitle("GeNova Project and RunUO Server Core")]	//Having just RunUO there is reundant, ie, RunUO.exe with the word 'RunUO' under it
 [assembly: AssemblyDescription("UO Server Software")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("The RunUO Team")]
+[assembly: AssemblyCompany("GeNova Project")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("http://code.google.com/p/genovaproject")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
