@@ -17,6 +17,7 @@ namespace Server.Mobiles
 		{		
 		}
 		
+		[Constructable]
 		public Aneen() : base( "the keeper of tradition" )
 		{			
 			Name = "Lorekeeper Aneen";

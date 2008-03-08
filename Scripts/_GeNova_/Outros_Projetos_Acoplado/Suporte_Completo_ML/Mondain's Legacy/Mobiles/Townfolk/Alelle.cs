@@ -17,6 +17,7 @@ namespace Server.Mobiles
 		{		
 		}
 		
+		[Constructable]
 		public Alelle() : base( "the aborist" )
 		{			
 			Name = "Alelle";

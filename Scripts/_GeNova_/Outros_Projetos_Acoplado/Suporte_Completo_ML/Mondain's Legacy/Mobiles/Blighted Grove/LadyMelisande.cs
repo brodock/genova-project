@@ -10,8 +10,6 @@ namespace Server.Mobiles
 	public class LadyMelisande : BasePeerless
 	{
 		private DateTime m_Speak;
-		private bool m_SpawnedSatyrs;
-		private bool m_SpawnedMinions;
 	
 		[Constructable]
 		public LadyMelisande() : base( AIType.AI_Necromage, FightMode.Closest, 10, 1, 0.2, 0.4 )
@@ -46,12 +44,12 @@ namespace Server.Mobiles
 			SetSkill( SkillName.Necromancy, 120 );
 			SetSkill( SkillName.SpiritSpeak, 120 );
 			
-			SpawnSatyrs();
 			PackResources( 8 );
 			PackTalismans( 5 );
 				
-			m_Speak = DateTime.Now;			
-			m_SpawnedSatyrs = false;
+			m_Speak = DateTime.Now;		
+			m_NextHeal = DateTime.Now;
+			m_NextSlowAttack = DateTime.Now;
 			m_SpawnedMinions = false;
 		}	
 		
@@ -64,32 +62,18 @@ namespace Server.Mobiles
 		{
 			base.OnThink();
 			
-			if ( !m_SpawnedSatyrs && Hits < 0.5 * HitsMax )
-				SpawnSatyrs();
+			if ( Combatant != null && Hits < 1000 && Combatant.InRange( Location, 2 ) && m_NextHeal < DateTime.Now )
+				HealEffect( Combatant );
 				
-			if ( !m_SpawnedMinions && Hits < 200 )
-				SpawnMinions();
+			if ( Combatant != null && m_Speak < DateTime.Now && Utility.RandomDouble() < 0.6 )
+				Talk();
 				
-			if ( m_Speak < DateTime.Now && Utility.RandomDouble() < 0.3 )
-			{
-				m_Speak = DateTime.Now + TimeSpan.FromSeconds( 7 );
-				Say( Utility.RandomMinMax( 1075102, 1075115 ) );
-			}
-		}
-		
-		public override void OnGaveMeleeAttack( Mobile defender )
-		{
-			base.OnGaveMeleeAttack( defender );
-			
-			if ( Hits != HitsMax && Utility.RandomDouble() < 0.05 )
-				HealEffect( defender );
+			if ( Combatant != null && m_Speak < DateTime.Now && Utility.RandomDouble() < 0.3 )
+				SlowAttack( Combatant );
 		}
 		
 		public override void OnDamage( int amount, Mobile from, bool willKill )
-		{				
-			if ( Utility.RandomDouble() < 0.15 )
-				SlowAttack( from );
-				
+		{								
 			if ( willKill )
 				Say( 1075118 ); // Noooooo!  You shall never defeat me.  Even if I should fall, my tree will sustain me and I will rise again.
 				
@@ -149,14 +133,20 @@ namespace Server.Mobiles
 			base.Deserialize( reader );
 			
 			int version = reader.ReadInt();
-			
-			m_Speak = DateTime.Now;
-			m_SpawnedSatyrs = false;
-			m_SpawnedMinions = false;
 		}
+		
+		#region Talk
+		public void Talk()
+		{
+			Say( Utility.RandomMinMax( 1075102, 1075115 ) );		
+			
+			m_Speak = DateTime.Now + TimeSpan.FromSeconds( 5 + 20 - Hits / HitsMax * 20 );	
+		}
+		#endregion
 		
 		#region Slow Attack
 		private static Hashtable m_Table;
+		private DateTime m_NextSlowAttack;
 		
 		public virtual void SlowAttack( Mobile to )
 		{
@@ -164,13 +154,11 @@ namespace Server.Mobiles
 				m_Table = new Hashtable();
 		
 			if ( to.Alive && to.Player && m_Table[ to ] == null )
-			{
-				to.Send( SpeedControl.WalkSpeed );
-				/*to.SendLocalizedMessage( 1072069 ); // A cacophonic sound lambastes you, suppressing your ability to move.
-				to.PlaySound( 0x584 );*/
-				
+			{				
 				m_Table[ to ] = Timer.DelayCall( TimeSpan.FromSeconds( 30 ), new TimerStateCallback( EndSlow_Callback ), to );
 			}
+			
+			m_NextSlowAttack = DateTime.Now + TimeSpan.FromSeconds( 35 + Utility.RandomDouble() * 20 );
 		}
 		
 		private void EndSlow_Callback( object state )
@@ -185,8 +173,6 @@ namespace Server.Mobiles
 				m_Table = new Hashtable();
 				
 			m_Table[ from ] = null;
-				
-			from.Send( SpeedControl.Disable );
 		}
 		
 		public static bool UnderSlowAttack( Mobile from )
@@ -198,61 +184,60 @@ namespace Server.Mobiles
 		}
 		#endregion
 		
+		#region Heal
+		private DateTime m_NextHeal;
+		
 		public void HealEffect( Mobile from )
 		{
-			if ( from is PlayerMobile )
+			if ( from.Player )
 				Hits += from.Hits;
 			else
 				Hits += from.Hits / 3;
 			
-			PlaySound( 0xF6 );
-			PlaySound( 0x1F7 );
-			FixedParticles( 0x3709, 1, 30, 9963, 13, 3, EffectLayer.Head );
+			FixedParticles( 0x376A, 9, 32, 5005, EffectLayer.Waist );
+			PlaySound( 0x1F2 );
 			
 			Say( 1075117 );  // Muahahaha!  Your life essence is MINE!
-			Say( 1075120 );  // An unholy aura surrounds Lady Melisande as her wounds begin to close.
+			
+			if ( Altar != null )
+				Altar.SendMessage( 1075120 );  // An unholy aura surrounds Lady Melisande as her wounds begin to close.
+			
+			m_NextHeal = DateTime.Now + TimeSpan.FromSeconds( 10 + Utility.RandomDouble() * 5 );
+		}
+		#endregion
+		
+		#region Helpers
+		public override bool CanSpawnHelpers{ get{ return true; } }
+		public override int MaxHelpersWaves{ get{ return 1; } }
+		public override double SpawnHelpersChance{ get{ return 0.1; } }
+		
+		private bool m_SpawnedMinions;
+		
+		public override bool CanSpawnWave()
+		{
+			if ( !m_SpawnedMinions && Hits < 200 )
+				return ( m_SpawnedMinions = true );
+				
+			return base.CanSpawnWave();
 		}
 		
-		public virtual void SpawnSatyrs()
-		{
-			for ( int i = 0; i < 4; i ++ )
+		public override void SpawnHelpers()
+		{			
+			if ( Hits < 1000 )
 			{
-				EnslavedSatyr satyr = new EnslavedSatyr();
-				
-				satyr.MoveToWorld( GetSpawnPosition( 6 ), Map );	
-				
-				if ( satyr.Z < 0 )
-					satyr.MoveToWorld( Location, Map );			
+				SpawnHelper( new InsaneDryad(), 6498, 945, 17 );
+				SpawnHelper( new Reaper(), 6491, 948, 18 );
+				SpawnHelper( new StoneHarpy(), 6500, 939, 10 ); 				
 			}
-			
-			Say( 1075119 ); // Awake my children!  I summon thee!
-			
-			m_SpawnedSatyrs = true;
-		}
-		
-		public virtual void SpawnMinions()
-		{
-			Mobile minion = null;
-			
-			for ( int i = 0; i < 3; i ++ )
+			else
 			{
-				switch ( Utility.Random( 4 ) )
-				{
-					default:
-					case 0: minion = new InsaneDryad(); break;
-					case 1: minion = new Reaper(); break;
-					case 2: minion = new StoneHarpy(); break;
-				}
-				
-				minion.MoveToWorld( GetSpawnPosition( 6 ), Map );
-				
-				if ( minion.Z < 0 )
-					minion.MoveToWorld( Location, Map );
+				SpawnHelper( new EnslavedSatyr(), 6493, 947, 16 );
+				SpawnHelper( new EnslavedSatyr(), 6498, 944, 16 );
+				SpawnHelper( new EnslavedSatyr(), 6501, 940, 8 ); 
 			}
-			
+						
 			Say( 1075119 ); // Awake my children!  I summon thee!
-			
-			m_SpawnedMinions = true;
 		}
+		#endregion
 	}
 }

@@ -17,6 +17,7 @@ namespace Server.Mobiles
 		{		
 		}
 		
+		[Constructable]
 		public Bolaevin() : base( "the arcanist" )
 		{			
 			Name = "Bolaevin";

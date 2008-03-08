@@ -19,6 +19,7 @@ namespace Server.Items
 		[Constructable]
 		public HumilityCloak() : base( 0x2B04, Layer.Cloak )
 		{
+			LootType = LootType.Blessed;
 			Weight = 6.0;
 			SetHue = 0;
 			Hue = 0x226;

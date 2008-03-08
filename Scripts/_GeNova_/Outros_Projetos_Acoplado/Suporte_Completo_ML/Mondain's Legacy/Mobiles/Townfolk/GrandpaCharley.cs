@@ -11,7 +11,7 @@ namespace Server.Mobiles
 		protected override ArrayList SBInfos{ get { return m_SBInfos; } }
 		
 		public override bool IsActiveVendor{ get{ return false; } }
-		public override bool CanTeach{ get{ return false; } }
+		public override bool CanTeach{ get{ return true; } }
 		public override bool IsInvulnerable{ get{ return true; } }
 		
 		public override void InitSBInfo()
@@ -22,6 +22,8 @@ namespace Server.Mobiles
 		public GrandpaCharley() : base( "the farmer" )
 		{			
 			Name = "Grandpa Charley";
+			
+			SetSkill( SkillName.ItemID, 70.0, 80.0 );
 		}
 		
 		public GrandpaCharley( Serial serial ) : base( serial )

@@ -17,6 +17,7 @@ namespace Server.Mobiles
 		{		
 		}
 		
+		[Constructable]
 		public Mallew() : base( "the wise" )
 		{			
 			Name = "Elder Mallew";

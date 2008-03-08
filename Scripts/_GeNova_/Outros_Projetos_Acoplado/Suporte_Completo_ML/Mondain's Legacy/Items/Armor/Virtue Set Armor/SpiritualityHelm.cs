@@ -27,6 +27,7 @@ namespace Server.Items
 		[Constructable]
 		public SpiritualityHelm() : base( 0x2B10 )
 		{			
+			LootType = LootType.Blessed;
 			Weight = 6.0;
 			SetHue = 0;
 			Hue = 0x226;

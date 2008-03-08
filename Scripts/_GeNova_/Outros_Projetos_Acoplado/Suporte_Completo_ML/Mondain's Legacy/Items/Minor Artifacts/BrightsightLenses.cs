@@ -24,7 +24,7 @@ namespace Server.Items
 			Attributes.NightSight = 1;
 			Attributes.RegenMana = 3;
 			
-			WeaponAttributes.SelfRepair = 4;
+			WeaponAttributes.SelfRepair = 3;
 		}
 
 		public BrightsightLenses( Serial serial ) : base( serial )

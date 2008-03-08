@@ -17,6 +17,7 @@ namespace Server.Mobiles
 		{		
 		}
 		
+		[Constructable]
 		public Yellienir() : base( "the bark weaver" )
 		{			
 			Name = "Yellienir";

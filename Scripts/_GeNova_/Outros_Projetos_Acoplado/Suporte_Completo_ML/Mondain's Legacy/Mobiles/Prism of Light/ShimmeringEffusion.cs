@@ -104,7 +104,6 @@ namespace Server.Mobiles
 		#region Helpers
 		public override bool CanSpawnHelpers{ get{ return true; } }
 		public override int MaxHelpersWaves{ get{ return 4; } }
-		public override int SpawnHelpersRange{ get{ return 2; } }
 		public override double SpawnHelpersChance{ get{ return 0.1; } }
 		
 		public override void SpawnHelpers()
@@ -121,9 +120,9 @@ namespace Server.Mobiles
 			{				
 				switch ( Utility.Random( 2 ) )
 				{
-					case 0: SpawnHelper( new MantraEffervescence() ); break;
-					case 1: SpawnHelper( new CorporealBrume() ); break;
-					case 2: SpawnHelper( new FetidEssence() ); break;
+					case 0: SpawnHelper( new MantraEffervescence(), 2 ); break;
+					case 1: SpawnHelper( new CorporealBrume(), 2 ); break;
+					case 2: SpawnHelper( new FetidEssence(), 2 ); break;
 				}				
 			}
 		}

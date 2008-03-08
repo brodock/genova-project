@@ -125,10 +125,12 @@ namespace Server.Items
 
 			arachnid.Opposition = new SlayerGroup[]{ reptilian };
 			arachnid.FoundOn = new Type[]{ typeof( AncientWyrm ), typeof( Dragon ), typeof( OphidianMatriarch ), typeof( ShadowWyrm ) };
-			arachnid.Super = new SlayerEntry( SlayerName.ArachnidDoom, typeof( DreadSpider ), typeof( FrostSpider ), typeof( GiantBlackWidow ), typeof( GiantSpider ), typeof( Mephitis ), typeof( Scorpion ), typeof( TerathanAvenger ), typeof( TerathanDrone ), typeof( TerathanMatriarch ), typeof( TerathanWarrior ), /* Mondain's Legacy */ typeof( Miasma ) /* End */  );
+			// genova suporte uo:ml. Other Project rev 142.
+			arachnid.Super = new SlayerEntry( SlayerName.ArachnidDoom, typeof( DreadSpider ), typeof( FrostSpider ), typeof( GiantBlackWidow ), typeof( GiantSpider ), typeof( Mephitis ), typeof( Scorpion ), typeof( TerathanAvenger ), typeof( TerathanDrone ), typeof( TerathanMatriarch ), typeof( TerathanWarrior ), /* Mondain's Legacy */ typeof( Miasma ), typeof( CrystalSeaSerpent ), typeof( SpeckledScorpion ) /* End */  );
 			arachnid.Entries = new SlayerEntry[]
 				{
-					new SlayerEntry( SlayerName.ScorpionsBane, typeof( Scorpion ), /* Mondain's Legacy */ typeof( Miasma ) /* End */ ),
+					// genova suporte uo:ml. Other Project rev 142.
+					new SlayerEntry( SlayerName.ScorpionsBane, typeof( Scorpion ), /* Mondain's Legacy */ typeof( Miasma ), typeof( SpeckledScorpion ) /* End */ ),
 					new SlayerEntry( SlayerName.SpidersDeath, typeof( DreadSpider ), typeof( FrostSpider ), typeof( GiantBlackWidow ), typeof( GiantSpider ), typeof( Mephitis ), /* Mondain's Legacy */ typeof( LadyLissith ), typeof( LadySabrix ), typeof( Virulent ), typeof( Silk ), typeof( Malefic ) /* End */ ),
 					new SlayerEntry( SlayerName.Terathan, typeof( TerathanAvenger ), typeof( TerathanDrone ), typeof( TerathanMatriarch ), typeof( TerathanWarrior ) )
 				};

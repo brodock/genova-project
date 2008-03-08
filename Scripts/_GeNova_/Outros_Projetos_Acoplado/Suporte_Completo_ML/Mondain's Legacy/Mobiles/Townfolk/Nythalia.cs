@@ -17,6 +17,7 @@ namespace Server.Mobiles
 		{		
 		}
 		
+		[Constructable]
 		public Nythalia() : base( "the student" )
 		{			
 			Name = "Nythalia";

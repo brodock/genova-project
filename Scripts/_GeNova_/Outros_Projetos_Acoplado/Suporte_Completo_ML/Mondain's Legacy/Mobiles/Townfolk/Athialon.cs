@@ -17,6 +17,7 @@ namespace Server.Mobiles
 		{		
 		}
 		
+		[Constructable]
 		public Athialon() : base( "the expeditionist" )
 		{			
 			Name = "Athialon";

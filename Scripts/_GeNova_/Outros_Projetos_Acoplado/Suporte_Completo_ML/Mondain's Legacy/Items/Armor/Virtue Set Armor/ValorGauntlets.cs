@@ -27,6 +27,7 @@ namespace Server.Items
 		[Constructable]
 		public ValorGauntlets() : base( 0x2B0C )
 		{
+			LootType = LootType.Blessed;
 			Weight = 4.0;
 			SetHue = 0;
 			Hue = 0x226;

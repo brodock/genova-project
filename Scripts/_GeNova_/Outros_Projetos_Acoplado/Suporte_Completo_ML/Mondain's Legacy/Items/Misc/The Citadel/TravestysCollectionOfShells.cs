@@ -5,10 +5,10 @@ namespace Server.Items
 {
 	public class TravestysCollectionOfShells : Item
 	{	
-		public override int LabelNumber{ get{ return 1075094; } } // Travesty's Fine Teakwood Tray
+		public override int LabelNumber{ get{ return 1072090; } } // Travesty's Collection of Shells
 	
 		[Constructable]
-		public TravestysCollectionOfShells() : base( Utility.Random( 0x991, 1 ) )
+		public TravestysCollectionOfShells() : base( 0xFD3 )
 		{
 			Weight = 1.0;
 		}

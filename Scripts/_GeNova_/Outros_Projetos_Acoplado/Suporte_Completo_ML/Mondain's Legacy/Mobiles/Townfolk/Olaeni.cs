@@ -17,6 +17,7 @@ namespace Server.Mobiles
 		{		
 		}
 		
+		[Constructable]
 		public Olaeni() : base( "the thaumaturgist" )
 		{			
 			Name = "Olaeni";

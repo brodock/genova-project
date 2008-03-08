@@ -23,6 +23,14 @@ namespace Server.Mobiles
 		{
 			AddLoot( LootPack.AosFilthyRich, 6 );
 		}
+		
+		public override void OnDeath( Container c )
+		{
+			base.OnDeath( c );	
+			
+			if ( Utility.RandomDouble() < 0.3 )
+				c.DropItem( new DragonFlameKey() );
+		}
 
 		public override void Serialize( GenericWriter writer )
 		{

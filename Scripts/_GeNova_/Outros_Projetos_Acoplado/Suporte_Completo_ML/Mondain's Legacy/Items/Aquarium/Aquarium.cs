@@ -224,9 +224,11 @@ namespace Server.Items
 				}
 					
 				m_Water.Added += 1;
-				beverage.Quantity -= 1;		
-				
+				beverage.Quantity -= 1;
+						
+				from.PlaySound( 0x4E );
 				from.SendLocalizedMessage( 1074260, "" + 1 ); // ~1_NUM~ unit(s) of water have been added to the aquarium.
+				return false;
 			}	
 			else if ( !AddDecoration( from, dropped ) )
 				return false;

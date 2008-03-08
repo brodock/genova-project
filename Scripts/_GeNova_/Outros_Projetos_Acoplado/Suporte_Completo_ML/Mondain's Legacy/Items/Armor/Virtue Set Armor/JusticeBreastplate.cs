@@ -27,6 +27,7 @@ namespace Server.Items
 		[Constructable]
 		public JusticeBreastplate() : base( 0x2B08 )
 		{
+			LootType = LootType.Blessed;
 			Weight = 7.0;
 			SetHue = 0;
 			Hue = 0x226;

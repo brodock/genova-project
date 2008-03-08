@@ -27,6 +27,7 @@ namespace Server.Items
 		[Constructable]
 		public HonestyGorget() : base( 0x2B0E )
 		{
+			LootType = LootType.Blessed;
 			Weight = 2.0;
 			SetHue = 0;
 			Hue = 0x226;

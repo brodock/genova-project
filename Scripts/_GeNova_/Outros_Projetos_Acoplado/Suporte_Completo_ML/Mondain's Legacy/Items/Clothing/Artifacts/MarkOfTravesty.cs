@@ -23,7 +23,7 @@ namespace Server.Items
 			
 			ClothingAttributes.SelfRepair = 3;
 			
-			switch( Utility.Random( 8 ) )
+			switch( Utility.Random( 14 ) )
 			{
 				case 0: 
 					SkillBonuses.SetValues( 0, SkillName.EvalInt, 10 );
@@ -56,6 +56,30 @@ namespace Server.Items
 				case 7: 
 					SkillBonuses.SetValues( 0, SkillName.Ninjitsu, 10 );
 					SkillBonuses.SetValues( 1, SkillName.Stealth, 10 );
+					break;
+				case 8: 
+					SkillBonuses.SetValues( 0, SkillName.Bushido, 10 );
+					SkillBonuses.SetValues( 1, SkillName.Parry, 10 );
+					break;
+				case 9: 
+					SkillBonuses.SetValues( 0, SkillName.Archery, 10 );
+					SkillBonuses.SetValues( 1, SkillName.Tactics, 10 );
+					break;
+				case 10: 
+					SkillBonuses.SetValues( 0, SkillName.Macing, 10 );
+					SkillBonuses.SetValues( 1, SkillName.Tactics, 10 );
+					break;
+				case 11: 
+					SkillBonuses.SetValues( 0, SkillName.Necromancy, 10 );
+					SkillBonuses.SetValues( 1, SkillName.SpiritSpeak, 10 );
+					break;
+				case 12: 
+					SkillBonuses.SetValues( 0, SkillName.Stealth, 10 );
+					SkillBonuses.SetValues( 1, SkillName.Stealing, 10 );
+					break;
+				case 13: 
+					SkillBonuses.SetValues( 0, SkillName.Peacemaking, 10 );
+					SkillBonuses.SetValues( 1, SkillName.Musicianship, 10 );
 					break;
 			}
 		}

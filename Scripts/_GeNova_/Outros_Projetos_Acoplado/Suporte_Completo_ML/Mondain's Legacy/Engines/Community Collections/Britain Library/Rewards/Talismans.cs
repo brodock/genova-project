@@ -16,7 +16,7 @@ namespace Server.Items
 			SuccessBonus = RandomTalisman.GetRandomSuccessful();
 			Blessed = RandomTalisman.GetRandomBlessed();	
 			
-			Attributes.EnhancePotions = 25;			
+			Attributes.EnhancePotions = 15;			
 			SkillBonuses.SetValues( 0, SkillName.Magery, 5.0 );
 		}
 		

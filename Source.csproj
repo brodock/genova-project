@@ -1,15 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CF9C46A9-3384-4896-8377-D9CE5F93D8EA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Source</RootNamespace>
     <AssemblyName>Source</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -2622,46 +2627,6 @@
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Peerless System\Twisted Weald\MasterKey.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Peerless System\Twisted Weald\SabrixsEye.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Peerless System\Twisted Weald\ThornyBriar.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\BasePeerless.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Bedlam\Altar.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Bedlam\DisintegratingThesisNotes.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Bedlam\LibrariansKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Bedlam\MasterKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Blighted Grove\Altar.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Blighted Grove\DryadsBlessing.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Blighted Grove\MasterKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\ConfirmGumps.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\MasterKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Palace of Paroxysmus\Altar.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Palace of Paroxysmus\CoagulatedLegs.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Palace of Paroxysmus\GelatanousSkull.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Palace of Paroxysmus\MasterKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Palace of Paroxysmus\PartiallyDigestedTorso.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Palace of Paroxysmus\SpleenOfThePutrefier.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\PeerlessAltar.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\PeerlessKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\PeerlessTeleporter.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Prism of Light\Altar.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Prism of Light\BrokenCrystals.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Prism of Light\CrushedCrystals.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Prism of Light\JaggedCrystals.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Prism of Light\MasterKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Prism of Light\PiecesOfCrystal.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Prism of Light\ScatteredCrystals.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Prism of Light\ShatteredCrystals.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\The Citadel\Altar.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\The Citadel\DragonFlameKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\The Citadel\MasterKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\The Citadel\SerpentFangKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\The Citadel\TigerClawKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Twisted Weald\Altar.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Twisted Weald\BlightedCotton.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Twisted Weald\GnawsFang.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Twisted Weald\IrksBrain.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Twisted Weald\LissithsSilk.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Twisted Weald\MasterKey.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Twisted Weald\SabrixsEye.cs" />
-    <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Perless System\Twisted Weald\ThornyBriar.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Quests\BaseEscort.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Quests\BaseQuest.cs" />
     <Compile Include="Scripts\_GeNova_\Outros_Projetos_Acoplado\Suporte_Completo_ML\Mondain%27s Legacy\Engines\Quests\BaseQuestItem.cs" />

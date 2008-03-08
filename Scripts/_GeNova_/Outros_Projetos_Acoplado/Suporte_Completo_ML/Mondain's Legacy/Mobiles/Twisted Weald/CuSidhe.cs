@@ -28,7 +28,9 @@ namespace Server.Mobiles
 			SetStr( 1201, 1225 );
 			SetDex( 151, 170 );
 			SetInt( 251, 282 );
-
+			
+			SetHits( 1010, 1275 );
+			
 			SetDamage( 21, 28 );
 			
 			SetDamageType( ResistanceType.Physical, 0 );
@@ -47,6 +49,10 @@ namespace Server.Mobiles
 			SetSkill( SkillName.Anatomy, 65.5, 69.4 );
 			SetSkill( SkillName.Healing, 72.2, 98.9 );
 			
+			Fame = 10000;
+			Karma = -10000;
+			
+			
 			Tamable = true;
 			ControlSlots = 4;
 			MinTameSkill = 101.1;					
@@ -57,7 +63,8 @@ namespace Server.Mobiles
 			if ( Utility.RandomDouble() < 0.1 )				
 				PackItem( new ParrotItem() );
 				
-			PackGold( 500, 800 );
+			PackGold( 1500, 1900 );		
+			PackItem( new Bandage( 10 ) );
 				
 			// TODO 0-2 spellweaving scroll
 		}	
