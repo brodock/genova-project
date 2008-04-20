@@ -9,4 +9,8 @@ IF EXIST Runuo_Windows.pdb DEL Runuo_Windows.pdb
 REM Change the directory below based on your machine.
 cd "C:\GeNova\GeNova 3.0\Server"
 set FRAMEWORK=%windir%\Microsoft.NET\\Framework\v2.0.50727
-%FRAMEWORK%\csc.exe /noconfig /unsafe+ /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /main:Server.Core /reference:bin\MySql.Data.dll /reference:%FRAMEWORK%\System.Data.dll /reference:%FRAMEWORK%\System.dll /reference:%FRAMEWORK%\System.Drawing.dll /reference:%FRAMEWORK%\System.Xml.dll /reference:bin\Ultima.dll /debug+ /debug:full /optimize+ /out:..\RunUO_Windows.exe /target:exe /win32icon:genova.ico /recurse:*.cs
+
+REM NEW LINES FOR FRAMEWORK 3.5
+set LASTFRAMEWORK=%windir%\Microsoft.NET\\Framework\v3.5
+set LASTREFERENCESFRAMEWORKVERSION=D:\\Arquivos de programas\\Reference Assemblies\\Microsoft\\Framework\v3.5
+%LASTFRAMEWORK%\csc.exe /noconfig /unsafe+ /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /main:Server.Core /reference:bin\MySql.Data.dll /reference:"%LASTREFERENCESFRAMEWORKVERSION%\System.Core.dll" /reference:%FRAMEWORK%\System.Data.dll /reference:%FRAMEWORK%\System.dll /reference:%FRAMEWORK%\System.Drawing.dll /reference:%FRAMEWORK%\System.Xml.dll /reference:bin\Ultima.dll /debug+ /debug:full /optimize+ /out:..\RunUO_Windows.exe /target:exe /win32icon:genova.ico /recurse:*.cs

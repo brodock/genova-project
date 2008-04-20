@@ -234,8 +234,13 @@ namespace Server.Network {
 		private bool m_Post6017;
 
 		public bool IsPost6017 {
-			get { 
-				return m_Post6017; 
+			get {
+                // genova support uo:kr
+                if (m_Post6017 || m_KRClient)
+                    return true;
+                else
+                    return false; 
+                //return m_Post6017; 
 			}
 		}
 
@@ -966,8 +971,9 @@ namespace Server.Network {
 			if ( info == null || ( checkCoreExpansion && ( int ) Core.Expansion < info.ID ) )
 				return false;
 
+            // genova: support uo:kr
 			if ( info.RequiredClient != null )
-				return ( this.Version >= info.RequiredClient );
+				return ( this.IsKRClient || this.Version >= info.RequiredClient );
 
 			return ( ( this.Flags & info.NetStateFlag ) != 0 );
 		}
