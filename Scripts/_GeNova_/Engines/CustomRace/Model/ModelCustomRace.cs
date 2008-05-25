@@ -19,6 +19,8 @@ using System.Text;
 using Server.Mobiles;
 using Server;
 using GeNova.Core.Controladores;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace GeNova.Server.Engines.CustomRace
 {
@@ -85,10 +87,29 @@ namespace GeNova.Server.Engines.CustomRace
         }
         #endregion
 
-        #region Abstract Methods : Filters
-        protected abstract bool ActiveStatusCapFilter();
-        protected abstract bool ActiveStatusGainFilter();
-        protected abstract bool ActiveSkillsCapFilter();
+        #region Virtual Methods : Filters
+        protected virtual bool ActiveStatusCapFilter()
+        {
+            return this.ActiveProperty(XMLNames.ActiveStatusCapFilter);
+        }
+        protected virtual bool ActiveStatusGainFilter()
+        {
+            return this.ActiveProperty(XMLNames.ActiveStatusGainFilter);
+        }
+        protected virtual bool ActiveSkillsCapFilter()
+        {
+            return this.ActiveProperty(XMLNames.ActiveSkillsCapFilter);
+        }
+        #endregion
+
+        #region XML Reader : Settings
+        private bool ActiveProperty(string propertyName)
+        {
+            if (!GeNovaXML.CustomRace_Active)
+                return false;
+
+            return GeNovaXML.CustomRace_Property_Active(this._player.Race.Name, propertyName);
+        }
         #endregion
     }
 }

@@ -16,7 +16,8 @@ using Server.Spells.Bushido;
 using Server.Spells.Spellweaving;
 using GeNova.Server.Engines.LoteGenerico;
 using GeNova.Server.Engines.XP;
-using GeNova.Server.Variados;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Mobiles
 {
@@ -4204,7 +4205,7 @@ namespace Server.Mobiles
 		public virtual void OnKilledBy( Mobile mob )
 		{
             // genova: flag para minor artefatos.
-            if (FMinorArtefatos.Ativo)
+            if (GeNovaXML.Flags_Active(XMLNames.MinorArtifacts))
             {
                 if (m_Paragon && Paragon.CheckArtifactChance(mob, this))
                     Paragon.GiveArtifactTo(mob);

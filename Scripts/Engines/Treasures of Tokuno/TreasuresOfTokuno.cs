@@ -6,14 +6,15 @@ using Server.Items;
 using Server.Gumps;
 using Server.Misc;
 using Server.Mobiles;
-using GeNova.Server.Variados;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Misc
 {
 	public class TreasuresOfTokuno
 	{
         // genova: flag para TreasureOfTokuno
-        private static bool m_Enabled = (FTreasureOfTokuno.Ativo && (Core.Expansion == Expansion.SE));
+        private static bool m_Enabled = (GeNovaXML.Flags_Active(XMLNames.TreasureOfTokuno) && (Core.Expansion == Expansion.SE));
 		public static bool Enabled { get { return m_Enabled; } }
 
 		public const int ItemsPerReward = 10;

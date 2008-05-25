@@ -3,7 +3,8 @@ using System.Collections;
 using Server;
 using Server.Items;
 using System.Collections.Generic;
-using GeNova.Server.Variados;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Mobiles
 {
@@ -160,7 +161,7 @@ namespace Server.Mobiles
 			base.OnDeath( c );
 
             // Genova: flag artefatos.
-            if (FArtefatos.Ativo)
+            if (GeNovaXML.Flags_Active(XMLNames.Artifacts))
             {
                 if (!Summoned && !NoKillAwards && DemonKnight.CheckArtifactChance(this))
                     DemonKnight.DistributeArtifact(this);

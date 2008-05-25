@@ -26,20 +26,5 @@ namespace GeNova.Server.Engines.CustomRace
             : base(player, "Humanos", string.Empty)
         {
         }
-
-        protected override bool ActiveStatusCapFilter()
-        {
-            return false;
-        }
-
-        protected override bool ActiveStatusGainFilter()
-        {
-            return false;
-        }
-
-        protected override bool ActiveSkillsCapFilter()
-        {
-            return true;
-        }
     }
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<genova>
+
+  <!--General System Settings-->
+  <misc>
+    
+    <!--Ultima Online Basic Archives Path-->
+    <uopath value="E:\Arquivos de programas\EA Games\Ultima Online 2D Client" />
+  
+  </misc>
+
+  <!--Settings Systems GeNova Project-->
+  <systems>
+
+    <!--Custom Race System-->
+    <customrace active="true">
+      <elf>
+        <!--not implemented-->
+        <statuscapfilter active="false" />
+        <statusgainfilter active="false" />
+        <!--implemented-->
+        <skillscapfilter active="true" />
+      </elf>
+      <human>
+        <!--not implemented-->
+        <statuscapfilter active="false" />
+        <statusgainfilter active="false" />
+        <!--implemented-->
+        <skillscapfilter active="true" />
+      </human>
+    </customrace>
+
+  </systems>
+
+  <!--Settings Flags GeNova Project-->
+  <flags>
+
+    <antimacro active="false" />
+    <artifacts active="false" />
+    <minorartifacts active="false" />
+    <treasureoftokuno active="false" />
+    <youngsystem active="false" />
+    <statuscapscrolls active="false" />
+
+    <!--Extract PowerScrolls from Rewards - Bulk Orders-->
+    <powerscroll active="false" />
+
+    <!--Enable Veteran Rewards?-->
+    <rewardsystem active="false">
+      <!--should total skill cap bonuses be awarded? (720 skills total at 4th level)-->
+      <skillcaprewards active="false" />
+      <!--Value in Days-->
+      <rewardinterval value="30.0"  />
+    </rewardsystem>
+
+    <!--Active Buy, Sell and Bulk Orders in Vendors?-->
+    <!--The following attributes are independent.-->
+    <vendors active="false" invulnerable="false" />
+
+  </flags>
+
+</genova>

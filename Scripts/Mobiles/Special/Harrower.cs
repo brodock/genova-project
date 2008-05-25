@@ -4,7 +4,8 @@ using Server;
 using Server.Items;
 using Server.Engines.CannedEvil;
 using System.Collections.Generic;
-using GeNova.Server.Variados;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Mobiles
 {
@@ -295,8 +296,12 @@ namespace Server.Mobiles
 
 				Mobile m = toGive[i % toGive.Count];
 
-				m.SendLocalizedMessage( 1049524 ); // You have received a scroll of power!
-				m.AddToBackpack( new StatCapScroll( 225 + level ) );
+                // genova: flag StatusCapScrolls
+                if (GeNovaXML.Flags_Active(XMLNames.StatusCapScrolls))
+                {
+                    m.SendLocalizedMessage(1049524); // You have received a scroll of power!
+                    m.AddToBackpack(new StatCapScroll(225 + level));
+                }
 
 				if ( m is PlayerMobile )
 				{
@@ -318,7 +323,8 @@ namespace Server.Mobiles
 							case VirtueLevel.Knight: chance = 100; break;
 						}
 
-						if ( chance > Utility.Random( 100 ) )
+                        // genova: flag StatusCapScrolls
+						if ( chance > Utility.Random( 100 ) && GeNovaXML.Flags_Active(XMLNames.StatusCapScrolls) )
 						{
 							prot.SendLocalizedMessage( 1049368 ); // You have been rewarded for your dedication to Justice!
 							prot.AddToBackpack( new StatCapScroll( 225 + level ) );
@@ -345,7 +351,7 @@ namespace Server.Mobiles
 				if ( !NoKillAwards )
 				{
                     // genova: flag powerscrolls.
-                    if (FPowerScroll.Ativo)
+                    if (GeNovaXML.Flags_Active(XMLNames.PowerScrolls))
                         GivePowerScrolls();
 
 					Map map = this.Map;

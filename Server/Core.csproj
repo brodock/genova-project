@@ -78,6 +78,7 @@
     <Compile Include="ContextMenus\ContextMenuEntry.cs" />
     <Compile Include="ContextMenus\OpenBackpackEntry.cs" />
     <Compile Include="ContextMenus\PaperdollEntry.cs" />
+    <Compile Include="_GeNova_\ClassesExternas\GeNovaXML.cs" />
     <Compile Include="_GeNova_\ClassesInternas\GumpGeNova.cs" />
     <Compile Include="_GeNova_\ClassesInternas\MainGeNova.cs" />
     <Compile Include="_GeNova_\Controladores\ControladorConexaoMysql.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="_GeNova_\Controladores\ControladorRecuperacaoDadosCustom.cs" />
     <Compile Include="_GeNova_\Utilitarios\XML\CaminhosXML.cs" />
     <Compile Include="_GeNova_\Utilitarios\XML\UtilitariosXML.cs" />
+    <Compile Include="_GeNova_\Utilitarios\XML\XMLNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="runuo.ico" />

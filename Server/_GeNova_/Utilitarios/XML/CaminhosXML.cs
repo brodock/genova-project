@@ -30,6 +30,7 @@ namespace GeNova.Core.Utilitarios.XML
         internal static readonly string FilePath_Configs_Mysql = @"\Configs\mysql.xml";
 
         /*Public Values*/
+        public static readonly string FilePath_Configs_GeNova = @"\Configs\genova.xml";
         public static readonly string FilePath_Misc_Gumps = @"\Misc\gumps.xml";
     }
 }

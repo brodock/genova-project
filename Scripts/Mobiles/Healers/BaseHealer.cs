@@ -4,7 +4,8 @@ using Server;
 using Server.Misc;
 using Server.Items;
 using Server.Gumps;
-using GeNova.Server.Variados;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Mobiles
 {
@@ -14,9 +15,9 @@ namespace Server.Mobiles
 		protected override ArrayList SBInfos{ get { return m_SBInfos; } }
 
         // genova: flag para verificar se os vendedores default estao ativos.
-        public virtual bool IsActiveVendor { get { return FVendedoresPC.Ativo; } }
+        public virtual bool IsActiveVendor { get { return GeNovaXML.Flags_Active(XMLNames.Vendors); } }
         // genova: flag para verificar se os vendedores são invulneraveis.
-        public virtual bool IsInvulnerable { get { return FVendedoresPC.Invulneravel; } }
+        public virtual bool IsInvulnerable { get { return GeNovaXML.Flags_Vendors_Invulnerable; } }
 
 		public override void InitSBInfo()
 		{

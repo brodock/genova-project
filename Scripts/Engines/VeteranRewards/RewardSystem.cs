@@ -3,7 +3,8 @@ using Server;
 using Server.Items;
 using Server.Mobiles;
 using Server.Accounting;
-using GeNova.Server.Variados;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Engines.VeteranRewards
 {
@@ -34,9 +35,9 @@ namespace Server.Engines.VeteranRewards
 			}
 		}
 
-		public static bool Enabled = FRewardSystem.Active; // change to true to enable vet rewards
-        public static bool SkillCapRewards = FRewardSystem.Active; // assuming vet rewards are enabled, should total skill cap bonuses be awarded? (720 skills total at 4th level)
-		public static TimeSpan RewardInterval = FRewardSystem.RewardInterval;
+		public static bool Enabled = GeNovaXML.Flags_Active(XMLNames.RewardSystem); // change to true to enable vet rewards
+        public static bool SkillCapRewards = GeNovaXML.Flags_RewardSystem_SkillcapRewards_Active; // assuming vet rewards are enabled, should total skill cap bonuses be awarded? (720 skills total at 4th level)
+		public static TimeSpan RewardInterval = GeNovaXML.Flags_RewardSystem_RewardInterval;
 
 		public static bool HasAccess( Mobile mob, RewardEntry entry )
 		{

@@ -4,7 +4,8 @@ using Server.Items;
 using Server.Targeting;
 using Server.Misc;
 using GeNova.Server.Engines.LoteGenerico.RandomLoots;
-using GeNova.Server.Variados;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Mobiles
 {
@@ -58,7 +59,7 @@ namespace Server.Mobiles
 				PackItem( new BolaBall() );
 
             // genova: lote randomico.
-            if (!FVendedoresPC.Ativo)
+            if (!GeNovaXML.Flags_Active(XMLNames.Vendors))
             {
                 ModelRandomItems randomItem = new RandomFarmableItems(this);
                 randomItem.AddItemsInLoot();

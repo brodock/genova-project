@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Microsoft.Win32;
 using Server;
+using GeNova.Core.ClassesExternas;
 
 namespace Server.Misc
 {
@@ -47,10 +48,16 @@ namespace Server.Misc
 
 			if ( Core.DataDirectories.Count == 0 )
 			{
+                // genova: using xml config.
+                Core.DataDirectories.Add(GeNovaXML.UOPath);
+
+                // genova: commented.
+                /*
 				Console.WriteLine( "Enter the Ultima Online directory:" );
 				Console.Write( "> " );
 
 				Core.DataDirectories.Add( Console.ReadLine() );
+                */
 			}
 		}
 

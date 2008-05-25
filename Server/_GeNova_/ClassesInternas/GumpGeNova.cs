@@ -28,8 +28,8 @@ namespace GeNova.Core.ClassesInternas
 
             UtilitariosXML xmlUtil = new UtilitariosXML(CaminhosXML.FilePath_Misc_Gumps);
 
-            XmlNode rootNode = xmlUtil.GetRootNode("gumps");
-            XmlNode objectGumpNode = xmlUtil.FindNodeByAttribute(rootNode, "name", gumpName);
+            XmlNode rootNode = xmlUtil.GetRootNode(XMLNames.Gumps);
+            XmlNode objectGumpNode = xmlUtil.FindNodeByAttribute(rootNode, XMLNames.Name, gumpName);
 
             int idKRGump = Convert.ToInt32(xmlUtil.GetAttributeValue(objectGumpNode));
             return idKRGump;

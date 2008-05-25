@@ -39,21 +39,21 @@ namespace GeNova.Core.Controladores
         {
             XmlNode node;
             UtilitariosXML xmlUtil = new UtilitariosXML(CaminhosXML.FilePath_Configs_Mysql);
-            
+
             // Set string: _servidor
-            node = xmlUtil.GetSingleNode("server");
+            node = xmlUtil.GetSingleNode(XMLNames.Server);
             this._servidor = xmlUtil.GetAttributeValue(node);
 
             // Set string: _bancoDeDados
-            node = xmlUtil.GetSingleNode("dataBase");
+            node = xmlUtil.GetSingleNode(XMLNames.DataBase);
             this._bancoDeDados = xmlUtil.GetAttributeValue(node);
 
             // Set string: _usuario
-            node = xmlUtil.GetSingleNode("userid");
+            node = xmlUtil.GetSingleNode(XMLNames.UserID);
             this._usuario = xmlUtil.GetAttributeValue(node);
 
             // Set string: _senha
-            node = xmlUtil.GetSingleNode("password");
+            node = xmlUtil.GetSingleNode(XMLNames.Password);
             this._senha = xmlUtil.GetAttributeValue(node);
         }
         #endregion
@@ -140,7 +140,7 @@ namespace GeNova.Core.Controladores
         }
 
         public static List<Dictionary<string, object>> RecuperarRegistrosDataSet(DataSet ds)
-        {            
+        {
             List<Dictionary<string, object>> registros = new List<Dictionary<string, object>>();
             foreach (DataRow dsLinha in ds.Tables[0].Rows)
             {

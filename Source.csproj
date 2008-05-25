@@ -3331,13 +3331,6 @@
     <Compile Include="Scripts\_GeNova_\Items\Stones\KarmaStone.cs" />
     <Compile Include="Scripts\_GeNova_\Engines\ItemsDecay.cs" />
     <Compile Include="Scripts\_GeNova_\Variados\Enums\EnumChance.cs" />
-    <Compile Include="Scripts\_GeNova_\Variados\Flags\FAntiMacro.cs" />
-    <Compile Include="Scripts\_GeNova_\Variados\Flags\FArtefatos.cs" />
-    <Compile Include="Scripts\_GeNova_\Variados\Flags\FMinorArtefatos.cs" />
-    <Compile Include="Scripts\_GeNova_\Variados\Flags\FPowerScroll.cs" />
-    <Compile Include="Scripts\_GeNova_\Variados\Flags\FRewardSystem.cs" />
-    <Compile Include="Scripts\_GeNova_\Variados\Flags\FTreasureOfTokuno.cs" />
-    <Compile Include="Scripts\_GeNova_\Variados\Flags\FVendedoresPC.cs" />
     <Compile Include="Scripts\_GeNova_\Variados\PosicionamentosNoMapa.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -3383,6 +3376,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GeNova_XML\Configs\genova.xml" />
     <Content Include="GeNova_XML\Configs\mysql.xml" />
     <Content Include="GeNova_XML\Misc\gumps.xml" />
     <Content Include="Scripts\_GeNova_\Spawners\MegaSpawner\Spawn Files %28maps%29\%40About All Spawns.txt" />

@@ -6,6 +6,8 @@ using Server.Network;
 using Server.Accounting;
 using GeNova.Server.Engines;
 using GeNova.Server.Commands;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Misc
 {
@@ -526,20 +528,26 @@ namespace Server.Misc
 			// 5 blank recall runes
 			for ( int i = 0; i < 5; ++i )
 				bank.DropItem( MakeNewbie( new RecallRune() ) );
-
+            
 			AddPowerScrolls( bank );
 		}
 
+        // genova: flags PowerScrolls and StatusCapScrolls
 		private static void AddPowerScrolls( BankBox bank )
 		{
 			Bag bag = new Bag();
 
-			for ( int i = 0; i < PowerScroll.Skills.Length; ++i )
-				bag.DropItem( new PowerScroll( PowerScroll.Skills[i], 120.0 ) );
+            if (GeNovaXML.Flags_Active(XMLNames.PowerScrolls))
+            {
+                for (int i = 0; i < PowerScroll.Skills.Length; ++i)
+                    bag.DropItem(new PowerScroll(PowerScroll.Skills[i], 120.0));
+            }
 
-			bag.DropItem( new StatCapScroll( 250 ) );
+            if (GeNovaXML.Flags_Active(XMLNames.StatusCapScrolls))
+			    bag.DropItem( new StatCapScroll( 250 ) );
 
-			bank.DropItem( bag );
+            if(bag.Items.Count > 0)
+			    bank.DropItem( bag );
 		}
 
 		private static void AddShirt( Mobile m, int shirtHue )

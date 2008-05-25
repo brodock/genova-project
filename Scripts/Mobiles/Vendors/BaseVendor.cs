@@ -9,7 +9,8 @@ using Server.Misc;
 using Server.Engines.BulkOrders;
 using Server.Regions;
 using Server.Factions;
-using GeNova.Server.Variados;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Mobiles
 {
@@ -38,14 +39,14 @@ namespace Server.Mobiles
 		public override bool PlayerRangeSensitive{ get{ return true; } }
 
         // genova: flag para verificar se os vendedores default estao ativos.
-		public virtual bool IsActiveVendor{ get{ return FVendedoresPC.Ativo; } }
+        public virtual bool IsActiveVendor { get { return GeNovaXML.Flags_Active(XMLNames.Vendors); } }
 		public virtual bool IsActiveBuyer{ get{ return IsActiveVendor; } } // response to vendor SELL
 		public virtual bool IsActiveSeller{ get{ return IsActiveVendor; } } // repsonse to vendor BUY
 
 		public virtual NpcGuild NpcGuild{ get{ return NpcGuild.None; } }
 
         // genova: flag para verificar se os vendedores são invulneraveis.
-		public virtual bool IsInvulnerable{ get{ return FVendedoresPC.Invulneravel; } }
+        public virtual bool IsInvulnerable { get { return GeNovaXML.Flags_Vendors_Invulnerable; } }
 
 		public override bool ShowFameTitle{ get{ return false; } }
 
@@ -1379,7 +1380,7 @@ namespace Server.Mobiles
 		public override void AddCustomContextEntries( Mobile from, List<ContextMenuEntry> list )
 		{
             // genova: flag para verificar se os vendedores default estao ativos.
-			if ( from.Alive && (IsActiveVendor || FVendedoresPC.Ativo) )
+			if ( from.Alive && (IsActiveVendor || GeNovaXML.Flags_Active(XMLNames.Vendors)) )
 			{
 				if ( IsActiveSeller )
 					list.Add( new VendorBuyEntry( from, this ) );

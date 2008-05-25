@@ -4,7 +4,8 @@ using Server;
 using Server.Items;
 using Server.Engines.CannedEvil;
 using System.Collections.Generic;
-using GeNova.Server.Variados;
+using GeNova.Core.ClassesExternas;
+using GeNova.Core.Utilitarios.XML;
 
 namespace Server.Mobiles
 {
@@ -175,7 +176,7 @@ namespace Server.Mobiles
 			if ( !NoKillAwards )
 			{
                 // genova: flag powerscrolls.
-                if (FPowerScroll.Ativo)
+                if (GeNovaXML.Flags_Active(XMLNames.PowerScrolls))
                     GivePowerScrolls();
 
 				Map map = this.Map;
