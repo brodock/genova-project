@@ -461,9 +461,18 @@ namespace Server.Engines.Doom
 					m_Creatures = reader.ReadStrongMobileList();
 
 					m_TypeName = reader.ReadString();
+
+					#region genova: support to mono
+#if MONO
 					m_Door = reader.ReadItemG<BaseDoor>(); ;
 					m_Addon = reader.ReadItemG<BaseAddon>(); ;
 					m_Sequence = reader.ReadItemG<GauntletSpawner>();
+#else
+                        m_Door = reader.ReadItem<BaseDoor>(); ;
+                        m_Addon = reader.ReadItem<BaseAddon>(); ;
+                        m_Sequence = reader.ReadItem<GauntletSpawner>();
+#endif
+					#endregion
 
 					State = (GauntletSpawnerState)reader.ReadInt();
 

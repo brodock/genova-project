@@ -18,6 +18,11 @@
  *
  ***************************************************************************/
 
+/* 
+   Genova: inserted checks for compatibility with the Mono
+   in various parts of class.
+*/
+
 using System;
 using System.IO;
 using System.Collections;
@@ -66,9 +71,15 @@ namespace Server
 		public abstract Mobile ReadMobile();
 		public abstract BaseGuild ReadGuild();
 
+#if !MONO
+        public abstract T ReadItem<T>() where T : Item;
+        public abstract T ReadMobile<T>() where T : Mobile;
+        public abstract T ReadGuild<T>() where T : BaseGuild;
+#else
 		public abstract T ReadItemG<T>() where T : Item;
 		public abstract T ReadMobileG<T>() where T : Mobile;
 		public abstract T ReadGuildG<T>() where T : BaseGuild;
+#endif
 
 		public abstract ArrayList ReadItemList();
 		public abstract ArrayList ReadMobileList();
@@ -658,7 +669,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+//#if !MONO
 					if( list[i].Deleted )
+//#else
+//                    if (((Item).list[i]).Deleted)
+//#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -681,7 +696,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Deleted )
+#else
+                    if (((Item)list[i]).Deleted)
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -705,7 +724,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Deleted )
+#else
+                    if (((Mobile)list[i]).Deleted)
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -729,7 +752,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Deleted )
+#else
+                    if( ((Mobile) list[i]).Deleted )
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -753,7 +780,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Disbanded )
+#else
+                    if (((BaseGuild)list[i]).Disbanded)
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -777,7 +808,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Disbanded )
+#else
+                    if( ((BaseGuild)list[i]).Disbanded )
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -980,20 +1015,38 @@ namespace Server
 			return BaseGuild.Find( ReadInt() );
 		}
 
+#if !MONO
+        public override T ReadItem<T>()
+        {
+            return ReadItem() as T;
+        }
+
+        public override T ReadMobile<T>()
+        {
+            return ReadMobile() as T;
+        }
+
+        public override T ReadGuild<T>()
+        {
+            return ReadGuild() as T;
+        }
+#else
 		public override T ReadItemG<T>()
 		{
-			return ReadItem() as T;
+            return (T)ReadItem();
 		}
 
 		public override T ReadMobileG<T>()
 		{
-			return ReadMobile() as T;
+            return (T)ReadMobile();
 		}
 
 		public override T ReadGuildG<T>()
 		{
-			return ReadGuild() as T;
+            return (T)ReadGuild();
 		}
+#endif
+
 
 		public override ArrayList ReadItemList()
 		{
@@ -1070,8 +1123,13 @@ namespace Server
 			if ( count > 0 ) {
 				List<T> list = new List<T>( count );
 
-				for ( int i = 0; i < count; ++i ) {
+                for (int i = 0; i < count; ++i)
+                {
+#if !MONO
 					T item = ReadItem() as T;
+#else
+                    T item = ReadItemG<T>();
+#endif
 
 					if ( item != null ) {
 						list.Add( item );
@@ -1096,10 +1154,16 @@ namespace Server
 			if ( count > 0 ) {
 				List<T> list = new List<T>( count );
 
-				for ( int i = 0; i < count; ++i ) {
+                for (int i = 0; i < count; ++i)
+                {
+#if !MONO
 					T m = ReadMobile() as T;
+#else
+                    T m = ReadMobileG<T>();
+#endif
 
-					if ( m != null ) {
+                    if (m != null)
+                    {
 						list.Add( m );
 					}
 				}
@@ -1122,8 +1186,13 @@ namespace Server
 			if ( count > 0 ) {
 				List<T> list = new List<T>( count );
 
-				for ( int i = 0; i < count; ++i ) {
+                for (int i = 0; i < count; ++i)
+                {
+#if !MONO
 					T g = ReadGuild() as T;
+#else
+                    T g = ReadGuildG<T>();
+#endif
 
 					if ( g != null ) {
 						list.Add( g );
@@ -1575,7 +1644,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Deleted )
+#else
+                    if (((Item)list[i]).Deleted)
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -1598,7 +1671,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Deleted )
+#else
+                    if (((Item)list[i]).Deleted)
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -1622,7 +1699,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Deleted )
+#else
+                    if (((Mobile)list[i]).Deleted)
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -1646,7 +1727,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Deleted )
+#else
+                    if (((Mobile)list[i]).Deleted)
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -1670,7 +1755,11 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Disbanded )
+#else
+                    if (((BaseGuild)list[i]).Disbanded)
+#endif
 						list.RemoveAt( i );
 					else
 						++i;
@@ -1694,7 +1783,12 @@ namespace Server
 			{
 				for( int i = 0; i < list.Count; )
 				{
+#if !MONO
 					if( list[i].Disbanded )
+#else
+                    //this might be GuildList instead of BaseGuild
+                    if (((BaseGuild)list[i]).Disbanded)
+#endif
 						list.RemoveAt( i );
 					else
 						++i;

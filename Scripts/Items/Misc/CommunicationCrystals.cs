@@ -478,7 +478,13 @@ namespace Server.Items
 
 			int version = reader.ReadEncodedInt();
 
+			#region genova: support to mono
+#if MONO
 			m_Sender = reader.ReadItemG<BroadcastCrystal>();
+#else
+            m_Sender = reader.ReadItem<BroadcastCrystal>();
+#endif
+			#endregion
 		}
 	}
 }

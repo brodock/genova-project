@@ -85,13 +85,18 @@ namespace Server.Commands.Generic
 		{
 			for ( int i = 0; i < this.Count; ++i )
 				this[i].Filter( list );
-		}
+        }
 
+        #region genova: support to mono
+#if MONO
 		public static int SortFunc(BaseExtension a, BaseExtension b)
 		{
 		    return ( a.Order - b.Order );
 		}
-		public static Extensions Parse( Mobile from, ref string[] args )
+#endif
+        #endregion
+
+        public static Extensions Parse( Mobile from, ref string[] args )
 		{
 			Extensions parsed = new Extensions();
 
@@ -119,11 +124,20 @@ namespace Server.Commands.Generic
 				parsed.Add( ext );
 
 				size = i;
-			}
+            }
 
+            #region genova: support to mono
+#if MONO
 			parsed.Sort( SortFunc );
+#else
+            parsed.Sort(delegate(BaseExtension a, BaseExtension b)
+            {
+                return (a.Order - b.Order);
+            });
+#endif
+            #endregion
 
-			AssemblyEmitter emitter = null;
+            AssemblyEmitter emitter = null;
 
 			foreach ( BaseExtension update in parsed )
 				update.Optimize( from, baseType, ref emitter );

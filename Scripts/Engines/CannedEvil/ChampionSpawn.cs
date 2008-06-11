@@ -917,7 +917,15 @@ namespace Server.Engines.CannedEvil
 				case 4:
 				{
 					m_ConfinedRoaming = reader.ReadBool();
+
+					#region genova: support to mono
+#if MONO
 					m_Idol = reader.ReadItemG<IdolOfTheChampion>();
+#else
+                        m_Idol = reader.ReadItem<IdolOfTheChampion>();
+#endif
+					#endregion
+
 					m_HasBeenAdvanced = reader.ReadBool();
 
 					goto case 3;
@@ -957,8 +965,17 @@ namespace Server.Engines.CannedEvil
 					m_Creatures = reader.ReadStrongMobileList();
 					m_RedSkulls = reader.ReadStrongItemList();
 					m_WhiteSkulls = reader.ReadStrongItemList();
+
+					#region genova: support to mono
+#if MONO
 					m_Platform = reader.ReadItemG<ChampionPlatform>();
 					m_Altar = reader.ReadItemG<ChampionAltar>();
+#else
+                        m_Platform = reader.ReadItem<ChampionPlatform>();
+                        m_Altar = reader.ReadItem<ChampionAltar>();
+#endif
+					#endregion
+
 					m_ExpireDelay = reader.ReadTimeSpan();
 					m_ExpireTime = reader.ReadDeltaTime();
 					m_Champion = reader.ReadMobile();

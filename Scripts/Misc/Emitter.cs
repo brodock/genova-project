@@ -495,12 +495,16 @@ namespace Server
 
 		public delegate void Callback();
 
+		#region genova: support to mono
+#if MONO
 		private static bool GenericComparator( Type type, object obj )
 		{
 			return ( type.IsGenericType )
 			&& ( type.GetGenericTypeDefinition() == typeof( IComparable<> ) )
 			&& ( type.GetGenericArguments()[0].IsAssignableFrom( obj as Type ) );
 		}
+#endif
+		#endregion
 
 		public bool CompareTo( int sign, Callback argGenerator )
 		{
@@ -533,7 +537,18 @@ namespace Server
 				 * Bleh.
 				 */
 
+				#region genova: support to mono
+#if MONO
 				Type[] ifaces = active.FindInterfaces( GenericComparator, active );
+#else
+                Type[] ifaces = active.FindInterfaces(delegate(Type type, object obj)
+                {
+                    return (type.IsGenericType)
+                        && (type.GetGenericTypeDefinition() == typeof(IComparable<>))
+                        && (type.GetGenericArguments()[0].IsAssignableFrom(active));
+                }, null);
+#endif
+				#endregion
 
 				if ( ifaces.Length > 0 )
 				{
