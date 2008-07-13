@@ -100,7 +100,7 @@ namespace Server
         /// <summary>
         /// Unused.
         /// </summary>
-        Unused_xF = 0x0F,
+        Face = 0x0F,
         /// <summary>
         /// Beards and mustaches.
         /// </summary>

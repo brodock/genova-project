@@ -151,14 +151,15 @@ namespace Server.Network
 
             Register6017(0x08, 15, true, new OnPacketReceive(DropReq6017));
 
-            // Genova: support to UO:KR.
+            #region GeNova: KR Support
             Register(0x8D, 0, false, new OnPacketReceive(KRCreateCharacter));
             Register(0xE1, 0, false, new OnPacketReceive(KRCharacterListUpdate));
             Register(0xE4, 0, false, new OnPacketReceive(KRVerifierResponse));
             Register(0xFF, 4, false, new OnPacketReceive(KRSeed));
-
-            // genova: support to UO:KR. by shagalinam
-            Register(0x89, 39, false, new OnPacketReceive(DeleteCharacter));
+            Register(0x89, 39, false, new OnPacketReceive(DeleteCharacter)); // thanks shagalinam
+            Register(0xEC, 0, false, new OnPacketReceive(EquipMacro));
+            Register(0xED, 0, false, new OnPacketReceive(UnequipMacro));
+            #endregion
 
             RegisterExtended(0x05, false, new OnPacketReceive(ScreenSize));
             RegisterExtended(0x06, true, new OnPacketReceive(PartyMessage));
@@ -176,10 +177,12 @@ namespace Server.Network
             RegisterExtended(0x1C, true, new OnPacketReceive(CastSpell));
             RegisterExtended(0x24, false, new OnPacketReceive(UnhandledBF));
 
-            // GeNova: suporte ao UO:KR.
+            #region GeNova: KR Support
             RegisterExtended(0x2C, true, new OnPacketReceive(TargetedItemUse));
             RegisterExtended(0x2D, true, new OnPacketReceive(TargetedSpell));
             RegisterExtended(0x2E, true, new OnPacketReceive(TargetedSkillUse));
+            RegisterExtended(0x30, true, new OnPacketReceive(TargetByResourceMacro));
+            #endregion
 
             RegisterEncoded(0x19, true, new OnEncodedPacketReceive(SetAbility));
             RegisterEncoded(0x28, true, new OnEncodedPacketReceive(GuildGumpRequest));
@@ -1060,7 +1063,7 @@ namespace Server.Network
                 from.Drop(World.FindMobile(dest), loc);
             else if (dest.IsItem)
             {
-                #region Support UO:KR
+                #region GeNova KR Support
                 if (World.FindItem(dest) is Container)
                 {
                     Container m_container = World.FindItem(dest) as Container;
@@ -1104,9 +1107,10 @@ namespace Server.Network
             else
                 from.Drop(loc);
 
-            // support uo:kr
+            #region GeNova: KR Support
             if (state != null)
                 state.Send(new KRDropConfirm());
+            #endregion
         }
 
         public static void ConfigurationFile(NetState state, PacketReader pvSrc)
@@ -1503,12 +1507,10 @@ namespace Server.Network
                 {
                     if (m_SingleClickProps)
                     {
-                        // genova: suporte uo:ml.
-                        #region Mondain's Legacy
+                        #region GeNova: Mondain's Legacy
                         if (m.ShowIncomingName(from))
-                        #endregion
-
                             m.OnAosSingleClick(from);
+                        #endregion
                     }
                     else
                     {
@@ -2419,8 +2421,8 @@ namespace Server.Network
             state.Dispose();
         }
 
-        // Genova: Suporte ao UO:KR.
-        #region Suporte ao UO:KR
+        #region GeNova: KR Support
+
         // KR Client Signal (Seed)
         public static void KRSeed(NetState state, PacketReader pvSrc)
         {
@@ -2436,6 +2438,11 @@ namespace Server.Network
 
         public static void KRCharacterListUpdate(NetState state, PacketReader pvSrc)
         {
+            int length = pvSrc.Size;
+            int always1 = pvSrc.ReadInt16();
+            int clientFlags = pvSrc.ReadInt32();
+
+            // Need to confirm whether to actually call this stretch.
             state.Send(new CharacterListUpdate(state.Account));
         }
 
@@ -2446,25 +2453,26 @@ namespace Server.Network
 
             int length = pvSrc.Size;
 
-            int unk1 = pvSrc.ReadInt32();		// Pattern
+            int unk1 = pvSrc.ReadInt32(); // Pattern
             int charSlot = pvSrc.ReadInt32();
             string name = pvSrc.ReadString(30);
-            string unknown1 = pvSrc.ReadString(30);
+            string unknown1 = pvSrc.ReadString(30); // "Unknow"
 
-            int prof = pvSrc.ReadByte();
-            uint unk3 = pvSrc.ReadByte();	// Fixed in 0x41
+            int profession = pvSrc.ReadByte();
+            int clientFlags = pvSrc.ReadByte();
 
             int gender = pvSrc.ReadByte();
-            int brace = pvSrc.ReadByte();	// Race
+            int genderRace = pvSrc.ReadByte();
 
             int str = pvSrc.ReadByte();
             int dex = pvSrc.ReadByte();
-            int intl = pvSrc.ReadByte();
+            int intel = pvSrc.ReadByte();
 
-            int hue = pvSrc.ReadUInt16();
+            int hue = pvSrc.ReadInt16();
             int unk5 = pvSrc.ReadInt32(); // 0x00 0x00 0x00 0x00
             int unk6 = pvSrc.ReadInt32(); // 0x00 0x00 0x00 0x00	
 
+            // isX = skill amount | vsX = skill
             int is1 = pvSrc.ReadByte();
             int vs1 = pvSrc.ReadByte();
             int is2 = pvSrc.ReadByte();
@@ -2474,46 +2482,42 @@ namespace Server.Network
             int is4 = pvSrc.ReadByte();
             int vs4 = pvSrc.ReadByte();
 
-            string unknown2 = pvSrc.ReadString(24); // Pack of 0x00
-            int unk7 = pvSrc.ReadInt16();				// Another 0x00
+            string unknown2 = pvSrc.ReadString(25); // Pack of 0x00
+            int unk7 = pvSrc.ReadByte(); // Another 0x00
 
-            int hairHue = pvSrc.ReadInt16();
-            int hairVal = pvSrc.ReadInt16();
+            int hairColor = pvSrc.ReadInt16();
+            int hairID = pvSrc.ReadInt16();
 
-            int unk8 = pvSrc.ReadInt16();
-            int unk9 = pvSrc.ReadInt16();		// 0x00
-            int unk10 = pvSrc.ReadInt16();	// 0x00
-            int unk11 = pvSrc.ReadInt16();
-            int unk12 = pvSrc.ReadInt16();	// 0x00
-            int unk13 = pvSrc.ReadInt16();
-            int unk14 = pvSrc.ReadInt16();
+            int unk8 = pvSrc.ReadByte();
+            int unk9 = pvSrc.ReadInt32();
+            int unk10 = pvSrc.ReadByte();
+            int shirtHue = pvSrc.ReadInt16();
+            int shirtID = pvSrc.ReadInt16();
+            int unk13 = pvSrc.ReadByte();
 
-            //Console.WriteLine("Unk8: " + unk8.ToString() );
-            //Console.WriteLine("Unk9: " + unk9.ToString() );
-            //Console.WriteLine("Unk10: " + unk10.ToString() );
-            //Console.WriteLine("Unk11: " + unk11.ToString() );
-            //Console.WriteLine("Unk12: " + unk12.ToString() );
-            //Console.WriteLine("Unk13: " + unk13.ToString() );
-            //Console.WriteLine("Unk14: " + unk14.ToString() );
+            int faceColor = pvSrc.ReadInt16();
+            int faceID = pvSrc.ReadInt16();
 
-            int face = pvSrc.ReadInt16();
+            int unk14 = pvSrc.ReadByte();
 
-            int hairHuef = pvSrc.ReadInt16();		// Beard Hue
-            int hairValf = pvSrc.ReadInt16();		// Beard ID
+            int beardColor = pvSrc.ReadInt16();
+            int beardID = pvSrc.ReadInt16();
 
-            int cityIndex = 0;		// Obsolete
-            int shirtHue = 0;		// Obsolete
-            int pantsHue = 0;		// Obsolete	
+            int cityIndex = 0; // Obsolete
+            int pantsHue = shirtHue; // Obsolete	
 
             bool female = (gender != 0);
 
-            Race race = Race.Races[brace];
+            Race race = Race.Races[genderRace];
 
             if (race == null)
                 race = Race.DefaultRace;
 
             CityInfo[] info = state.CityInfo;
             IAccount a = state.Account;
+
+            if (clientFlags > 0)
+                flags = clientFlags;
 
             if (info == null || a == null || cityIndex < 0 || cityIndex >= info.Length)
             {
@@ -2537,9 +2541,14 @@ namespace Server.Network
                 state.Flags = flags;
 
                 CharacterCreatedEventArgs args = new CharacterCreatedEventArgs(
-                    state, a,
-                    name, female, hue,
-                    str, dex, intl,
+                    state,
+                    a,
+                    name,
+                    female,
+                    hue,
+                    str,
+                    dex,
+                    intel,
                     info[cityIndex],
                     new SkillNameValue[3]
 					{
@@ -2547,11 +2556,16 @@ namespace Server.Network
 						new SkillNameValue( (SkillName)is2, vs2 ),
 						new SkillNameValue( (SkillName)is3, vs3 ),
 					},
-                    shirtHue, pantsHue,
-                    hairVal, hairHue,
-                    hairValf, hairHuef,
-                    prof,
-                    race
+                    shirtHue,
+                    pantsHue,
+                    hairID,
+                    hairColor,
+                    beardID,
+                    beardColor,
+                    profession,
+                    race,
+                    faceID,
+                    faceColor
                     );
 
                 state.BlockAllPackets = true;
@@ -2580,21 +2594,78 @@ namespace Server.Network
         {
             short spellId = (short)(pvSrc.ReadInt16() - 1);    // zero based;
             Serial target = pvSrc.ReadInt32();
-            EventSink.InvokeTargetedSpellCast(ns, World.FindEntity(target), spellId);
+
+            TargetedSpellEventArgs e = new TargetedSpellEventArgs(ns, World.FindEntity(target), spellId);
+            EventSink.InvokeTargetedSpellCast(e);
         }
+
         public static void TargetedItemUse(NetState ns, PacketReader pvSrc)
         {
             Serial srcItem = pvSrc.ReadInt32();
             Serial target = pvSrc.ReadInt32();
+
             if (srcItem.IsItem)
-                EventSink.InvokeTargetedItemUse(ns, World.FindItem(srcItem), World.FindEntity(target));
+            {
+                TargetedItemUseEventArgs e = new TargetedItemUseEventArgs(ns, World.FindItem(srcItem), World.FindEntity(target));
+                EventSink.InvokeTargetedItemUse(e);
+            }
         }
+
         public static void TargetedSkillUse(NetState ns, PacketReader pvSrc)
         {
-            short skillId = pvSrc.ReadInt16();
+            short skillID = pvSrc.ReadInt16();
             Serial target = pvSrc.ReadInt32();
-            EventSink.InvokeTargetedSkillUse(ns, World.FindEntity(target), skillId);
+
+            TargetedSkillUseEventArgs e = new TargetedSkillUseEventArgs(ns, World.FindEntity(target), skillID);
+            EventSink.InvokeTargetedSkillUse(e);
         }
+
+        public static void EquipMacro(NetState ns, PacketReader pvSrc)
+        {
+            int length = pvSrc.Size;
+
+            int count = pvSrc.ReadByte();
+            List<int> serialList = new List<int>(count);
+            for (int i = 0; i < count; ++i)
+            {
+                Serial s = pvSrc.ReadInt32();
+                serialList.Add(s);
+            }
+
+            EquipMacroEventArgs e = new EquipMacroEventArgs(ns, serialList);
+            EventSink.InvokeEquipMacro(e);
+        }
+
+        public static void UnequipMacro(NetState ns, PacketReader pvSrc)
+        {
+            int length = pvSrc.Size;
+
+            int count = pvSrc.ReadByte();
+            List<int> layers = new List<int>(count);
+            for (int i = 0; i < count; ++i)
+            {
+                int s = pvSrc.ReadInt16();
+                layers.Add(s);
+            }
+
+            UnequipMacroEventArgs e = new UnequipMacroEventArgs(ns, layers);
+            EventSink.InvokeUnequipMacro(e);
+        }
+
+        public static void TargetByResourceMacro(NetState ns, PacketReader pvSrc)
+        {
+            int length = pvSrc.Size;
+            int Command = pvSrc.ReadInt16();
+            Serial serial = pvSrc.ReadInt32();
+            int resourcetype = pvSrc.ReadInt16();
+
+            if (serial.IsItem)
+            {
+                TargetByResourceMacroEventArgs e = new TargetByResourceMacroEventArgs(ns, World.FindItem(serial), resourcetype);
+                EventSink.InvokeTargetByResourceMacro(e);
+            }
+        }
+
         #endregion
     }
 }

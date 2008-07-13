@@ -3553,12 +3553,6 @@
     <None Include="Scripts\_GeNova_\Spawners\MegaSpawner\Spawn Files %28maps%29\Trammel.rar" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Server\Core.csproj">
-      <Project>{9B46F0EF-4D47-4897-B463-CFE19CB738A9}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Data\Components\doors.txt" />
     <Content Include="Data\Components\floors.txt" />
     <Content Include="Data\Components\misc.txt" />
@@ -3583,5 +3577,11 @@
     <Content Include="GeNova_XML\Misc\gumps.xml" />
     <Content Include="Scripts\_GeNova_\Spawners\MegaSpawner\Spawn Files %28maps%29\%40About All Spawns.txt" />
     <Content Include="Scripts\_GeNova_\Spawners\MegaSpawner\Spawn Files %28maps%29\%40About.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Server\Core.csproj">
+      <Project>{9B46F0EF-4D47-4897-B463-CFE19CB738A9}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

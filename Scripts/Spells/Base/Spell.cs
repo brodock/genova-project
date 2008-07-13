@@ -482,8 +482,7 @@ namespace Server.Spells
 			{
 				return false;
 			}
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			else if ( m_Caster is PlayerMobile  && ((PlayerMobile) m_Caster).Peaced )
 			{
 				m_Caster.SendLocalizedMessage( 1072060 ); // You cannot cast a spell while calmed.

@@ -1852,7 +1852,7 @@ namespace Server.Network
                     // genova: support uo:kr
                     #region Support uo:kr
 
-                    if (defineGridLocation) 
+                    if (defineGridLocation)
                         child.GridLocation = i;
 
                     m_Stream.Write((byte)child.GridLocation); // Grid Location
@@ -2911,7 +2911,9 @@ namespace Server.Network
             bool sendMaxWeight = (Core.ML && m.NetState != null && m.NetState.SupportsExpansion(Expansion.ML));
 
 
-            this.EnsureCapacity(sendMaxWeight ? 91 : 88);
+            #region GeNova: KR Support
+            this.EnsureCapacity((m.NetState != null && m.NetState.IsKRClient) ? 161 : (sendMaxWeight ? 91 : 88));
+            #endregion 
 
             m_Stream.Write((int)m.Serial);
             m_Stream.WriteAsciiFixed(name, 30);
@@ -2921,7 +2923,9 @@ namespace Server.Network
 
             m_Stream.Write(m.CanBeRenamedBy(m));
 
-            m_Stream.Write((byte)(sendMaxWeight ? 0x05 : Core.AOS ? 0x04 : 0x03)); // type
+            #region GeNova: KR Support
+            m_Stream.Write((byte)((m.NetState != null && m.NetState.IsKRClient) ? 0x06 : (sendMaxWeight ? 0x05 : Core.AOS ? 0x04 : 0x03))); // type 
+            #endregion
 
             m_Stream.Write(m.Female);
 
@@ -2970,6 +2974,35 @@ namespace Server.Network
 
                 m_Stream.Write((int)m.TithingPoints);
             }
+
+            #region GeNova: KR Support
+            if (m.NetState != null && m.NetState.IsKRClient)
+            {
+                m_Stream.Write((short)m.AttackChance); // Hit Chance Increase
+                m_Stream.Write((short)m.WeaponSpeed); // Swing Speed Increase
+                m_Stream.Write((short)m.WeaponDamage); // Damage Increase
+                m_Stream.Write((short)m.LowerRegCost); // Lower Reagent Cost
+                m_Stream.Write((short)m.RegenHits); // Hit Points Regeneration
+                m_Stream.Write((short)m.RegenStam); // Stamina Regeneration
+                m_Stream.Write((short)m.RegenMana); // Mana Regeneration
+                m_Stream.Write((short)m.ReflectPhysical); // Reflect Physical Damage
+                m_Stream.Write((short)m.EnhancePotions); // Enhance Potions
+                m_Stream.Write((short)m.DefendChance); // Defense Chance Increase
+                m_Stream.Write((short)m.SpellDamage); // Spell Damage Increase
+                m_Stream.Write((short)m.CastRecovery); // Faster Cast Recovery
+                m_Stream.Write((short)m.CastSpeed); // Faster Casting
+                m_Stream.Write((short)m.LowerManaCost); // Lower Mana Cost
+                m_Stream.Write((short)m.BonusStr); // Strength Increase
+                m_Stream.Write((short)m.BonusDex); // Dexterity Increase
+                m_Stream.Write((short)m.BonusInt); // Intelligence Increase
+                m_Stream.Write((short)m.BonusHits); // Hit Points Increase
+                m_Stream.Write((short)m.BonusStam); // Stamina Increase
+                m_Stream.Write((short)m.BonusMana); // Mana Increase
+                m_Stream.Write((short)m.MaxHitIncrease); // Maximum Hit Points Increase
+                m_Stream.Write((short)m.MaxStamIncrease); // Maximum Stamina Increase
+                m_Stream.Write((short)m.MaxManaIncrease); // Maximum Mana Increase
+            }
+            #endregion
         }
     }
 
@@ -3107,6 +3140,11 @@ namespace Server.Network
             if (beheld.FacialHairItemID > 0)
                 count++;
 
+            #region GeNova: KR Support
+            if (beholder.NetState != null && beholder.NetState.IsKRClient && beheld.FaceItemID > 0)
+                count++;
+            #endregion KR Face
+
             this.EnsureCapacity(23 + (count * 9));
 
             int hue = beheld.Hue;
@@ -3205,6 +3243,34 @@ namespace Server.Network
                         m_Stream.Write((short)hue);
                 }
             }
+
+            #region GeNova: KR Support
+            if (beheld.FaceItemID > 0)
+            {
+                if (m_DupedLayers[(int)Layer.Face] != m_Version)
+                {
+                    m_DupedLayers[(int)Layer.Face] = m_Version;
+                    hue = beheld.FaceHue;
+
+                    if (beheld.SolidHueOverride >= 0)
+                        hue = beheld.SolidHueOverride;
+
+                    int itemID = beheld.FaceItemID & 0x3FFF;
+
+                    bool writeHue = (hue != 0);
+
+                    if (writeHue)
+                        itemID |= 0x8000;
+
+                    m_Stream.Write((int)FaceInfo.FakeSerial(beheld));
+                    m_Stream.Write((short)itemID);
+                    m_Stream.Write((byte)Layer.Face);
+
+                    if (writeHue)
+                        m_Stream.Write((short)hue);
+                }
+            }
+            #endregion
 
             m_Stream.Write((int)0); // terminate
         }
@@ -4177,4 +4243,46 @@ namespace Server.Network
             m_Stream = null;
         }
     }
+
+    #region GeNova: KR Support
+
+    public sealed class HideWaypoint : Packet
+    {
+        public HideWaypoint(Serial serial)
+            : base(0xE6, 5)
+        {
+            m_Stream.Write((int)serial);
+        }
+    }
+
+    public sealed class DisplayWaypoint : Packet
+    {
+        public DisplayWaypoint(Serial serial, int x, int y, int z, int mapID, int type, string name)
+            : base(0xE5)
+        {
+            this.EnsureCapacity(25);
+
+            m_Stream.Write((int)serial);
+
+            m_Stream.Write((short)x);
+            m_Stream.Write((short)y);
+            m_Stream.Write((sbyte)z);
+            m_Stream.Write((byte)mapID); //map 
+
+            m_Stream.Write((short)type); //type 
+
+            m_Stream.Write((short)0);
+
+            if (type.Equals(1))
+                m_Stream.Write((int)1046414);
+            else
+                m_Stream.Write((int)1062613);
+
+            m_Stream.WriteLittleUniNull(name);
+
+            m_Stream.Write((short)0); // terminate 
+        }
+    }
+
+    #endregion
 }
