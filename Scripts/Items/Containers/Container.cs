@@ -221,14 +221,12 @@ namespace Server.Items
 			base.Deserialize( reader );
 
 			#region GeNova: Mondain's Legacy
-			/*
 			int version = reader.ReadInt();
 
 			m_EngravedText = reader.ReadString();
 			m_Quality = (ClothingQuality) reader.ReadInt();
 			m_Resource = (CraftResource) reader.ReadInt();
 			m_Crafter = reader.ReadMobile();
-			*/
 			#endregion
 		}
 		
