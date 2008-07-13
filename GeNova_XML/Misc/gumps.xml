@@ -18,4 +18,7 @@
   <object name="HousePlacementCategoryGump" value="507" />
   <object name="StuckMenu" value="296" />
   <object name="MoongateGump" value="600" />
+  <object name="DisguiseGump" value="999018" />
+  <object name="PolymorphGump" value="9014" />
+  <object name="NewPolymorphGump" value="9014" />
 </gumps>

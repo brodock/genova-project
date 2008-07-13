@@ -21,7 +21,7 @@ namespace Server.Items
 		SlayerName Slayer2 { get; set; }
 	}
 
-	// Genova: suporte ao UO:ML.
+	// GeNova: This class has a considerable amount of code changed for compatibility with the project Mondain's Legacy.
 	public abstract class BaseWeapon : Item, IWeapon, IFactionItem, ICraftable, ISlayer, IDurability, ISetItem
 	{
 		#region Factions
@@ -136,8 +136,7 @@ namespace Server.Items
 		public virtual int InitMinHits{ get{ return 0; } }
 		public virtual int InitMaxHits{ get{ return 0; } }
 
-		// Genova: suporte ao UO:ML.
-		// Mondain's Legacy Mod
+		// GeNova: Mondain's Legacy
 		public override int PhysicalResistance{ get{ return m_AosWeaponAttributes.ResistPhysicalBonus + ( IsSetItem && m_SetEquipped ? m_SetWeaponAttributes.ResistPhysicalBonus : 0 ); } }
 		public override int FireResistance{ get{ return m_AosWeaponAttributes.ResistFireBonus + ( IsSetItem && m_SetEquipped ? m_SetWeaponAttributes.ResistFireBonus : 0 ); } }
 		public override int ColdResistance{ get{ return m_AosWeaponAttributes.ResistColdBonus + ( IsSetItem && m_SetEquipped ? m_SetWeaponAttributes.ResistColdBonus : 0 ); } }
@@ -454,8 +453,7 @@ namespace Server.Items
 			{
 				bonus += m_AosWeaponAttributes.DurabilityBonus;
 
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy									
+				#region GeNova: Mondain's Legacy									
 				if ( m_Resource == CraftResource.Heartwood )
 					return bonus;
 				#endregion
@@ -480,8 +478,7 @@ namespace Server.Items
 
 			int v = m_AosWeaponAttributes.LowerStatReq;
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy						
+			#region GeNova: Mondain's Legacy						
 			if ( m_Resource == CraftResource.Heartwood )
 				return v;
 			#endregion
@@ -649,8 +646,7 @@ namespace Server.Items
 				if ( Core.AOS )
 					m_AosSkillBonuses.AddTo( from );
 
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy						
+				#region GeNova: Mondain's Legacy						
 				if ( IsSetItem )
 					m_SetEquipped = SetHelper.FullSetPresent( from, SetID, Pieces );
 				
@@ -702,11 +698,12 @@ namespace Server.Items
 
 				m.Delta( MobileDelta.WeaponDamage );
 
-				// Genova: suporte ao UO:ML.				
+				#region GeNova: Mondain's Legacy
 				if ( IsSetItem ? m_SetEquipped : false )
 					SetHelper.RemoveSetBonus( m, SetID, this );
+				#endregion
 			}
-			// Genova: suporte ao UO:ML.			
+			
 			InvalidateProperties();
 		}
 
@@ -714,8 +711,7 @@ namespace Server.Items
 		{
 			SkillName sk;
 
-			// Genova: suporte ao UO:ML.
-			// Mondain's Legacy Mod
+			// GeNova: Mondain's Legacy
 			if ( checkSkillAttrs && m_AosWeaponAttributes.UseBestSkill + ( IsSetItem && m_SetEquipped ? m_SetWeaponAttributes.UseBestSkill : 0 ) != 0 )
 			{
 				double swrd = m.Skills[SkillName.Swords].Value;
@@ -729,8 +725,7 @@ namespace Server.Items
 				if ( fenc > val ){ sk = SkillName.Fencing; val = fenc; }
 				if ( mcng > val ){ sk = SkillName.Macing; val = mcng; }
 			}
-			// Genova: suporte ao UO:ML.
-			// Mondain's Legacy Mod
+			// GeNova: Mondain's Legacy
 			else if ( m_AosWeaponAttributes.MageWeapon + ( IsSetItem && m_SetEquipped ? m_SetWeaponAttributes.MageWeapon : 0 ) != 0 )
 			{
 				if ( m.Skills[SkillName.Magery].Value > m.Skills[Skill].Value )
@@ -1478,15 +1473,24 @@ namespace Server.Items
 			//if ( factor > 3.0 )
 			//	factor = 3.0;
 
+			#region GeNova: Mondain's Legacy
+			if ( Core.ML )
+			{
+				if ( this is ButchersWarCleaver )
+				{
+					if ( defender is Bull || defender is Cow || defender is Gaman )
+						percentageBonus += 100;
+				}
+				
+				if ( defender.Poison == Poison.Darkglow && attacker.InRange( defender.Location, 1 ) )
+					percentageBonus += 10;
+			}
+			#endregion
+
 			percentageBonus = Math.Min( percentageBonus, 300 );
 
 			//damage = (int)(damage * factor);
 			damage = AOS.Scale( damage, 100 + percentageBonus );
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
-			if ( defender.Poison == Poison.Darkglow && attacker.InRange( defender.Location, 1) )
-				damage = (int) ( damage * 1.1 ); // TODO check
-			#endregion
 			
 			#endregion
 
@@ -1513,9 +1517,10 @@ namespace Server.Items
 
 			AddBlood( attacker, defender, damage );
 
-			int phys, fire, cold, pois, nrgy;
+			// GeNova: Mondain's Legacy
+			int phys, fire, cold, pois, nrgy, chaos, direct;
 
-			GetDamageTypes( attacker, out phys, out fire, out cold, out pois, out nrgy );
+			GetDamageTypes( attacker, out phys, out fire, out cold, out pois, out nrgy, out chaos, out direct );
 
 			if ( m_Consecrated )
 			{
@@ -1557,7 +1562,18 @@ namespace Server.Items
 
 			bool ignoreArmor = ( a is ArmorIgnore || (move != null && move.IgnoreArmor( attacker )) );
 
-			damageGiven = AOS.Damage( defender, attacker, damage, ignoreArmor, phys, fire, cold, pois, nrgy );
+			#region GeNova: Mondain's Legacy
+			// damage increase after resists applied
+			int damageIncrease = 0;
+			
+			BaseQuiver quiver = attacker.FindItemOnLayer( Layer.Cloak ) as BaseQuiver;
+			
+			if ( quiver != null )
+				damageIncrease = quiver.DamageIncrease;
+
+			// Mondain's Legacy Mod
+			damageGiven = AOS.Damage( defender, attacker, damage, ignoreArmor, phys, fire, cold, pois, nrgy, chaos, direct, damageIncrease );
+			#endregion
 
 			double propertyBonus = ( move == null ) ? 1.0 : move.GetPropertyBonus( attacker );
 
@@ -1568,13 +1584,16 @@ namespace Server.Items
 				int manaLeech = 0;
 				int wraithLeech = 0;
 
-				if ( (int)(m_AosWeaponAttributes.HitLeechHits * propertyBonus) > Utility.Random( 100 ) )
+				// GeNova: Mondain's Legacy
+				if ( (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitLeechHits ) * propertyBonus) > Utility.Random( 100 ) )
 					lifeLeech += 30; // HitLeechHits% chance to leech 30% of damage as hit points
 
-				if ( (int)(m_AosWeaponAttributes.HitLeechStam * propertyBonus) > Utility.Random( 100 ) )
+				// GeNova: Mondain's Legacy
+				if ( (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitLeechStam ) * propertyBonus) > Utility.Random( 100 ) )
 					stamLeech += 100; // HitLeechStam% chance to leech 100% of damage as stamina
 
-				if ( (int)(m_AosWeaponAttributes.HitLeechMana * propertyBonus) > Utility.Random( 100 ) )
+				// GeNova: Mondain's Legacy
+				if ( (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitLeechMana ) * propertyBonus) > Utility.Random( 100 ) )
 					manaLeech += 40; // HitLeechMana% chance to leech 40% of damage as mana
 
 				if ( m_Cursed )
@@ -1612,8 +1631,7 @@ namespace Server.Items
 			{
 				if ( MaxRange <= 1 && (defender is Slime || defender is ToxicElemental) )
 					attacker.LocalOverheadMessage( MessageType.Regular, 0x3B2, 500263 ); // *Acid blood scars your weapon!*
-				// Genova: suporte ao UO:ML.
-				// Mondain's Legacy Mod
+				// GeNova: Mondain's Legacy
 				if ( Core.AOS && m_AosWeaponAttributes.SelfRepair + ( IsSetItem && m_SetEquipped ? m_SetWeaponAttributes.SelfRepair : 0 ) > Utility.Random( 10 ) )
 				{
 					HitPoints += 2;
@@ -1654,11 +1672,12 @@ namespace Server.Items
 
 			if ( Core.AOS )
 			{
-				int physChance = (int)(m_AosWeaponAttributes.HitPhysicalArea * propertyBonus);
-				int fireChance = (int)(m_AosWeaponAttributes.HitFireArea * propertyBonus);
-				int coldChance = (int)(m_AosWeaponAttributes.HitColdArea * propertyBonus);
-				int poisChance = (int)(m_AosWeaponAttributes.HitPoisonArea * propertyBonus);
-				int nrgyChance = (int)(m_AosWeaponAttributes.HitEnergyArea * propertyBonus);
+				// GeNova: Mondain's Legacy
+				int physChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitPhysicalArea ) * propertyBonus);
+				int fireChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitFireArea ) * propertyBonus);
+				int coldChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitColdArea ) * propertyBonus);
+				int poisChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitPoisonArea ) * propertyBonus);
+				int nrgyChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitEnergyArea ) * propertyBonus);
 
 				if ( physChance != 0 && physChance > Utility.Random( 100 ) )
 					DoAreaAttack( attacker, defender, 0x10E,   50, 100, 0, 0, 0, 0 );
@@ -1675,11 +1694,12 @@ namespace Server.Items
 				if ( nrgyChance != 0 && nrgyChance > Utility.Random( 100 ) )
 					DoAreaAttack( attacker, defender, 0x1F1,  120, 0, 0, 0, 0, 100 );
 
-				int maChance = (int)(m_AosWeaponAttributes.HitMagicArrow * propertyBonus);
-				int harmChance = (int)(m_AosWeaponAttributes.HitHarm * propertyBonus);
-				int fireballChance = (int)(m_AosWeaponAttributes.HitFireball * propertyBonus);
-				int lightningChance = (int)(m_AosWeaponAttributes.HitLightning * propertyBonus);
-				int dispelChance = (int)(m_AosWeaponAttributes.HitDispel * propertyBonus);
+				// GeNova: Mondain's Legacy
+				int maChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitMagicArrow ) * propertyBonus);
+				int harmChance = (int)(AosWeaponAttributes.GetValue(attacker,  AosWeaponAttribute.HitHarm ) * propertyBonus);
+				int fireballChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitFireball ) * propertyBonus);
+				int lightningChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitLightning ) * propertyBonus);
+				int dispelChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitDispel ) * propertyBonus);
 
 				if ( maChance != 0 && maChance > Utility.Random( 100 ) )
 					DoMagicArrow( attacker, defender );
@@ -1696,8 +1716,9 @@ namespace Server.Items
 				if ( dispelChance != 0 && dispelChance > Utility.Random( 100 ) )
 					DoDispel( attacker, defender );
 
-				int laChance = (int)(m_AosWeaponAttributes.HitLowerAttack * propertyBonus);
-				int ldChance = (int)(m_AosWeaponAttributes.HitLowerDefend * propertyBonus);
+				// GeNova: Mondain's Legacy
+				int laChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitLowerAttack ) * propertyBonus);
+				int ldChance = (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitLowerDefend ) * propertyBonus);
 
 				if ( laChance != 0 && laChance > Utility.Random( 100 ) )
 					DoLowerAttack( attacker, defender );
@@ -1963,7 +1984,15 @@ namespace Server.Items
 			}
 		}
 
+		// GeNova: Mondain's Legacy
 		public virtual void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy )
+		{
+			int dummy;
+			
+			GetDamageTypes( wielder, out phys, out fire, out cold, out pois, out nrgy, out dummy, out dummy );
+		}
+		
+		public virtual void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
 		{
 			if( wielder is BaseCreature )
 			{
@@ -1974,6 +2003,10 @@ namespace Server.Items
 				cold = bc.ColdDamage;
 				pois = bc.PoisonDamage;
 				nrgy = bc.EnergyDamage;
+				#region GeNova: Mondain's Legacy
+				chaos = 0;
+				direct = 0;
+				#endregion
 			}
 			else
 			{
@@ -1982,7 +2015,12 @@ namespace Server.Items
 				pois = m_AosElementDamages.Poison;
 				nrgy = m_AosElementDamages.Energy;
 
-				phys = 100 - fire - cold - pois - nrgy;
+				#region GeNova: Mondain's Legacy
+				chaos = m_AosElementDamages.Chaos;
+				direct = m_AosElementDamages.Direct;
+				#endregion
+				
+				phys = 100 - fire - cold - pois - nrgy - chaos - direct;
 
 				CraftResourceInfo resInfo = CraftResources.GetInfo( m_Resource );
 
@@ -2435,8 +2473,7 @@ namespace Server.Items
 
 			writer.Write( (int) 9 ); // version
 
-			// Genova: suporte ao UO:ML.			
-			#region Mondain's Legacy version 9
+			#region GeNova: Mondain's Legacy version 9
 			SetFlag sflags = SetFlag.None;
 			
 			SetSaveFlag( ref sflags, SetFlag.Attributes,		!m_SetAttributes.IsEmpty );
@@ -2623,8 +2660,7 @@ namespace Server.Items
 			ElementalDamages		= 0x20000000
 		}
 
-		// Genova: suporte ao UO:ML.
-		#region Mondain's Legacy		
+		#region GeNova: Mondain's Legacy		
 		private static void SetSaveFlag( ref SetFlag flags, SetFlag toSet, bool setIf )
 		{
 			if ( setIf )
@@ -2657,8 +2693,7 @@ namespace Server.Items
 
 			switch ( version )
 			{
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				case 9:
 				{
 					SetFlag flags = (SetFlag) reader.ReadEncodedInt();
@@ -2962,8 +2997,7 @@ namespace Server.Items
 				}
 			}
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( m_SetAttributes == null )
 				m_SetAttributes = new AosAttributes( this );
 	
@@ -3037,8 +3071,7 @@ namespace Server.Items
 			m_AosSkillBonuses = new AosSkillBonuses( this );
 			m_AosElementDamages = new AosElementAttributes( this );
 
-			// Genova: suporte ao UO:ML.			
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			m_SetAttributes = new AosAttributes( this );
 			m_SetWeaponAttributes = new AosWeaponAttributes( this );
 			m_SetSkillBonuses = new AosSkillBonuses( this );
@@ -3128,8 +3161,7 @@ namespace Server.Items
 				case CraftResource.WhiteScales:		oreType = 1060821; break; // white
 				case CraftResource.BlueScales:		oreType = 1060815; break; // blue
 
-				// Genova: suporte ao UO:ML.				
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				case CraftResource.OakWood:			oreType = 1072533; break; // oak
 				case CraftResource.AshWood:			oreType = 1072534; break; // ash
 				case CraftResource.YewWood:			oreType = 1072535; break; // yew
@@ -3164,8 +3196,7 @@ namespace Server.Items
 
 		public virtual int GetLuckBonus()
 		{
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( m_Resource == CraftResource.Heartwood )
 				return 0;
 			#endregion
@@ -3195,8 +3226,7 @@ namespace Server.Items
 				list.Add( 1041350 ); // faction item
 			#endregion
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( IsSetItem )
 			{
 				// always mixed
@@ -3228,7 +3258,7 @@ namespace Server.Items
 
 			if ( m_Poison != null && m_PoisonCharges > 0 )
 			{
-				// Genova: suporte ao UO:ML.				
+				// GeNova: Mondain's Legacy
 				if ( m_Poison == Poison.GetPoison( "Darkglow" ) )
 					list.Add( 1072853, m_PoisonCharges.ToString() ); // darkglow poison charges: ~1_val~
 				else if ( m_Poison == Poison.GetPoison( "Parasitic" ) )
@@ -3382,9 +3412,17 @@ namespace Server.Items
 			if ( (prop = m_AosAttributes.WeaponSpeed) != 0 )
 				list.Add( 1060486, prop.ToString() ); // swing speed increase ~1_val~%
 
-			int phys, fire, cold, pois, nrgy;
+			#region GeNova: Mondain's Legacy
+			int phys, fire, cold, pois, nrgy, chaos, direct;
 
-			GetDamageTypes( null, out phys, out fire, out cold, out pois, out nrgy );
+			GetDamageTypes( null, out phys, out fire, out cold, out pois, out nrgy, out chaos, out direct );
+			
+			if ( chaos != 0 )
+				list.Add( 1072846, chaos.ToString() ); // chaos damage ~1_val~%
+			
+			if ( direct != 0 )
+				list.Add( 1079978, direct.ToString() ); // Direct Damage: ~1_PERCENT~%
+			#endregion
 
 			if ( phys != 0 )
 				list.Add( 1060403, phys.ToString() ); // physical damage ~1_val~%
@@ -3431,8 +3469,7 @@ namespace Server.Items
 			if ( m_Hits >= 0 && m_MaxHits > 0 )
 				list.Add( 1060639, "{0}\t{1}", m_Hits, m_MaxHits ); // durability ~1_val~ / ~2_val~
 
-			// Genova: suporte ao UO:ML.				
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( IsSetItem && !m_SetEquipped )
 			{
 				list.Add( 1072378 ); // <br>Only when full set is present:
@@ -3523,7 +3560,7 @@ namespace Server.Items
 
 		#region ICraftable Members
 
-		// Genova: suporte ao UO:ML.
+		// GeNova: Mondain's Legacy
 		public virtual int OnCraft( int quality, bool makersMark, Mobile from, CraftSystem craftSystem, Type typeRes, BaseTool tool, CraftItem craftItem, int resHue )
 		{
 			Quality = (WeaponQuality)quality;
@@ -3547,8 +3584,7 @@ namespace Server.Items
 				if ( context != null && context.DoNotColor )
 					Hue = 0;
 
-				// Genova: suporte ao UO:ML.
-				// Mondain's Legacy Mod
+				// GeNova: Mondain's Legacy
 				if ( craftItem != null && !craftItem.ForceNonExceptional )
 				{
 					if ( tool is BaseRunicTool )
@@ -3571,8 +3607,7 @@ namespace Server.Items
 			}
 			else if ( tool is BaseRunicTool )
 			{
-				// Genova: suporte ao UO:ML.
-				// Mondain's Legacy Mod
+				// GeNova: Mondain's Legacy
 				if ( craftItem != null && !craftItem.ForceNonExceptional )
 				{
 					CraftResource thisResource = CraftResources.GetFromType( resourceType );
@@ -3655,8 +3690,7 @@ namespace Server.Items
 				}
 			}
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy				
+			#region GeNova: Mondain's Legacy				
 			if ( craftItem != null && !craftItem.ForceNonExceptional )
 			{
 				CraftResourceInfo resInfo = CraftResources.GetInfo( m_Resource );
@@ -3697,8 +3731,7 @@ namespace Server.Items
 
 		#endregion
 		
-		// Genova: suporte ao UO:ML.
-		#region Mondain's Legacy Set Armor
+		#region GeNova: Mondain's Legacy Set Armor
 		public override bool OnDragLift( Mobile from )
 		{
 			if ( Parent is Mobile && from == Parent )

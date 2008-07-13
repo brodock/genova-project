@@ -5,6 +5,8 @@ namespace Server.Items
 {
 	public class ParrotWafer : Item
 	{
+		public override int LabelNumber{ get{ return 1072904; } } // Parrot Wafers
+		
 		[Constructable]
 		public ParrotWafer() : base( 0x2FD6 )
 		{

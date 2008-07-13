@@ -943,7 +943,9 @@ namespace Server.Items
 			}
 			else if ( dead is BaseCreature )
 			{
-				((BaseCreature)dead).OnCarve( from, this );
+				#region GeNova: Mondain's Legacy
+				((BaseCreature)dead).OnCarve( from, this, item );
+				#endregion
 			}
 			else
 			{

@@ -10,7 +10,7 @@ using ABT = Server.Items.ArmorBodyType;
 
 namespace Server.Items
 {
-	// Genova: suporte ao UO:ML.
+	// GeNova: This class has a considerable amount of code changed for compatibility with the project Mondain's Legacy.
 	public abstract class BaseArmor : Item, IScissorable, IFactionItem, ICraftable, IWearableDurability, ISetItem
 	{
 		#region Factions
@@ -408,8 +408,7 @@ namespace Server.Items
 		public virtual int BasePoisonResistance{ get{ return 0; } }
 		public virtual int BaseEnergyResistance{ get{ return 0; } }
 
-		// Genova: suporte ao UO:ML.
-		// Mondain's Legacy Mod
+		// GeNova: Mondain's Legacy Mod
 		public override int PhysicalResistance{ get{ return BasePhysicalResistance + GetProtOffset() + GetResourceAttrs().ArmorPhysicalResist + m_PhysicalBonus + (SetEquipped ? m_SetPhysicalBonus : 0 ); } }
 		public override int FireResistance{ get{ return BaseFireResistance + GetProtOffset() + GetResourceAttrs().ArmorFireResist + m_FireBonus + (SetEquipped ? m_SetFireBonus : 0 ); } }
 		public override int ColdResistance{ get{ return BaseColdResistance + GetProtOffset() + GetResourceAttrs().ArmorColdResist + m_ColdBonus + (SetEquipped ? m_SetColdBonus : 0 ); } }
@@ -522,8 +521,10 @@ namespace Server.Items
 			{
 				bonus += m_AosArmorAttributes.DurabilityBonus;
 
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy					
+				#region GeNova: Mondain's Legacy					
+				if ( IsSetItem && m_SetEquipped )
+					bonus += m_SetArmorAttributes.DurabilityBonus;
+								
 				if ( m_Resource == CraftResource.Heartwood )
 					return bonus;
 				#endregion
@@ -642,8 +643,10 @@ namespace Server.Items
 
 			int v = m_AosArmorAttributes.LowerStatReq;
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy			
+			#region GeNova: Mondain's Legacy			
+			if ( IsSetItem && m_SetEquipped )
+				v += m_SetArmorAttributes.LowerStatReq;	
+					
 			if ( m_Resource == CraftResource.Heartwood )
 				return v;
 			#endregion
@@ -673,8 +676,7 @@ namespace Server.Items
 				if ( Core.AOS )
 					m_AosSkillBonuses.AddTo( from );
 
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy					
+				#region GeNova: Mondain's Legacy					
 				if ( IsSetItem )
 					m_SetEquipped = SetHelper.FullSetPresent( from, SetID, Pieces );
 				
@@ -751,8 +753,7 @@ namespace Server.Items
 			PlayerConstructed	= 0x01000000
 		}
 
-		// Genova: suporte ao UO:ML.
-		#region Mondain's Legacy		
+		#region GeNova: Mondain's Legacy		
 		private static void SetSaveFlag( ref SetFlag flags, SetFlag toSet, bool setIf )
 		{
 			if ( setIf )
@@ -788,8 +789,7 @@ namespace Server.Items
 
 			writer.Write( (int) 8 ); // version
 			
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy version 8
+			#region GeNova: Mondain's Legacy version 8
 			SetFlag sflags = SetFlag.None;
 			
 			SetSaveFlag( ref sflags, SetFlag.Attributes,		!m_SetAttributes.IsEmpty );
@@ -948,8 +948,7 @@ namespace Server.Items
 
 			switch ( version )
 			{
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				case 8:
 					SetFlag sflags = (SetFlag) reader.ReadEncodedInt();
 					
@@ -1240,8 +1239,7 @@ namespace Server.Items
 				}
 			}
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( m_SetAttributes == null )
 				m_SetAttributes = new AosAttributes( this );
 	
@@ -1304,8 +1302,7 @@ namespace Server.Items
 			m_AosArmorAttributes = new AosArmorAttributes( this );
 			m_AosSkillBonuses = new AosSkillBonuses( this );
 			
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			m_SetAttributes = new AosAttributes( this );
 			m_SetArmorAttributes = new AosArmorAttributes( this );
 			m_SetSkillBonuses = new AosSkillBonuses( this );
@@ -1441,8 +1438,7 @@ namespace Server.Items
 				((Mobile)parent).Delta( MobileDelta.Armor ); // Tell them armor rating has changed
 				m.CheckStatTimers();
 							
-				// Genova: suporte ao UO:ML.	
-				#region Set Armor
+				#region GeNova: Mondain's Legacy Set Armor
 				if ( IsSetItem ? m_SetEquipped : false )
 					SetHelper.RemoveSetBonus( m, SetID, this );
 				#endregion
@@ -1450,8 +1446,9 @@ namespace Server.Items
 
 			base.OnRemoved( parent );
 			
-			// Genova: suporte ao UO:ML.
+			#region GeNova: Mondain's Legacy
 			InvalidateProperties();
+			#endregion
 		}
 
 		public virtual int OnHit( BaseWeapon weapon, int damageTaken )
@@ -1468,7 +1465,9 @@ namespace Server.Items
 
 			if ( 25 > Utility.Random( 100 ) ) // 25% chance to lower durability
 			{
-				if ( Core.AOS && m_AosArmorAttributes.SelfRepair > Utility.Random( 10 ) )
+				#region GeNova: Mondain's Legacy
+				if ( Core.AOS && m_AosArmorAttributes.SelfRepair + ( IsSetItem && m_SetEquipped ? m_SetArmorAttributes.SelfRepair : 0 ) > Utility.Random( 10 ) )
+				#endregion
 				{
 					HitPoints += 2;
 				}
@@ -1556,8 +1555,7 @@ namespace Server.Items
 				case CraftResource.WhiteScales:		oreType = 1060821; break; // white
 				case CraftResource.BlueScales:		oreType = 1060815; break; // blue
 				
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				case CraftResource.OakWood:			oreType = 1072533; break; // oak
 				case CraftResource.AshWood:			oreType = 1072534; break; // ash
 				case CraftResource.YewWood:			oreType = 1072535; break; // yew
@@ -1597,8 +1595,7 @@ namespace Server.Items
 
 		public virtual int GetLuckBonus()
 		{
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy				
+			#region GeNova: Mondain's Legacy				
 			if ( m_Resource == CraftResource.Heartwood )
 				return 0;
 			#endregion
@@ -1628,8 +1625,7 @@ namespace Server.Items
 				list.Add( 1041350 ); // faction item
 			#endregion
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( IsSetItem )
 			{
 				if ( MixedSet )
@@ -1748,8 +1744,7 @@ namespace Server.Items
 			if ( m_HitPoints >= 0 && m_MaxHitPoints > 0 )
 				list.Add( 1060639, "{0}\t{1}", m_HitPoints, m_MaxHitPoints ); // durability ~1_val~ / ~2_val~
 			
-			// Genova: suporte ao UO:ML.	
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( IsSetItem && !m_SetEquipped )
 			{
 				list.Add( 1072378 ); // <br>Only when full set is present:
@@ -1859,8 +1854,7 @@ namespace Server.Items
 			if ( Core.AOS && tool is BaseRunicTool )
 				((BaseRunicTool)tool).ApplyAttributesTo( this );
 			
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy	
+			#region GeNova: Mondain's Legacy	
 			if ( craftItem != null && !craftItem.ForceNonExceptional )
 			{	
 				CraftResourceInfo resInfo = CraftResources.GetInfo( m_Resource );
@@ -1899,8 +1893,7 @@ namespace Server.Items
 
 		#endregion
 		
-		// Genova: suporte ao UO:ML.
-		#region Mondain's Legacy Set Armor
+		#region GeNova: Mondain's Legacy Set Armor
 		public override bool OnDragLift( Mobile from )
 		{
 			if ( Parent is Mobile && from == Parent )

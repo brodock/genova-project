@@ -2,12 +2,12 @@
 REM Compiler Project in Windows
 
 REM Change the directory below based on your machine.
-cd "E:\Projetos\GeNova\GeNova 3.0"
+cd "E:\Projetos\GeNova\GeNova Project"
 IF EXIST Runuo_Windows.exe DEL Runuo_Windows.exe
 IF EXIST Runuo_Windows.pdb DEL Runuo_Windows.pdb
 
 REM Change the directory below based on your machine.
-cd "E:\Projetos\GeNova\GeNova 3.0\Server"
+cd "E:\Projetos\GeNova\GeNova Project\Server"
 set FRAMEWORK=%windir%\Microsoft.NET\\Framework\v2.0.50727
 
 REM NEW LINES FOR FRAMEWORK 3.5

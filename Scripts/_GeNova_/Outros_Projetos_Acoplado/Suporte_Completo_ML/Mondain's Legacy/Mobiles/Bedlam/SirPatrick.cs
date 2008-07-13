@@ -74,6 +74,18 @@ namespace Server.Mobiles
 		}
 		
 		public override bool GivesMinorArtifact{ get{ return true; } }
+		public override bool HasBreath{ get{ return true; } }
+		public override double BreathEffectDelay{ get{ return 0; } }
+		public override int BreathEffectSound{ get{ return 0x208; } }	
+		
+		public override void BreathPlayAngerAnimation()		
+		{
+		}	
+
+		public override void BreathPlayEffect( Mobile target )
+		{			
+			target.FixedParticles( 0x3709, 10, 30, 5052, EffectLayer.LeftFoot );
+		}
 	
 		public SirPatrick( Serial serial ) : base( serial )
 		{

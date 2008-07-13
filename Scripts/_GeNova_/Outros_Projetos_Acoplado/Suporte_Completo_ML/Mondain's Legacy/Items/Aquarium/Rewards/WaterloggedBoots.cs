@@ -1,16 +1,27 @@
 using System;
 using Server;
-using Server.Items;
 
 namespace Server.Items
 {
-	public class WaterloggedBoots : Boots
+	public class WaterloggedBoots : BaseShoes
 	{		
 		public override int LabelNumber{ get{ return 1074364; } } // Waterlogged boots
 		
 		[Constructable]
-		public WaterloggedBoots() : base()
+		public WaterloggedBoots() : base( 0x1711 )
 		{
+			if ( Utility.RandomBool() )
+			{	
+				// thigh boots
+				ItemID = 0x1711;
+				Weight = 4.0;
+			}
+			else
+			{
+				// boots
+				ItemID = 0x170B;
+				Weight = 3.0;
+			}
 		}
 
 		public WaterloggedBoots( Serial serial ) : base( serial )

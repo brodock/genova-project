@@ -352,12 +352,13 @@ namespace Server.Items
 		{
 			base.OnSingleClick( from );
 
-			LabelTo( from, 1041645 );	//recovered from a shipwreck
+			if ( m_IsShipwreckedItem )
+				LabelTo( from, 1041645 );	//recovered from a shipwreck
 		}
 
 		#region ICraftable Members
 
-		// Genova: suporte ao UO:ML.
+		// GeNova: Mondain's Legacy
 		public override int OnCraft( int quality, bool makersMark, Mobile from, CraftSystem craftSystem, Type typeRes, BaseTool tool, CraftItem craftItem, int resHue )
 		{
 			if ( from.CheckSkill( SkillName.Tinkering, -5.0, 15.0 ) )
@@ -392,8 +393,7 @@ namespace Server.Items
 				from.SendLocalizedMessage( 500637 ); // Your tinker skill was insufficient to make the item lockable.
 			}
 
-			// Genova: suporte ao UO:ML.			
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			return base.OnCraft( quality, makersMark, from, craftSystem, typeRes, tool, craftItem, resHue );
 			#endregion
 		}

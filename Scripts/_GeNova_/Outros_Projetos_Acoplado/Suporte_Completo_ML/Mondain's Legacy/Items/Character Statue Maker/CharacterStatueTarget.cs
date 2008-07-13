@@ -46,8 +46,6 @@ namespace Server.Targets
 					
 					statue.Plinth = plinth;
 					plinth.MoveToWorld( loc, map );
-					loc.Z += 5;
-					statue.MoveToWorld( loc, map );
 					statue.InvalidatePose();
 					
 					from.SendGump( new CharacterStatueGump( m_Maker, statue ) );
@@ -65,13 +63,18 @@ namespace Server.Targets
 				from.SendLocalizedMessage( 1042001 ); // That must be in your pack for you to use it.
 		}
 		
-		private AddonFitResult CouldFit( Point3D p, Map map, Mobile from, ref BaseHouse house )
+		public static AddonFitResult CouldFit( Point3D p, Map map, Mobile from, ref BaseHouse house )
 		{
 			if ( !map.CanFit( p.X, p.Y, p.Z, 20, false, true, true ) )
 				return AddonFitResult.Blocked;
 			else if ( !BaseAddon.CheckHouse( from, p, map, 20, ref house ) )
 				return AddonFitResult.NotInHouse;
-				
+			else
+				return CheckDoors( p, 20, house );
+		}
+		
+		public static AddonFitResult CheckDoors( Point3D p, int height, BaseHouse house )
+		{
 			ArrayList doors = house.Doors;
 
 			for ( int i = 0; i < doors.Count; i ++ )
@@ -84,7 +87,7 @@ namespace Server.Targets
 				Point3D doorLoc = door.GetWorldLocation();
 				int doorHeight = door.ItemData.CalcHeight;
 				
-				if ( Utility.InRange( doorLoc, p, 1 ) && (p.Z == doorLoc.Z || ((p.Z + 20) > doorLoc.Z && (doorLoc.Z + doorHeight) > p.Z)) )
+				if ( Utility.InRange( doorLoc, p, 1 ) && (p.Z == doorLoc.Z || ((p.Z + height) > doorLoc.Z && (doorLoc.Z + doorHeight) > p.Z)) )
 					return AddonFitResult.DoorTooClose;
 			}
 			

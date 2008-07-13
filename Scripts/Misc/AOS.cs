@@ -25,30 +25,67 @@ namespace Server
 
 		public static int Damage( Mobile m, int damage, bool ignoreArmor, int phys, int fire, int cold, int pois, int nrgy )
 		{
-			return Damage( m, null, damage, ignoreArmor, phys, fire, cold, pois, nrgy );
+			#region GeNova: Mondain's Legacy
+			return Damage( m, null, damage, ignoreArmor, phys, fire, cold, pois, nrgy, 0, 0, 0 );
+			#endregion
 		}
 
 		public static int Damage( Mobile m, int damage, int phys, int fire, int cold, int pois, int nrgy )
 		{
-			return Damage( m, null, damage, phys, fire, cold, pois, nrgy );
+			#region GeNova: Mondain's Legacy
+			return Damage( m, null, damage, phys, fire, cold, pois, nrgy, 0, 0, 0 );
+			#endregion
 		}
 
 		public static int Damage( Mobile m, Mobile from, int damage, int phys, int fire, int cold, int pois, int nrgy )
 		{
-			return Damage( m, from, damage, false, phys, fire, cold, pois, nrgy, false );
+			#region GeNova: Mondain's Legacy
+			return Damage( m, from, damage, false, phys, fire, cold, pois, nrgy, 0, 0, false, 0 );
+			#endregion
 		}
 
 		public static int Damage( Mobile m, Mobile from, int damage, bool ignoreArmor, int phys, int fire, int cold, int pois, int nrgy )
 		{
-			return Damage( m, from, damage, ignoreArmor, phys, fire, cold, pois, nrgy, false );
+			#region GeNova: Mondain's Legacy
+			return Damage( m, from, damage, ignoreArmor, phys, fire, cold, pois, nrgy, 0, 0, false, 0 );
+			#endregion
 		}
 
 		public static int Damage( Mobile m, Mobile from, int damage, int phys, int fire, int cold, int pois, int nrgy, bool keepAlive )
 		{
-			return Damage( m, from, damage, false, phys, fire, cold, pois, nrgy, keepAlive );
+			#region GeNova: Mondain's Legacy
+			return Damage( m, from, damage, false, phys, fire, cold, pois, nrgy, 0, 0, keepAlive, 0 );
+			#endregion
 		}
 
-		public static int Damage( Mobile m, Mobile from, int damage, bool ignoreArmor, int phys, int fire, int cold, int pois, int nrgy, bool keepAlive )
+		#region GeNova: Mondain's Legacy
+		public static int Damage( Mobile m, int damage, bool ignoreArmor, int phys, int fire, int cold, int pois, int nrgy, int chaos, int direct, int damageIncrease )
+		{
+			return Damage( m, null, damage, ignoreArmor, phys, fire, cold, pois, nrgy, chaos, direct, damageIncrease );
+		}
+
+		public static int Damage( Mobile m, int damage, int phys, int fire, int cold, int pois, int nrgy, int chaos, int direct, int damageIncrease )
+		{
+			return Damage( m, null, damage, phys, fire, cold, pois, nrgy, chaos, direct, damageIncrease );
+		}
+
+		public static int Damage( Mobile m, Mobile from, int damage, int phys, int fire, int cold, int pois, int nrgy, int chaos, int direct, int damageIncrease )
+		{
+			return Damage( m, from, damage, false, phys, fire, cold, pois, nrgy, chaos, direct, false, damageIncrease );
+		}
+
+		public static int Damage( Mobile m, Mobile from, int damage, bool ignoreArmor, int phys, int fire, int cold, int pois, int nrgy, int chaos, int direct, int damageIncrease )
+		{
+			return Damage( m, from, damage, ignoreArmor, phys, fire, cold, pois, nrgy, chaos, direct, false, damageIncrease );
+		}
+
+		public static int Damage( Mobile m, Mobile from, int damage, int phys, int fire, int cold, int pois, int nrgy, int chaos, int direct, bool keepAlive, int damageIncrease )
+		{
+			return Damage( m, from, damage, false, phys, fire, cold, pois, nrgy, chaos, direct, keepAlive, damageIncrease );
+		}
+		#endregion
+
+		public static int Damage( Mobile m, Mobile from, int damage, bool ignoreArmor, int phys, int fire, int cold, int pois, int nrgy, int chaos, int direct, bool keepAlive, int damageIncrease )
 		{
 			if( m == null || m.Deleted || !m.Alive || damage <= 0 )
 				return 0;
@@ -67,6 +104,25 @@ namespace Server
 			Fix( ref cold );
 			Fix( ref pois );
 			Fix( ref nrgy );
+
+			#region GeNova: Mondain's Legacy
+			Fix( ref chaos );
+			Fix( ref direct );
+			
+			if ( chaos > 0 )
+			{
+				switch ( Utility.Random( 5 ) )
+				{
+					case 0: phys += chaos; break;
+					case 1: fire += chaos; break;
+					case 2: cold += chaos; break;
+					case 3: pois += chaos; break;
+					case 4: nrgy += chaos; break;
+				}
+			}
+			
+			damage += (int) ( damage * direct / (double) 100 );
+			#endregion
 
 			int totalDamage;
 
@@ -99,6 +155,10 @@ namespace Server
 				totalDamage = damage;
 			}
 
+			#region GeNova: Mondain's Legacy
+			totalDamage += (int) ( totalDamage * damageIncrease / (double) 100 );
+			#endregion
+
 			#region Dragon Barding
 			if( (!Core.AOS || from == null || !from.Player) && m.Player && m.Mount is SwampDragon )
 			{
@@ -111,9 +171,7 @@ namespace Server
 
 					totalDamage -= absorbed;
 					
-					// genova: support uo:ml.
-					#region Mondain's Legacy
-					// Mondain's Legacy mod
+					#region GeNova: Mondain's Legacy
 					if ( !( pet is ParoxysmusSwampDragon ) )
 						pet.BardingHP -= absorbed;
 					#endregion
@@ -260,8 +318,7 @@ namespace Server
 					if( attrs != null )
 						value += attrs[attribute];
 				}
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				else if( obj is BaseTalisman )
 				{
 					AosAttributes attrs = ((BaseTalisman)obj).Attributes;
@@ -456,8 +513,7 @@ namespace Server
 						value += attrs[attribute];
 				}
 				
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				else if ( obj is Glasses )
 				{
 					AosWeaponAttributes attrs = ((Glasses)obj).WeaponAttributes;
@@ -614,8 +670,7 @@ namespace Server
 						value += attrs[attribute];
 				}
 				
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				if ( obj is BaseArmor )
 				{
 					AosArmorAttributes attrs = ((BaseArmor)obj).SetArmorAttributes;
@@ -837,7 +892,11 @@ namespace Server
 		Fire=0x00000002,
 		Cold=0x00000004,
 		Poison=0x00000008,
-		Energy=0x00000010
+		Energy=0x00000010,
+		#region GeNova: Mondain's Legacy
+		Chaos	= 0x00000020,
+		Direct	= 0x00000040
+		#endregion
 	}
 
 	public sealed class AosElementAttributes : BaseAttributes
@@ -877,6 +936,22 @@ namespace Server
 
 		[CommandProperty( AccessLevel.GameMaster )]
 		public int Energy { get { return this[AosElementAttribute.Energy]; } set { this[AosElementAttribute.Energy] = value; } }
+		
+		#region GeNova: Mondain's Legacy
+		[CommandProperty( AccessLevel.GameMaster )]
+		public int Chaos 
+		{ 
+			get { return this[ AosElementAttribute.Chaos ]; } 
+			set { this[ AosElementAttribute.Chaos ] = value; } 
+		}
+		
+		[CommandProperty( AccessLevel.GameMaster )]
+		public int Direct 
+		{ 
+			get { return this[ AosElementAttribute.Direct ]; } 
+			set { this[ AosElementAttribute.Direct ] = value; } 
+		}
+		#endregion
 	}
 
 	[PropertyObject]

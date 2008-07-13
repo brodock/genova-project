@@ -118,8 +118,10 @@ namespace Server.Misc
 			IPAddress[] ips = iphe.AddressList;
 
 			for ( int i = 0; i < ips.Length; ++i )
-				if ( !IsPrivateNetwork( ips[i] ) )
+			{
+				if ( ips[i].AddressFamily != AddressFamily.InterNetworkV6 && !IsPrivateNetwork( ips[i] ) )
 					return true;
+			}
 
 			return false;
 		}
@@ -129,6 +131,9 @@ namespace Server.Misc
 			// 10.0.0.0/8
 			// 172.16.0.0/12
 			// 192.168.0.0/16
+
+			if ( ip.AddressFamily == AddressFamily.InterNetworkV6 )
+				return false;
 
 			if ( Utility.IPMatch( "192.168.*", ip ) )
 				return true;

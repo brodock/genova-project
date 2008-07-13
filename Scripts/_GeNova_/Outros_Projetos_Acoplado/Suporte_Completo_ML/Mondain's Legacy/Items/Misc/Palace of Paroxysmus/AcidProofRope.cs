@@ -5,6 +5,8 @@ namespace Server.Items
 {
 	public class AcidProofRope : Item
 	{	
+		public override int LabelNumber{ get{ return 1074886; } } // Acid Proof Rope
+		
 		[Constructable]
 		public AcidProofRope() : base( 0x20D )
 		{

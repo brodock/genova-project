@@ -176,7 +176,10 @@ namespace Server.Engines.Quests
 			{
 				BaseQuest quest = player.Quests[ i ];
 				
-				if ( quest.Quester == quester )
+				if ( quest.Quester == null )
+					continue;
+					
+				if ( quest.Quester.GetType() == quester.GetType() )
 				{
 					if ( quest.Completed )		
 					{

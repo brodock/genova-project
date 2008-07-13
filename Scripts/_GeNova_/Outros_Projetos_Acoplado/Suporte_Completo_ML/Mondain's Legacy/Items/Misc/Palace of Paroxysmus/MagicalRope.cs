@@ -5,6 +5,7 @@ namespace Server.Items
 {
 	public class MagicalRope : PeerlessKey
 	{	
+		public override int LabelNumber{ get{ return 1074338; } } // Magical Rope	
 		public override int Lifespan{ get{ return 600; } }
 	
 		[Constructable]

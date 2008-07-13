@@ -21,15 +21,22 @@ namespace Server.Items
 
 		public override SkillName AccuracySkill{ get{ return SkillName.Archery; } }
 
-		// Genova: suporte ao UO:ML.
-		#region Mondain's Legacy
+		#region GeNova: Mondain's Legacy
 		private bool m_Balanced;
+		private int m_Velocity;
 		
 		[CommandProperty( AccessLevel.GameMaster )]
 		public bool Balanced
 		{
 			get{ return m_Balanced; }
 			set{ m_Balanced = value; InvalidateProperties(); }
+		}
+		
+		[CommandProperty( AccessLevel.GameMaster )]
+		public int Velocity
+		{
+			get{ return m_Velocity; }
+			set{ m_Velocity = value; InvalidateProperties(); }
 		}
 		#endregion
 
@@ -108,8 +115,7 @@ namespace Server.Items
 		{
 			Container pack = attacker.Backpack;
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy			
+			#region GeNova: Mondain's Legacy			
 			BaseQuiver quiver = attacker.FindItemOnLayer( Layer.Cloak ) as BaseQuiver;
 			
 			if ( attacker.Player && (quiver == null || !quiver.ConsumeAmmo( AmmoType )) )
@@ -124,9 +130,22 @@ namespace Server.Items
 			return true;
 		}
 
-		// Genova: suporte ao UO:ML.
-		#region Mondain's Legacy
-		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy )
+		#region GeNova: Mondain's Legacy
+		public override int ComputeDamage( Mobile attacker, Mobile defender )
+		{
+			int damage = base.ComputeDamage( attacker, defender );
+			
+			// add velocity bonus
+			if ( m_Velocity > 0 )
+			{
+				int range = (int) Math.Round( Math.Sqrt( Math.Pow( attacker.X - defender.X, 2 ) + Math.Pow( attacker.Y - defender.Y, 2 ) ) ); 	
+				damage += (int) Math.Round( Math.Min( range * 3, 30 ) * ( m_Velocity / (double) 100 ) );
+			}	
+			
+			return damage;	
+		}
+		
+		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
 		{
 			if ( Parent is Mobile )
 			{
@@ -136,13 +155,13 @@ namespace Server.Items
 				
 				if ( quiver != null && !quiver.DamageModifier.IsEmpty )
 				{
-					quiver.GetDamageTypes( out phys, out fire, out cold, out pois, out nrgy );
+					quiver.GetDamageTypes( out phys, out fire, out cold, out pois, out nrgy, out chaos, out direct );
 					
 					return;
 				}
 			}
 			
-			base.GetDamageTypes( wielder, out phys, out fire, out cold, out pois, out nrgy );
+			base.GetDamageTypes( wielder, out phys, out fire, out cold, out pois, out nrgy, out chaos, out direct );
 		}
 		
 		public override void AddNameProperties( ObjectPropertyList list )
@@ -151,6 +170,9 @@ namespace Server.Items
 			
 			if ( m_Balanced )
 				list.Add( 1072792 ); // Balanced
+			
+			if ( m_Velocity > 0 )
+				list.Add( 1072793, m_Velocity.ToString() ); // Velocity ~1_val~%
 		}
 		#endregion
 
@@ -158,10 +180,13 @@ namespace Server.Items
 		{
 			base.Serialize( writer );
 
-			writer.Write( (int) 3 ); // version
+			writer.Write( (int) 4 ); // version
+			
+			#region GeNova: Mondain's Legacy ver 4
+			writer.Write( (int) m_Velocity );
+			#endregion
 
-			// Genova: suporte ao UO:ML.			
-			#region Mondain's Legacy ver 3
+			#region GeNova: Mondain's Legacy ver 3
 			writer.Write( (bool) m_Balanced );
 			#endregion
 		}
@@ -174,9 +199,13 @@ namespace Server.Items
 
 			switch ( version )
 			{
+				case 4:
+					#region GeNova: Mondain's Legacy
+					m_Velocity = reader.ReadInt();
+					#endregion
+					goto case 3;
 				case 3:
-					// Genova: suporte ao UO:ML.
-					#region Mondain's Legacy
+					#region GeNova: Mondain's Legacy
 					m_Balanced = reader.ReadBool();
 					#endregion
 					goto case 2;

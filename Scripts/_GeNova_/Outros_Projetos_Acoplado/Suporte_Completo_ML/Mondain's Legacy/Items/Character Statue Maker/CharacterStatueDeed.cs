@@ -28,7 +28,6 @@ namespace Server.Items
 		}
 		
 		private CharacterStatue m_Statue;
-		private StatueType m_Type;
 		
 		[CommandProperty( AccessLevel.GameMaster )]
 		public CharacterStatue Statue

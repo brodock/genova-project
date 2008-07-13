@@ -104,6 +104,12 @@ namespace Server.Items
 		private DisguiseKit m_Kit;
 		private bool m_Used;
 
+        // genova: support to KR gump
+        public static void Initialize()
+        {
+            RegisterType(typeof(DisguiseGump));
+        }
+
 		public DisguiseGump( Mobile from, DisguiseKit kit, bool startAtHair, bool used ) : base( 50, 50 )
 		{
 			m_From = from;

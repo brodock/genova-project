@@ -5,7 +5,7 @@
  *   copyright            : (C) The RunUO Software Team
  *   email                : info@runuo.com
  *
- *   $Id: ScriptCompiler.cs 258 2007-09-15 21:17:08Z mark $
+ *   $Id: ScriptCompiler.cs 297 2008-05-29 03:57:42Z mark $
  *
  ***************************************************************************/
 
@@ -90,6 +90,10 @@ namespace Server
 				AppendDefine( ref sb, "/d:x64" );
 
 			AppendDefine( ref sb, "/d:Framework_2_0" );
+
+#if Framework_3_5
+			AppendDefine( ref sb, "/d:Framework_3_5" );
+#endif
 
 			return (sb == null ? null : sb.ToString());
 		}
@@ -207,7 +211,11 @@ namespace Server
 
 			DeleteFiles( "Scripts.CS*.dll" );
 
+#if Framework_3_5
+			using ( CSharpCodeProvider provider = new CSharpCodeProvider( new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } } ) )
+#else
 			using( CSharpCodeProvider provider = new CSharpCodeProvider() )
+#endif
 			{
 				string path = GetUnusedPath( "Scripts.CS" );
 
@@ -346,8 +354,11 @@ namespace Server
 			}
 
 			DeleteFiles( "Scripts.VB*.dll" );
-
+#if Framework_3_5
+			using ( VBCodeProvider provider = new VBCodeProvider( new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } } ) )
+#else
 			using( VBCodeProvider provider = new VBCodeProvider() )
+#endif
 			{
 				string path = GetUnusedPath( "Scripts.VB" );
 
@@ -560,16 +571,23 @@ namespace Server
 				return false;
 			}
 
-			if( CompileVBScripts( debug, cache, out assembly ) )
+			if ( Core.VBdotNet )
 			{
-				if( assembly != null )
+				if( CompileVBScripts( debug, cache, out assembly ) )
 				{
-					assemblies.Add( assembly );
+					if( assembly != null )
+					{
+						assemblies.Add( assembly );
+					}
+				}
+				else
+				{
+					return false;
 				}
 			}
 			else
 			{
-				return false;
+				Console.WriteLine( "Scripts: Skipping VB.NET Scripts...done (use -vb to enable)");
 			}
 
 			if( assemblies.Count == 0 )

@@ -14,7 +14,6 @@ namespace Server.Items
 		[Constructable]
 		public SeveredElfEars( int amount ) : base( Utility.RandomList( 0x312D, 0x312E ) )
 		{
-			LootType = LootType.Blessed;
 			Stackable = true;
 			Amount = amount;
 			Weight = 1;			

@@ -146,6 +146,22 @@ namespace Server.Mobiles
 				m_Plinth.Delete();
 		}
 		
+		protected override void OnMapChange( Map oldMap )
+		{			
+			InvalidatePose();
+			
+			if ( m_Plinth != null )
+				m_Plinth.Map = Map;
+		}
+		
+		protected override void OnLocationChange( Point3D oldLocation )
+		{
+			InvalidatePose();
+			
+			if ( m_Plinth != null )
+				m_Plinth.Location = new Point3D( X, Y, Z - 5 );
+		}
+		
 		public override bool CanBeRenamedBy( Mobile from )
 		{
 			return false;
@@ -208,18 +224,6 @@ namespace Server.Mobiles
 			m_SculptedOn = DateTime.Now;
 			
 			InvalidateProperties();
-		}
-		
-		public void Demolish( MovingCrate to )
-		{
-			Item deed = new CharacterStatueDeed( this );
-			
-			to.AddItem( deed );
-			
-			Internalize();
-			
-			if ( m_Plinth != null )
-				m_Plinth.Internalize();
 		}
 		
 		public void Demolish( Mobile by )
@@ -349,15 +353,12 @@ namespace Server.Mobiles
 
 				foreach( NetState state in eable )
 				{
-					if( state.Mobile.CanSee( this ) )
-					{
-						state.Mobile.ProcessDelta();
+					state.Mobile.ProcessDelta();
 
-						if( p == null )
-							p = Packet.Acquire( new UpdateStatueAnimation( this, 1, m_Animation, m_Frames ) );
+					if( p == null )
+						p = Packet.Acquire( new UpdateStatueAnimation( this, 1, m_Animation, m_Frames ) );
 
-						state.Send( p );
-					}
+					state.Send( p );
 				}
 
 				Packet.Release( p );

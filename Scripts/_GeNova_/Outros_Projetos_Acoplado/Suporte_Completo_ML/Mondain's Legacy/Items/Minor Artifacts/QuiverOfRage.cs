@@ -10,14 +10,14 @@ namespace Server.Items
 		[Constructable]
 		public QuiverOfRage() : base()
 		{
-			Hue = 0xEB;
+			Hue = 0xEB;		
 			
-			Attributes.WeaponDamage = 10;
-			
+			DamageModifier.Direct = 10;
 			DamageModifier.Physical = 40;
-			DamageModifier.Cold = 60;
+			DamageModifier.Cold = 50;
 			
 			WeightReduction = 25;
+			DamageIncrease = 10;
 		}
 
 		public QuiverOfRage( Serial serial ) : base( serial )

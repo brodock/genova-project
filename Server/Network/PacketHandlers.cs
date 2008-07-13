@@ -151,11 +151,14 @@ namespace Server.Network
 
             Register6017(0x08, 15, true, new OnPacketReceive(DropReq6017));
 
-            // Genova: suporte ao UO:KR.
-            // KR Client
+            // Genova: support to UO:KR.
             Register(0x8D, 0, false, new OnPacketReceive(KRCreateCharacter));
+            Register(0xE1, 0, false, new OnPacketReceive(KRCharacterListUpdate));
             Register(0xE4, 0, false, new OnPacketReceive(KRVerifierResponse));
             Register(0xFF, 4, false, new OnPacketReceive(KRSeed));
+
+            // genova: support to UO:KR. by shagalinam
+            Register(0x89, 39, false, new OnPacketReceive(DeleteCharacter));
 
             RegisterExtended(0x05, false, new OnPacketReceive(ScreenSize));
             RegisterExtended(0x06, true, new OnPacketReceive(PartyMessage));
@@ -2429,6 +2432,11 @@ namespace Server.Network
         // KR Client Verifier Response (We still need to research on this thing)
         public static void KRVerifierResponse(NetState state, PacketReader pvSrc)
         {
+        }
+
+        public static void KRCharacterListUpdate(NetState state, PacketReader pvSrc)
+        {
+            state.Send(new CharacterListUpdate(state.Account));
         }
 
         // KR Client Character Creation

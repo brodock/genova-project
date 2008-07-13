@@ -10,6 +10,8 @@ namespace Server.Items
 
 		public override int BasePhysicalResistance{ get{ return 5; } }
 		public override int BaseEnergyResistance{ get{ return 1; } }
+		
+		public override int AosStrReq{ get{ return 14; } }
 
 		[Constructable]
 		public EscutcheonDeAriadne() : base()
@@ -17,7 +19,7 @@ namespace Server.Items
 			LootType = LootType.Blessed;
 			Hue = 0x8A5;
 
-			ArmorAttributes.DurabilityBonus = 50;
+			ArmorAttributes.DurabilityBonus = 49;
 			Attributes.ReflectPhysical = 5;
 			Attributes.DefendChance = 5;
 		}

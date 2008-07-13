@@ -47,8 +47,7 @@ namespace Server.Mobiles
 		AcceptGuildInvites	= 0x00000800,
 		DisplayChampionTitle= 0x00001000,
 
-		// Genova: suporte ao UO:ML.		
-		#region Mondain's Legacy
+		#region GeNova: Mondain's Legacy
 		Bedlam				= 0x00010000,
 		LibraryFriend		= 0x00020000,
 		Spellweaving		= 0x00040000,
@@ -286,8 +285,7 @@ namespace Server.Mobiles
 		}
 		#endregion
 
-		// Genova: suporte ao UO:ML.
-		#region Mondain's Legacy
+		#region GeNova: Mondain's Legacy
 		[CommandProperty( AccessLevel.GameMaster )]
 		public bool Bedlam
 		{
@@ -430,6 +428,9 @@ namespace Server.Mobiles
 
 		public override int GetMaxResistance( ResistanceType type )
 		{
+			if ( AccessLevel > AccessLevel.Player )
+				return int.MaxValue;
+
 			int max = base.GetMaxResistance( type );
 
 			if ( type != ResistanceType.Physical && 60 < max && Spells.Fourth.CurseSpell.UnderEffect( this ) )
@@ -810,8 +811,7 @@ namespace Server.Mobiles
 				if ( pm.m_Quest != null )
 					pm.m_Quest.StartTimer();
 
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				QuestHelper.StartTimer( pm );
 				#endregion
 
@@ -867,8 +867,7 @@ namespace Server.Mobiles
 				if ( pm.m_Quest != null )
 					pm.m_Quest.StopTimer();
 
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				QuestHelper.StopTimer( pm );
 				#endregion
 
@@ -928,8 +927,7 @@ namespace Server.Mobiles
 			if ( m_DesignContext != null || (target is PlayerMobile && ((PlayerMobile)target).m_DesignContext != null) )
 				return false;
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( Peaced )
 			{
 				// TODO message
@@ -1284,8 +1282,7 @@ namespace Server.Mobiles
 				if( Alive )
 					list.Add( new CallbackEntry( 6210, new ContextCallback( ToggleChampionTitleDisplay ) ) );
 
-				// Genova: suporte ao UO:ML.					
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				if( Alive )
 				{
 					QuestHelper.GetContextMenuEntries( list );
@@ -1325,8 +1322,7 @@ namespace Server.Mobiles
 
 		private bool CanInsure( Item item )
 		{
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( item is BaseQuiver && item.LootType == LootType.Regular )
 				return true;
 			#endregion
@@ -1818,8 +1814,7 @@ namespace Server.Mobiles
 			if ( m_SentHonorContext != null )
 				m_SentHonorContext.OnSourceDamaged( from, amount );
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( InvisibilityPotion.HasTimer( this ) )
 				InvisibilityPotion.Iterrupt( this );
 			#endregion
@@ -2150,8 +2145,7 @@ namespace Server.Mobiles
 
 		public PlayerMobile()
 		{
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			m_Quests = new List<BaseQuest>();
 			m_Chains = new Dictionary<QuestChain,BaseChain>();
 			m_DoneQuests = new List<QuestRestartInfo>();
@@ -2273,8 +2267,7 @@ namespace Server.Mobiles
 				from.Damage( amount, from );
 			}
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( from != null && Talisman is BaseTalisman )
 			{
 				BaseTalisman talisman = (BaseTalisman) Talisman;
@@ -2421,8 +2414,7 @@ namespace Server.Mobiles
 			{
 				case 26:
 				{
-					// Genova: suporte ao UO:ML.
-					#region Mondain's Legacy
+					#region GeNova: Mondain's Legacy
 					m_Quests = QuestReader.Quests( reader, this );
 					m_Chains = QuestReader.Chains( reader );
 					
@@ -2646,8 +2638,7 @@ namespace Server.Mobiles
 				}
 			}
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( m_Quests == null )
 				m_Quests = new List<BaseQuest>();
 				
@@ -2740,8 +2731,7 @@ namespace Server.Mobiles
 			
 			writer.Write( (int) 26 ); // version
 
-			// Genova: suporte ao UO:ML.			
-			#region Mondain's Legacy version 26
+			#region GeNova: Mondain's Legacy version 26
 			QuestWriter.Quests( writer, m_Quests );
 			QuestWriter.Chains( writer, m_Chains );
 			
@@ -2947,8 +2937,7 @@ namespace Server.Mobiles
 		{
 			base.GetProperties( list );
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( m_CollectionTitles != null && m_SelectedTitle > -1 )
 			{
 				if ( m_SelectedTitle < m_CollectionTitles.Count )
@@ -3051,8 +3040,7 @@ namespace Server.Mobiles
 				}
 			}
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( InvisibilityPotion.HasTimer( this ) )
 				InvisibilityPotion.Iterrupt( this );
 			#endregion
@@ -3132,8 +3120,7 @@ namespace Server.Mobiles
 		}
 		#endregion
 
-		// Genova: suporte ao UO:ML.		
-		#region Mondain's Legacy
+		#region GeNova: Mondain's Legacy
 		private List<BaseQuest> m_Quests;
 		private Dictionary<QuestChain,BaseChain> m_Chains;
 		
@@ -3339,7 +3326,7 @@ namespace Server.Mobiles
 			if ( m_SentHonorContext != null )
 				m_SentHonorContext.Cancel();
 
-            // Genova: deletando nome do personagem da base de dados...
+            // GeNova: deleting name of the character of the database ...
             ControladorODBC.ODBCDeleteName(this.Account.Username, this.Name);
 
 			InvalidateMyRunUO();

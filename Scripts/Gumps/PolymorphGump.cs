@@ -94,6 +94,11 @@ namespace Server.Gumps
 		private Mobile m_Caster;
 		private Item m_Scroll;
 
+        public static void Initialize()
+        {
+            RegisterType(typeof(PolymorphGump));
+        }
+
 		public PolymorphGump( Mobile caster, Item scroll ) : base( 50, 50 )
 		{
 			m_Caster = caster;
@@ -184,6 +189,11 @@ namespace Server.Gumps
 
 		private Mobile m_Caster;
 		private Item m_Scroll;
+
+        public static void Initialize()
+        {
+            RegisterType(typeof(NewPolymorphGump));
+        }
 
 		public NewPolymorphGump( Mobile caster, Item scroll ) : base( 0, 0 )
 		{

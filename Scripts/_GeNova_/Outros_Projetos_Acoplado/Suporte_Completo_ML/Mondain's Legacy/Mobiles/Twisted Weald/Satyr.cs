@@ -17,8 +17,8 @@ namespace Server.Mobiles
 		// discord
 		public virtual bool CanDiscord{ get{ return true; } }
 		public virtual int DiscordDuration{ get{ return 20; } }
-		public virtual int DiscordMinDelay{ get{ return 22; } }
-		public virtual int DiscordMaxDelay{ get{ return 5; } }
+		public virtual int DiscordMinDelay{ get{ return 5; } }
+		public virtual int DiscordMaxDelay{ get{ return 22; } }
 		public virtual double DiscordModifier{ get{ return 0.28; } }
 		
 		// provocation

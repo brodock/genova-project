@@ -891,8 +891,7 @@ namespace Server.Mobiles
 				from.Damage( amount, from );
 			}
 
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( from != null && from.Talisman is BaseTalisman )
 			{
 				BaseTalisman talisman = (BaseTalisman) from.Talisman;				
@@ -1194,8 +1193,7 @@ namespace Server.Mobiles
 
 		public virtual void AlterMeleeDamageFrom( Mobile from, ref int damage )
 		{
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( from != null && from.Talisman is BaseTalisman )
 			{
 				BaseTalisman talisman = (BaseTalisman) from.Talisman;
@@ -1205,7 +1203,7 @@ namespace Server.Mobiles
 					Type type = talisman.Killer.Type;
 					
 					if ( type == GetType() )
-						damage = (int) ( damage * ( 1 + (double) talisman.Killer.Amount / 100 ) ); // rev 107
+						damage = (int) ( damage * ( 1 + (double) talisman.Killer.Amount / 100 ) );
 				}
 			}
 			#endregion
@@ -1221,7 +1219,7 @@ namespace Server.Mobiles
 		{
 		}
 
-		public virtual void OnCarve( Mobile from, Corpse corpse )
+		public virtual void OnCarve( Mobile from, Corpse corpse, Item with )
 		{
 			int feathers = Feathers;
 			int wool = Wool;
@@ -1273,7 +1271,33 @@ namespace Server.Mobiles
 					from.SendLocalizedMessage( 500467 ); // You carve some meat, which remains on the corpse.
 				}
 
-				if ( hides != 0 )
+				#region GeNova: Mondain's Legacy
+				if ( hides != 0 && with is ButchersWarCleaver )
+				{
+					Item leather = null;
+					
+					if ( HideType == HideType.Regular )
+						leather = new Leather( hides );
+					else if ( HideType == HideType.Spined )
+						leather = new SpinedLeather( hides );
+					else if ( HideType == HideType.Horned )
+						leather = new HornedLeather( hides );
+					else if ( HideType == HideType.Barbed )
+						leather = new BarbedLeather( hides );
+						
+					if ( leather != null )
+					{
+						if ( !from.PlaceInBackpack( leather ) )
+						{						
+							leather.MoveToWorld( from.Location, from.Map );
+							from.SendLocalizedMessage( 1077182 ); // Your backpack is too full, and it falls to the ground.	
+						}	
+						else
+							from.SendLocalizedMessage( 1073555 ); // You skin it and place the cut-up hides in your backpack.		
+					}							
+				}
+				#endregion
+				else if ( hides != 0 )
 				{
 					if ( HideType == HideType.Regular )
 						corpse.DropItem( new Hides( hides ) );
@@ -2030,8 +2054,7 @@ namespace Server.Mobiles
 				case AIType.AI_Thief:
 					m_AI = new ThiefAI(this);
 					break;
-				// Genova: suporte ao UO:ML.
-				#region Mondain's Legacy
+				#region GeNova: Mondain's Legacy
 				case AIType.AI_Necromage:
 					m_AI = new NecromageAI(this);
 					break;
@@ -3886,8 +3909,7 @@ namespace Server.Mobiles
 		{
 			base.AddNameProperties( list );
 
-			// genova: other project : Full support UO:ML rev 107			
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			if ( Backpack is StrongBackpack && Alive && Core.ML )
 			{
 				if ( TotalWeight == 1 )
@@ -3937,7 +3959,7 @@ namespace Server.Mobiles
 		{
 			int treasureLevel = TreasureMapLevel;
 
-            // GeNova: pacote de itens (lote) originado de conexao ODBC com a base de dados.
+            // GeNova: package of items (lot) originated from ODBC connection with the database.
             BaseCreatureGeNova criaturaGeNova = new BaseCreatureGeNova(this);
             criaturaGeNova.PackODBCItem();
 
@@ -3985,7 +4007,7 @@ namespace Server.Mobiles
 			if ( m_ReceivedHonorContext != null )
 				m_ReceivedHonorContext.OnTargetKilled();
 
-            // GeNova: distribuicao de Pontos de Experiência para Atacante.
+            // GeNova: distribution of Points of Experience for Striker.
             PontosDeExperiencia pontosDeExperiencia = new PontosDeExperiencia(this);
             pontosDeExperiencia.DistribuirPontosDeExperiencia();
 
@@ -4151,8 +4173,7 @@ namespace Server.Mobiles
 			return rights;
 		}
 
-		// Genova: suporte ao UO:ML.
-		#region Mondain's Legacy		
+		#region GeNova: Mondain's Legacy		
 		public override void OnItemLifted( Mobile from, Item item )
 		{
 			base.OnItemLifted( from, item );
@@ -4172,9 +4193,11 @@ namespace Server.Mobiles
 			typeof( RobeOfTheEquinox ), typeof( SoulSeeker ),
 			typeof( TalonBite ), typeof( BloodwoodSpirit ),
 			typeof( TotemOfVoid ), typeof( QuiverOfRage ),
-			// genova: other project : Full support UO:ML rev 107
+			#region GeNova: Mondain's Legacy
 			typeof( QuiverOfElements ), typeof( BrightsightLenses ),
-			typeof( Boomstick )
+			typeof( Boomstick ), typeof( WildfireBow ), 
+			typeof( Windsong ), typeof( HelmOfSwiftness )
+			#endregion
 		};
 		
 		public static void GiveMinorArtifact( Mobile m )
@@ -4204,15 +4227,14 @@ namespace Server.Mobiles
 
 		public virtual void OnKilledBy( Mobile mob )
 		{
-            // genova: flag para minor artefatos.
+            // GeNova: Flag for minor artifacts.
             if (GeNovaXML.Flags_Active(XMLNames.MinorArtifacts))
             {
                 if (m_Paragon && Paragon.CheckArtifactChance(mob, this))
                     Paragon.GiveArtifactTo(mob);
             }
 			
-			// Genova: suporte ao UO:ML.	
-			#region Mondain's Legacy	
+			#region GeNova: Mondain's Legacy	
 			if ( GivesMinorArtifact && Paragon.CheckArtifactChance( mob, this ) )
 				GiveMinorArtifact( mob );
 			#endregion
@@ -4334,8 +4356,7 @@ namespace Server.Mobiles
 								givenQuestKill = true;
 							}
 							
-							// Genova: suporte ao UO:ML.
-							#region Mondain's Legacy
+							#region GeNova: Mondain's Legacy
 							QuestHelper.CheckCreature( pm, this );
 							#endregion
 						}
@@ -4540,8 +4561,7 @@ namespace Server.Mobiles
 		public virtual bool CanBreath { get { return HasBreath && !Summoned; } }
 		public virtual bool IsDispellable { get { return Summoned && !IsAnimatedDead; } }
 
-		// Genova: suporte ao UO:ML.
-		#region Mondain's Legacy
+		#region GeNova: Mondain's Legacy
 						
 		#region Animate Dead
 		public virtual bool CanAnimateDead{ get{ return false; } }
@@ -4882,8 +4902,7 @@ namespace Server.Mobiles
 				m_NextBreathTime = DateTime.Now + TimeSpan.FromSeconds( BreathMinDelay + (Utility.RandomDouble() * BreathMaxDelay) );
 			}
 			
-			// Genova: suporte ao UO:ML.
-			#region Mondain's Legacy			
+			#region GeNova: Mondain's Legacy			
 			if ( m_HealTimer == null && DateTime.Now >= m_NextHealTime && Map != Map.Internal )
 			{				
 				if ( this is BaseMount )
@@ -5149,8 +5168,9 @@ namespace Server.Mobiles
 		public bool RemoveIfUntamed{ get{ return m_RemoveIfUntamed; } set{ m_RemoveIfUntamed = value; } }
 
 		[CommandProperty( AccessLevel.GameMaster )] 
-		// Genova: suporte ao UO:ML.
+		#region GeNova: Mondain's Legacy
 		public int RemoveStep { get { return m_RemoveStep; } set { m_RemoveStep = value; } }
+		#endregion
 	}
 
 	public class LoyaltyTimer : Timer

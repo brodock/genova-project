@@ -22,6 +22,7 @@ namespace Server.Items
 		private int m_Capacity;
 		private int m_LowerAmmoCost;
 		private int m_WeightReduction;
+		private int m_DamageIncrease;
 		
 		[CommandProperty( AccessLevel.GameMaster)]
 		public AosAttributes Attributes
@@ -57,6 +58,14 @@ namespace Server.Items
 			get{ return m_WeightReduction; }
 			set{ m_WeightReduction = value; InvalidateProperties(); }
 		}
+		
+		// damage increased after resists applied
+		[CommandProperty( AccessLevel.GameMaster)]
+		public int DamageIncrease
+		{
+			get{ return m_DamageIncrease; }
+			set{ m_DamageIncrease = value; InvalidateProperties(); }
+		}		
 		
 		#region Craftable
 		private Mobile m_Crafter;
@@ -308,7 +317,7 @@ namespace Server.Items
 		{
 			if ( m.NetState != null && !m.NetState.SupportsExpansion( Expansion.ML ) )
 			{
-				m.SendLocalizedMessage( 1072791 ); // You must upgrade to Mondain's Legacy in order to use that item.
+				m.SendLocalizedMessage( 1072791 ); // You must upgrade to Mondain's Legacy in order to use that item.				
 				return false;
 			}
 			
@@ -337,14 +346,20 @@ namespace Server.Items
 			
 			int prop;		
 				
-			if ( (prop = m_Attributes.WeaponDamage) != 0 )
+			if ( (prop = m_DamageIncrease) != 0 )
 				list.Add( 1074762, prop.ToString() ); // Damage modifier: ~1_PERCENT~%
+			
+			if ( (prop = m_DamageModifier.Direct) != 0 )
+				list.Add( 1079978, prop.ToString() ); // Direct Damage: ~1_PERCENT~%				
+				
+			if ( (prop = m_DamageModifier.Chaos) != 0 )
+				list.Add( 1072846, prop.ToString() ); // chaos damage ~1_val~%
 			
 			if ( (prop = m_DamageModifier.Physical) != 0 )
 				list.Add( 1060403, prop.ToString() ); // physical damage ~1_val~%
 				
 			if ( (prop = m_DamageModifier.Fire) != 0 )
-				list.Add( 1072846, prop.ToString() ); // chaos damage ~1_val~%
+				list.Add( 1060405, prop.ToString() ); // fire damage ~1_val~%
 			
 			if ( (prop = m_DamageModifier.Cold) != 0 )
 				list.Add( 1060404, prop.ToString() ); // cold damage ~1_val~%
@@ -488,6 +503,8 @@ namespace Server.Items
 			LastEquipped		= 0x00000400,
 			SetEquipped			= 0x00000800,
 			#endregion
+			
+			DamageIncrease		= 0x00001000
 		}
 		
 		public override void Serialize( GenericWriter writer )
@@ -502,6 +519,7 @@ namespace Server.Items
 			SetSaveFlag( ref flags, SaveFlag.DamageModifier,	!m_DamageModifier.IsEmpty );
 			SetSaveFlag( ref flags, SaveFlag.LowerAmmoCost,		m_LowerAmmoCost != 0 );
 			SetSaveFlag( ref flags, SaveFlag.WeightReduction,	m_WeightReduction != 0 );
+			SetSaveFlag( ref flags, SaveFlag.DamageIncrease,	m_DamageIncrease != 0 );
 			SetSaveFlag( ref flags, SaveFlag.Crafter,			m_Crafter != null );
 			SetSaveFlag( ref flags, SaveFlag.Quality,			true );
 			SetSaveFlag( ref flags, SaveFlag.PlayerConstructed,	m_PlayerConstructed );
@@ -527,6 +545,9 @@ namespace Server.Items
 				
 			if ( GetSaveFlag( flags, SaveFlag.WeightReduction ) )
 				writer.Write( (int) m_WeightReduction );
+				
+			if ( GetSaveFlag( flags, SaveFlag.DamageIncrease ) )
+				writer.Write( (int) m_DamageIncrease );
 				
 			if ( GetSaveFlag( flags, SaveFlag.Crafter ) )
 				writer.Write( (Mobile) m_Crafter );
@@ -579,6 +600,9 @@ namespace Server.Items
 			if ( GetSaveFlag( flags, SaveFlag.WeightReduction ) )
 				m_WeightReduction = reader.ReadInt();
 				
+			if ( GetSaveFlag( flags, SaveFlag.DamageIncrease ) )
+				m_DamageIncrease = reader.ReadInt();
+				
 			if ( GetSaveFlag( flags, SaveFlag.Crafter ) )
 				m_Crafter = reader.ReadMobile();
 				
@@ -615,13 +639,15 @@ namespace Server.Items
 		}
 		
 		#region Virtual members		
-		public virtual void GetDamageTypes( out int phys, out int fire, out int cold, out int pois, out int nrgy )
+		public virtual void GetDamageTypes( out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
 		{
 			phys = m_DamageModifier.Physical;
 			fire = m_DamageModifier.Fire;
 			cold = m_DamageModifier.Cold;
 			pois = m_DamageModifier.Poison;
 			nrgy = m_DamageModifier.Energy;
+			chaos = m_DamageModifier.Chaos;
+			direct = m_DamageModifier.Direct;
 		}
 		
 		public virtual bool ConsumeAmmo( Type ammo )

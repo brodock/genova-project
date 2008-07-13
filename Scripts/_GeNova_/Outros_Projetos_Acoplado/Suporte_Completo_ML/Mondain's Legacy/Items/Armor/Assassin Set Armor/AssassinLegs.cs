@@ -5,6 +5,8 @@ namespace Server.Items
 {
 	public class AssassinLegs : LeatherLegs
 	{
+		public override int LabelNumber{ get{ return 1074304; } } // Assassin Armor
+		
 		public override SetItem SetID{ get{ return SetItem.Assassin; } }
 		public override int Pieces{ get{ return 4; } }
 	

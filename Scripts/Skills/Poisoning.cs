@@ -66,7 +66,9 @@ namespace Server.SkillHandlers
 
 						if ( Core.AOS )
 						{
-							startTimer = ( weapon.PrimaryAbility == WeaponAbility.InfectiousStrike || weapon.SecondaryAbility == WeaponAbility.InfectiousStrike );
+							#region GeNova: Mondain's Legacy
+							startTimer = ( weapon.PrimaryAbility == WeaponAbility.InfectiousStrike || weapon.SecondaryAbility == WeaponAbility.InfectiousStrike || weapon.SecondaryAbility == WeaponAbility.SerpentArrow );
+							#endregion
 						}
 						else if ( weapon.Layer == Layer.OneHanded )
 						{

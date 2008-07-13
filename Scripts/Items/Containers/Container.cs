@@ -4,12 +4,13 @@ using Server.Multis;
 using Server.Mobiles;
 using Server.Network;
 using Server.ContextMenus;
-// Genova: suporte ao UO:ML.
+#region GeNova: Mondain's Legacy
 using Server.Engines.Craft;
+#endregion
 
 namespace Server.Items
 {
-	// Genova: suporte ao UO:ML.	
+	// GeNova: This class has a considerable amount of code changed for compatibility with the project Mondain's Legacy.
 	public abstract class BaseContainer : Container, ICraftable, IEngravable
 	{
 		public override int DefaultMaxWeight
@@ -23,8 +24,7 @@ namespace Server.Items
 			}
 		}
 
-		// Genova: suporte ao UO:ML.		
-		#region Mondain's Legacy
+		#region GeNova: Mondain's Legacy
 		private ClothingQuality m_Quality;
 		private CraftResource m_Resource;
 		private Mobile m_Crafter;
@@ -163,7 +163,7 @@ namespace Server.Items
 				from.LocalOverheadMessage( MessageType.Regular, 0x3B2, 1019045 ); // I can't reach that.
 		}
 
-		// Genova: suporte ao UO:ML.		
+		// GeNova: Mondain's Legacy
 		public override void AddWeightProperty( ObjectPropertyList list )
 		{
 			base.AddWeightProperty( list );
@@ -206,8 +206,7 @@ namespace Server.Items
 		{
 			base.Serialize( writer );
 
-			// Genova: suporte ao UO:ML.			
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
 			writer.Write( 0 ); // version
 
 			writer.Write( (string) m_EngravedText );
@@ -221,14 +220,15 @@ namespace Server.Items
 		{
 			base.Deserialize( reader );
 
-			// Genova: suporte ao UO:ML.			
-			#region Mondain's Legacy
+			#region GeNova: Mondain's Legacy
+			/*
 			int version = reader.ReadInt();
 
 			m_EngravedText = reader.ReadString();
 			m_Quality = (ClothingQuality) reader.ReadInt();
 			m_Resource = (CraftResource) reader.ReadInt();
-			m_Crafter = reader.ReadMobile();			
+			m_Crafter = reader.ReadMobile();
+			*/
 			#endregion
 		}
 		
@@ -283,8 +283,7 @@ namespace Server.Items
 			return base.CheckContentDisplay( from );
 		}
 
-		// Genova: suporte ao UO:ML.		
-		#region Mondain's Legacy
+		#region GeNova: Mondain's Legacy
 		/*public override void DropItem( Item dropped )
 		{
 			base.DropItem( dropped );

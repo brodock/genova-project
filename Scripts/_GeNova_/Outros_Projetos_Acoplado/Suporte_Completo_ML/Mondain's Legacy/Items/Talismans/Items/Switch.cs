@@ -6,13 +6,8 @@ namespace Server.Items
 	{
 		public override int LabelNumber{ get{ return 1073464; } } // Switch
 		
-		string ICommodity.Description
-		{
-			get
-			{
-				return String.Format( "{0} switch", Amount );
-			}
-		}
+		public string Description{ get{	return String.Format( "{0} switch", Amount ); }	}		
+		public int DescriptionNumber{ get{ return LabelNumber; } }
 		
 		[Constructable]
 		public Switch() : this( 1 )

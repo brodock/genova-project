@@ -2,11 +2,14 @@ using System;
 using Server;
 using Server.Gumps;
 using Server.Mobiles;
+using Server.Multis;
+using Server.Targets;
 
 namespace Server.Items
 {	
-	public class CharacterStatuePlinth : Static
+	public class CharacterStatuePlinth : Static, IAddon
 	{		
+		public Item Deed{ get{ return new CharacterStatueDeed( m_Statue ); } }
 		public override int LabelNumber{ get{ return 1076201; } } // Character Statue
 	
 		private CharacterStatue m_Statue;
@@ -28,6 +31,18 @@ namespace Server.Items
 			
 			if ( m_Statue != null && !m_Statue.Deleted )
 				m_Statue.Delete();
+		}
+		
+		public override void OnMapChange()
+		{			
+			if ( m_Statue != null )
+				m_Statue.Map = Map;
+		}
+		
+		public override void OnLocationChange( Point3D oldLocation )
+		{			
+			if ( m_Statue != null )
+				m_Statue.Location = new Point3D( X, Y, Z + 5 );
 		}
 		
 		public override void OnDoubleClick( Mobile from )
@@ -58,6 +73,26 @@ namespace Server.Items
 		{
 			if ( m_Statue != null )
 				Hue = 0xB8F + (int) m_Statue.StatueType * 4 + (int) m_Statue.Material;
+		}
+		
+		public virtual bool CouldFit( IPoint3D p, Map map )
+		{
+			Point3D point = new Point3D( p.X, p.Y, p.Z );
+			
+			if ( map == null || !map.CanFit( point, 20 ) )
+				return false;
+				
+			BaseHouse house = BaseHouse.FindHouseAt( point, map, 20 );
+			
+			if ( house == null )
+				return false;
+			
+			AddonFitResult result = CharacterStatueTarget.CheckDoors( point, 20, house );
+			
+			if ( result == AddonFitResult.Valid )
+				return true;
+				
+			return false;
 		}
 	}
 }
