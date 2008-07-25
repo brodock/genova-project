@@ -50,7 +50,7 @@
       <!--should total skill cap bonuses be awarded? (720 skills total at 4th level)-->
       <skillcaprewards active="false" />
       <!--Value in Days-->
-      <rewardinterval value="30.0"  />
+      <rewardinterval value="30"  />
     </rewardsystem>
 
     <!--Active Buy, Sell and Bulk Orders in Vendors?-->

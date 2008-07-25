@@ -149,6 +149,7 @@ namespace Server.Network
             Register(0xD7, 0, true, new OnPacketReceive(EncodedCommand));
             Register(0xEF, 21, false, new OnPacketReceive(LoginServerSeed));
 
+
             Register6017(0x08, 15, true, new OnPacketReceive(DropReq6017));
 
             #region GeNova: KR Support
@@ -2592,7 +2593,7 @@ namespace Server.Network
 
         public static void TargetedSpell(NetState ns, PacketReader pvSrc)
         {
-            short spellId = (short)(pvSrc.ReadInt16() - 1);    // zero based;
+            short spellId = (short)(pvSrc.ReadInt16() - 1); // zero based
             Serial target = pvSrc.ReadInt32();
 
             TargetedSpellEventArgs e = new TargetedSpellEventArgs(ns, World.FindEntity(target), spellId);

@@ -481,25 +481,25 @@ namespace Server.Mobiles
                         e.NetState.Mobile.TargetLocked = true;
                         e.NetState.Mobile.Use(from);
                         e.NetState.Mobile.Target.Invoke(e.NetState.Mobile, to);
-                        e.NetState.Mobile.TargetLocked = false;
                     }
                     else if (toI != null)
                     {
                         e.NetState.Mobile.TargetLocked = true;
                         e.NetState.Mobile.Use(from);
                         e.NetState.Mobile.Target.Invoke(e.NetState.Mobile, toI);
-                        e.NetState.Mobile.TargetLocked = false;
                     }
                 }
             }
             catch { }
+            finally { e.NetState.Mobile.TargetLocked = false; }
         }
 
         private static void Targeted_Skill(TargetedSkillUseEventArgs e)
         {
+            Mobile from = e.NetState.Mobile;
+
             try
             {
-                Mobile from = e.NetState.Mobile;
                 int SkillId = e.SkillID;
                 Mobile to = World.FindMobile(e.Target.Serial);
                 Item toI = World.FindItem(e.Target.Serial);
@@ -507,21 +507,18 @@ namespace Server.Mobiles
                 if (to != null)
                 {
                     from.TargetLocked = true;
-
                     if (from.UseSkill(e.SkillID))
                         from.Target.Invoke(from, to);
-                    from.TargetLocked = false;
                 }
                 else if (toI != null)
                 {
                     from.TargetLocked = true;
-
                     if (from.UseSkill(e.SkillID))
                         from.Target.Invoke(from, toI);
-                    from.TargetLocked = false;
                 }
             }
             catch { }
+            finally { from.TargetLocked = false; }
         }
 
         #endregion

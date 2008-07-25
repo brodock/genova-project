@@ -3962,8 +3962,6 @@ namespace Server.Network
         }
     }
 
-    // KR Movable Confirm
-    // Precisa ser feito para o packet 0x25 tb (Além do 0x1A)
     public sealed class KRDropConfirm : Packet
     {
         public static readonly Packet Instance = Packet.SetStatic(new KRDropConfirm());

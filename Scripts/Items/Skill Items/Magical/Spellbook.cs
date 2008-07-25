@@ -62,43 +62,6 @@ namespace Server.Items
             #endregion
         }
 
-        #region GeNova: KR Support
-        private static void Targeted_Spell(TargetedSpellEventArgs e)
-        {
-            try
-            {
-                Mobile from = e.NetState.Mobile;
-                int spellID = e.SpellID;
-
-                if (!Multis.DesignContext.Check(from))
-                    return; // They are customizing 
-
-                SpecialMove move = SpellRegistry.GetSpecialMove(spellID);
-
-                if (move != null)
-                    SpecialMove.SetCurrentMove(from, move);
-                else
-                {
-                    if (e.NetState.Mobile is Server.Mobiles.PlayerMobile)
-                    {
-                        //Server.Mobiles.PlayerMobile m_player = e.NetState.Mobile as Server.Mobiles.PlayerMobile;
-                        //m_player.Target = e.Target.Serial; 
-
-                        Spell spell = SpellRegistry.NewSpell(spellID, from, null);
-                        if (spell != null)
-                        {
-                            e.NetState.Mobile.TargetLocked = true;
-                            spell.Cast();
-                        }
-                        else
-                            from.SendLocalizedMessage(502345); // This spell has been temporarily disabled. 
-                    }
-                }
-            }
-            catch { }
-        }
-        #endregion
-
         [Usage("AllSpells")]
         [Description("Completely fills a targeted spellbook with scrolls.")]
         private static void AllSpells_OnCommand(CommandEventArgs e)
@@ -191,6 +154,41 @@ namespace Server.Items
                 from.SendLocalizedMessage(500015); // You do not have that spell!
             }
         }
+
+        #region GeNova: KR Support
+        private static void Targeted_Spell(TargetedSpellEventArgs e)
+        {
+            Mobile from = e.NetState.Mobile;
+
+            if (!Multis.DesignContext.Check(from))
+                return; // They are customizing
+
+            int spellID = e.SpellID;
+
+            SpecialMove move = SpellRegistry.GetSpecialMove(spellID);
+
+            if (move != null)
+                SpecialMove.SetCurrentMove(from, move);
+            else
+            {
+                Spell spell = SpellRegistry.NewSpell(spellID, from, null);
+                if (spell != null)
+                {
+                    try
+                    {
+                        from.TargetLocked = true;
+                        Mobile targeted = World.FindMobile(e.Target.Serial);
+                        spell.DefineTargetForeignSpell(targeted);
+                        spell.Cast();
+                    }
+                    catch { Console.WriteLine("Erro target Spell."); }
+                    finally { from.TargetLocked = false; }
+                }
+                else
+                    from.SendLocalizedMessage(502345); // This spell has been temporarily disabled. 
+            }
+        }
+        #endregion
 
         private static Hashtable m_Table = new Hashtable();
 
