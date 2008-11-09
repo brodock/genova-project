@@ -1,0 +1,27 @@
+﻿.Menu
+{
+    width: 130px;
+    vertical-align: middle;
+    text-align: left;
+    background-color: #F6F6F6;
+    border: solid 1px Gray;
+    padding: 2px;
+    font: normal normal normal 12px Trebuchet MS;
+    vertical-align: middle;
+    color: #666666;
+}
+
+.TitleMenu
+{
+    text-align: center;
+    font: normal normal bold 12px Trebuchet MS;
+    vertical-align: middle;
+    color: #666666;
+}
+
+.ItemMenu
+{
+    text-align: left;
+    background-color: White;
+    margin: 2px;
+}

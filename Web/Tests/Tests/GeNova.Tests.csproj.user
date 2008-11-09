@@ -1,0 +1,11 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectView>ShowAllFiles</ProjectView>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartAction>Program</StartAction>
+    <StartProgram>E:\Projetos\GeNova\GeNova Project\Web\Tests\TDD\fitnesse\dotnet\TestRunner.exe</StartProgram>
+    <StartArguments>localhost 8082 WebUserTest "E:\Projetos\GeNova\GeNova Project\Web\Tests\Tests\App.config"</StartArguments>
+    <StartWorkingDirectory>E:\Projetos\GeNova\GeNova Project\Web\Tests\TDD\fitnesse\FitNesseRoot\WebUserTest\</StartWorkingDirectory>
+  </PropertyGroup>
+</Project>

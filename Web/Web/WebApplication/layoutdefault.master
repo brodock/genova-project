@@ -1,0 +1,64 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="layoutdefault.master.cs"
+    Inherits="Web.Layout" %>
+
+<%@ Register TagPrefix="UC" TagName="Menu" Src="~/Content/UserControls/Menu.ascx" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>GeNova Project Web Application</title>
+    <link href="Content/CSS/Default/layoutdefault.css" rel="stylesheet" type="text/css" />
+    <link href="Content/CSS/Default/menuPage.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="frmApplication" runat="server">
+    <div>
+        <div>
+            <table id="header">
+                <thead>
+                    <tr>
+                        <th class="HeaderLeft">
+                            <asp:ImageButton ID="btnLogo" runat="server" ImageAlign="Left" ImageUrl="~/Content/Images/logo.png"
+                                AlternateText="LOGO" OnClick="btnLogo_Click" BackColor="Transparent" />
+                        </th>
+                        <th class="HeaderRight">
+                            <div>
+                                <div>
+                                    <asp:Label ID="lblInfo1" runat="server" Text="GeNova Project Copyright (c) 2008" />
+                                </div>
+                                <div>
+                                    <asp:Label ID="lblInfo2" runat="server" Text="Web Application" />
+                                </div>
+                                <div>
+                                    <asp:Label ID="lblInfoBuild" runat="server" />
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tfoot />
+                <tbody />
+            </table>
+        </div>
+        <div class="PrincipalBlock">
+            <table id="body">
+                <thead />
+                <tfoot />
+                <tbody>
+                    <tr>
+                        <th class="BodyLeft">
+                            <UC:Menu ID="ucMenu" runat="server" />
+                        </th>
+                        <td class="BodyRight">
+                            <asp:ContentPlaceHolder ID="detailBody" runat="server">
+                            </asp:ContentPlaceHolder>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

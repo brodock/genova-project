@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="GeNova.Web" xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd">
+    <!--Propriedades-->
+    <property name="EnableUpdateAssembliesInfo" value="true" />
+    <property name="EnableBuildAssemblies" value="true" />
+    <property name="EnableInstall" value="true" />
+
+    <!--Ações dividas em camadas-->
+    <include buildfile="_PropertiesOfThisProject.build.xml" />
+    <include buildfile="01.UpdateAssembliesInfo.build.xml" if="${EnableUpdateAssembliesInfo == 'true'}" />
+    <include buildfile="02.BuildAssemblies.build.xml" if="${EnableBuildAssemblies == 'true'}" />
+    <include buildfile="03.Install.build.xml" if="${EnableInstall == 'true'}" />
+</project>

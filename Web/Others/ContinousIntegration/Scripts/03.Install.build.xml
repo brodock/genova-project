@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="Install" xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd">
+
+    <call target="Install" />
+    <target name="Install">
+
+        <!--Criando diretório para Release-->
+        <mkdir dir="${DeployPath}" failonerror="false" />
+
+        <!--Copiando o script sql mais atual-->
+        <copy todir="${DeployPath}" overwrite="true">
+            <fileset basedir="${AppPath}">
+                <include name="GeNovaWebScripts.sql" />
+            </fileset>
+        </copy>
+
+        <!--Copiando os novos arquivos (temporários), ou seja, a versão mais atual-->
+        <copy todir="${DeployPath}" overwrite="true">
+            <fileset basedir="${AppWebApplicationPath}">
+                <include name="**/*" />
+                <exclude name="bin/*.pdb" />
+                <exclude name="obj/**" />
+                <exclude name="Properties/*" />
+                <exclude name="*.svn" />
+                <exclude name="*.user" />
+                <exclude name="*.csproj" />
+            </fileset>
+        </copy>
+
+        <!--Gerar arquivo zip com a nova release-->
+        <zip zipfile="${DeployPath}\${AppFullName}-${Version}.zip" includeemptydirs="true">
+            <fileset basedir="${DeployPath}">
+                <include name="**/*" />
+                <exclude name="*.zip" />
+            </fileset>
+        </zip>
+
+        <!--Excluindo arquivos temporários-->
+        <delete includeemptydirs="true">
+            <fileset basedir="${DeployPath}">
+                <include name="**/*" />
+                <exclude name="*.zip" />
+            </fileset>
+        </delete>
+
+    </target>
+
+</project>

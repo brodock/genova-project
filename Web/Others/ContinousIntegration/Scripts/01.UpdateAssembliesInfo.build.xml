@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<project name="UpdateAssembliesInfo" xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd">
+
+    <call target="Generate-VersionInfo" />
+    <target name="Generate-VersionInfo" description="Atualizado informacoes referentes ao assembly.">
+
+        <!--CoreBusiness-->
+        <asminfo output="${AppCoreBusinessPath}\Properties\AssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System.Reflection" />
+            </imports>
+            <attributes>
+                <attribute type="AssemblyVersionAttribute" value="${Version}" />
+                <attribute type="AssemblyCopyrightAttribute" value="${CopyrightInfo}" />
+                <!--Begin:Info-->
+                <attribute type="AssemblyTitleAttribute" value="${AppCoreBusinessName}" />
+                <attribute type="AssemblyDescriptionAttribute" value="GeNova Project Web CoreBusiness Objects." />
+                <!--End:Info-->
+                <attribute type="AssemblyCompanyAttribute" value="${CompanyInfo}" />
+                <attribute type="AssemblyProductAttribute" value="${AppFullName}" />
+            </attributes>
+        </asminfo>
+
+        <!--Security-->
+        <asminfo output="${AppSecurityPath}\Properties\AssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System.Reflection" />
+            </imports>
+            <attributes>
+                <attribute type="AssemblyVersionAttribute" value="${Version}" />
+                <attribute type="AssemblyCopyrightAttribute" value="${CopyrightInfo}" />
+                <!--Begin:Info-->
+                <attribute type="AssemblyTitleAttribute" value="${AppSecurityName}" />
+                <attribute type="AssemblyDescriptionAttribute" value="GeNova Project Web Security Objects." />
+                <!--End:Info-->
+                <attribute type="AssemblyCompanyAttribute" value="${CompanyInfo}" />
+                <attribute type="AssemblyProductAttribute" value="${AppFullName}" />
+            </attributes>
+        </asminfo>
+
+        <!--Utils-->
+        <asminfo output="${AppUtilsPath}\Properties\AssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System.Reflection" />
+            </imports>
+            <attributes>
+                <attribute type="AssemblyVersionAttribute" value="${Version}" />
+                <attribute type="AssemblyCopyrightAttribute" value="${CopyrightInfo}" />
+                <!--Begin:Info-->
+                <attribute type="AssemblyTitleAttribute" value="${AppUtilsName}" />
+                <attribute type="AssemblyDescriptionAttribute" value="GeNova Project Web Utils Objects." />
+                <!--End:Info-->
+                <attribute type="AssemblyCompanyAttribute" value="${CompanyInfo}" />
+                <attribute type="AssemblyProductAttribute" value="${AppFullName}" />
+            </attributes>
+        </asminfo>
+
+        <!--Persistence-->
+        <asminfo output="${AppPersistencePath}\Properties\AssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System.Reflection" />
+            </imports>
+            <attributes>
+                <attribute type="AssemblyVersionAttribute" value="${Version}" />
+                <attribute type="AssemblyCopyrightAttribute" value="${CopyrightInfo}" />
+                <!--Begin:Info-->
+                <attribute type="AssemblyTitleAttribute" value="${AppPersistenceName}" />
+                <attribute type="AssemblyDescriptionAttribute" value="GeNova Project Web Persistence Objects." />
+                <!--End:Info-->
+                <attribute type="AssemblyCompanyAttribute" value="${CompanyInfo}" />
+                <attribute type="AssemblyProductAttribute" value="${AppFullName}" />
+            </attributes>
+        </asminfo>
+
+        <!--SimpleVelocity-->
+        <asminfo output="${AppSimpleVelocityPath}\Properties\AssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System.Reflection" />
+            </imports>
+            <attributes>
+                <attribute type="AssemblyVersionAttribute" value="1.0" />
+                <attribute type="AssemblyCopyrightAttribute" value="Copyright (c) 2008" />
+                <!--Begin:Info-->
+                <attribute type="AssemblyTitleAttribute" value="${AppSimpleVelocityName}" />
+                <attribute type="AssemblyDescriptionAttribute" value="SimpleVelocity Objects." />
+                <!--End:Info-->
+                <attribute type="AssemblyCompanyAttribute" value="Alex Marçal Souza" />
+                <attribute type="AssemblyProductAttribute" value="${AppFullName}" />
+            </attributes>
+        </asminfo>
+
+        <!--WebApplicationController-->
+        <asminfo output="${AppWebApplicationControllerPath}\Properties\AssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System.Reflection" />
+            </imports>
+            <attributes>
+                <attribute type="AssemblyVersionAttribute" value="${Version}" />
+                <attribute type="AssemblyCopyrightAttribute" value="${CopyrightInfo}" />
+                <!--Begin:Info-->
+                <attribute type="AssemblyTitleAttribute" value="${AppWebApplicationControllerName}" />
+                <attribute type="AssemblyDescriptionAttribute" value="GeNova Project Web Controller Objects." />
+                <!--End:Info-->
+                <attribute type="AssemblyCompanyAttribute" value="${CompanyInfo}" />
+                <attribute type="AssemblyProductAttribute" value="${AppFullName}" />
+            </attributes>
+        </asminfo>
+
+        <!--WebApplicationWebControls-->
+        <asminfo output="${AppWebApplicationWebControlsPath}\Properties\AssemblyInfo.cs" language="CSharp">
+            <imports>
+                <import namespace="System.Reflection" />
+            </imports>
+            <attributes>
+                <attribute type="AssemblyVersionAttribute" value="${Version}" />
+                <attribute type="AssemblyCopyrightAttribute" value="${CopyrightInfo}" />
+                <!--Begin:Info-->
+                <attribute type="AssemblyTitleAttribute" value="${AppWebApplicationWebControlsName}" />
+                <attribute type="AssemblyDescriptionAttribute" value="GeNova Project Web Controls Objects." />
+                <!--End:Info-->
+                <attribute type="AssemblyCompanyAttribute" value="${CompanyInfo}" />
+                <attribute type="AssemblyProductAttribute" value="${AppFullName}" />
+            </attributes>
+        </asminfo>
+
+    </target>
+
+</project>

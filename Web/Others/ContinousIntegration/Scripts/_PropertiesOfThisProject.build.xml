@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<project name="PropertiesOfThisProject" xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd">
+
+    <property name="nant.settings.currentframework" value="net-3.5" />
+    
+    <!--Dados da Aplicação-->
+    <property name="CompanyInfo" value="GeNova Project" />
+    <property name="CopyrightInfo" value="Copyright (c) 2008 GeNova Project"/>
+
+    <!--Identificação da Aplicação-->
+    <property name="AppName" value="Web" />
+    <property name="Prefix" value="GeNova." />
+    <property name="AppFullName" value="${Prefix}${AppName}" />
+
+    <!--Identificação dos projetos-->
+    <property name="AppCoreBusinessName" value="CoreBusiness"/>
+    <property name="AppSecurityName" value="Security"/>
+    <property name="AppUtilsName" value="Utils"/>
+    <property name="AppPersistenceName" value="Persistence"/>
+    <property name="AppSimpleVelocityName" value="SimpleVelocity"/>
+    <property name="AppWebApplicationName" value="WebApplication"/>
+    <property name="AppWebApplicationControllerName" value="WebApplicationController"/>
+    <property name="AppWebApplicationWebControlsName" value="WebApplicationWebControls"/>
+
+    <!-- Diretórios da Aplicação -->
+    <!-- O diretório da aplicação está dois níveis acima do diretório base de scripts -->
+    <property name="AppPath" value="${directory::get-parent-directory(directory::get-parent-directory(directory::get-parent-directory(project::get-base-directory())))}" />
+    <property name="CorePath" value="Core"/>
+    <property name="DataPath" value="Data"/>
+    <property name="OthersPath" value="Others"/>
+    <property name="WebPath" value="Web"/>
+    
+    <!-- Diretório de cada projeto -->
+    <property name="AppCoreBusinessPath" value="${AppPath}\${CorePath}\${AppCoreBusinessName}\"/>
+    <property name="AppSecurityPath" value="${AppPath}\${CorePath}\${AppSecurityName}\"/>
+    <property name="AppUtilsPath" value="${AppPath}\${CorePath}\${AppUtilsName}\"/>
+    <property name="AppPersistencePath" value="${AppPath}\${DataPath}\${AppPersistenceName}\"/>
+    <property name="AppSimpleVelocityPath" value="${AppPath}\${OthersPath}\${AppSimpleVelocityName}\"/>
+    <property name="AppWebApplicationPath" value="${AppPath}\${WebPath}\${AppWebApplicationName}\"/>
+    <property name="AppWebApplicationControllerPath" value="${AppPath}\${WebPath}\${AppWebApplicationControllerName}\"/>
+    <property name="AppWebApplicationWebControlsPath" value="${AppPath}\${WebPath}\${AppWebApplicationWebControlsName}\"/>
+    
+    <!--Diretorio para Deploy-->
+    <property name="DeployPath" value="${AppPath}\Release\"/>
+    
+</project>

@@ -1,0 +1,32 @@
+﻿.DivisionBlock
+{
+    width: 50%;
+    vertical-align: top;
+}
+
+.WebAccountBlock
+{
+    width: 204px;
+    height: 280px;
+    border: solid 1px Black;
+    border-collapse: collapse;
+    background-color: White;
+    vertical-align: bottom;
+}
+
+.ShardStatusBlock
+{
+    width: 80%;
+    border: solid 1px Black;
+    border-collapse: collapse;
+    background-color: White;
+    margin-bottom: 15px;
+}
+
+.AccountStatusBlock
+{
+    width: 80%;
+    border: solid 1px Black;
+    border-collapse: collapse;
+    background-color: White;
+}

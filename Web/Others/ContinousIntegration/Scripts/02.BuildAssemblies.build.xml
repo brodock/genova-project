@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="BuildAssemblies" xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd">
+
+    <call target="Compilar-Solucao" />
+    <target name="Compilar-Solucao" description="Compilando a solucao.">
+        <exec program="${framework::get-framework-directory(framework::get-target-framework())}\MSBuild.exe">
+            <arg value="${AppPath}\${AppFullName}.sln" />
+            <arg value="/p:configuration=Release" />
+            <arg value="/verbosity:minimal" />
+            <arg value="/property:BuildType=Production" />
+        </exec>
+    </target>
+
+</project>

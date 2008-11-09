@@ -1,0 +1,216 @@
+﻿/*Tags*/
+body
+{
+    margin: 0px;
+    background-color: White;
+    background-image: url(           '../../Images/background.png' );
+    background-attachment: fixed;
+    font-family: Trebuchet MS;
+    font-size: small;
+    color: #333333;
+}
+div
+{
+    width: 100%;
+}
+table
+{
+    width: 100%;
+}
+table caption
+{
+    font-size: medium;
+    font-weight: bold;
+    text-decoration: underline;
+    padding-bottom: 15px;
+}
+input, textarea, select
+{
+    font-family: Trebuchet MS;
+    font-size: smaller;
+    font-style: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    background-color: White;
+    color: #666666;
+    text-decoration: none;
+    border: solid 1px #333333;
+}
+a
+{
+    font-family: Trebuchet MS;
+    font-size: smaller;
+    color: Gray;
+    text-decoration: none;
+}
+a:link
+{
+    font-family: Trebuchet MS;
+    font-size: smaller;
+    color: Gray;
+    text-decoration: none;
+}
+a:visited
+{
+    font-family: Trebuchet MS;
+    font-size: smaller;
+    color: Gray;
+    text-decoration: none;
+}
+a:hover
+{
+    font-family: Trebuchet MS;
+    font-size: smaller;
+    color: Gray;
+    text-decoration: underline;
+}
+
+/*Default*/
+.PrincipalBlock
+{
+    width: 100%;
+    margin-top: 50px;
+}
+.Center
+{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.Submit
+{
+    padding: 10px;
+}
+.LeftItem
+{
+    width: 35%;
+    height: 25px;
+    text-align: right;
+    vertical-align: middle;
+}
+.RightItem
+{
+    width: 65%;
+    height: 25px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/*Others*/
+#header
+{
+    margin: 0px;
+    width: 100%;
+}
+#header .HeaderLeft
+{
+    width: 80%;
+    vertical-align: middle;
+}
+#header .HeaderRight
+{
+    width: 20%;
+    vertical-align: middle;
+    background-color: #EFEFEF;
+    font-size: smaller;
+}
+#body
+{
+    margin: 0px;
+    width: 100%;
+}
+#body .BodyLeft
+{
+    width: 12%;
+    text-align: left;
+    vertical-align: top;
+}
+#body .BodyRight
+{
+    width: 88%;
+    vertical-align: top;
+}
+
+/*Texts*/
+.Bold
+{
+    font-weight: bold;
+}
+.BlockTitle
+{
+    background-color: #EFEFEF;
+    margin-bottom: 5px;
+    font-size: medium;
+    text-align: left;
+    background-image: url(           '../../Images/project_open.png' );
+    background-position: left center;
+    background-repeat: no-repeat;
+    padding-left: 30px;
+}
+
+/*List and Blocks*/
+.Block
+{
+    float: left;
+}
+.List
+{
+    font-family: Trebuchet MS;
+    font-size: smaller;
+    color: Gray;
+    vertical-align: middle;
+    background-color: White;
+    border: solid 1px #333333;
+}
+.List input
+{
+    border-style: none;
+    background-color: Transparent;
+}
+
+/*Grid*/
+.GridHeader
+{
+    background-color: #EFEFEF;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.GridRow
+{
+    background-color: Transparent;
+}
+
+.GridSelectedRow
+{
+    background-color: White;
+}
+
+.GridPaging
+{
+    background-color: #EFEFEF;
+    text-align: center;
+    vertical-align: middle;
+    font: normal normal bold 12px Trebuchet MS;
+    vertical-align: middle;
+}
+#divGridView a:link
+{
+    color: #666666;
+    text-decoration: none;
+    font-style: italic;
+}
+#divGridView a:visited
+{
+    color: #666666;
+    text-decoration: none;
+    font-style: italic;
+}
+#divGridView a:hover
+{
+    color: #333333;
+    text-decoration: underline;
+    font-style: italic;
+}
