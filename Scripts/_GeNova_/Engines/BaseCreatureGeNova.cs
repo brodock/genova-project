@@ -82,8 +82,8 @@ namespace GeNova.Server.Engines.LoteGenerico
                 string nome = linha["Classe"].ToString();
                 string item = linha["Item"].ToString();
 
-                if (item.Equals("ouro"))
-                    ouro = Convert.ToInt32(quantidade * (quantidade * 0.25));
+                if (item.ToUpper().Equals("OURO") || item.ToUpper().Equals("GOLD"))
+                    ouro = Convert.ToInt32(quantidade);
                 else if (item == "1cscroll" && quantidade > 0)
                     this.PackItem(Loot.RandomScroll(0, 7, SpellbookType.Regular));
                 else if (item == "2cscroll" && quantidade > 0)
