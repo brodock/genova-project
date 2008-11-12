@@ -7,7 +7,7 @@ using Persistence.Utilitarios;
 
 namespace CoreBusiness.Controller
 {
-    public class ControladorCreatures
+    public abstract class ControladorCreatures
     {
         public static LeitorFacade GetActiveCreatures()
         {

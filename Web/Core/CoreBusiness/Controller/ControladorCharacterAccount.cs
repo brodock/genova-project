@@ -7,7 +7,7 @@ using Persistence.Utilitarios;
 
 namespace CoreBusiness.Controller
 {
-    public class ControladorCharacterAccount
+    public abstract class ControladorCharacterAccount
     {
         private static ObjCharacterAccount _characterAccountBase = new ObjCharacterAccount();
 
